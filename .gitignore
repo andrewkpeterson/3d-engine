@@ -9,6 +9,8 @@
 *.user
 *.user.20
 *.user.3.2-pre1
+.qmake.stash
+Makefile
 # Packages #
 ############
 # it's better to unpack these files and commit the raw source
