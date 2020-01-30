@@ -44,7 +44,12 @@ SOURCES += \
     src/engine/graphics/Shape.cpp \
     src/engine/graphics/Graphics.cpp \
     src/engine/graphics/Material.cpp \
-    src/engine/graphics/Light.cpp
+    src/engine/graphics/Light.cpp \
+    src/game/WarmupApplication.cpp \
+    src/engine/common/Application.cpp \
+    src/engine/common/Screen.cpp \
+    src/game/WarmupGameplayScreen.cpp \
+    src/game/WarmupStartScreen.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -78,7 +83,12 @@ HEADERS += \
     src/engine/graphics/Shape.h \
     src/engine/graphics/Material.h \
     src/engine/graphics/Light.h \
-    src/engine/graphics/Constants.h
+    src/engine/graphics/Constants.h \
+    src/game/WarmupApplication.h \
+    src/engine/common/Application.h \
+    src/engine/common/Screen.h \
+    src/game/WarmupGameplayScreen.h \
+    src/game/WarmupStartScreen.h
 
 FORMS += src/mainwindow.ui
 
