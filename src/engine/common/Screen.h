@@ -2,6 +2,8 @@
 #define SCREEN_H
 
 #include <QKeyEvent>
+#include <map>
+
 #include "src/engine/graphics/Graphics.h"
 
 class Screen
@@ -10,14 +12,18 @@ public:
     Screen();
     virtual ~Screen();
 
-    virtual void tick(float dt);
-    virtual void draw(Graphics &g);
-    void onKeyPressed(QKeyEvent &event);
-    void onKeyReleased(QKeyEvent &event);
-    void onMouseDragged(QKeyEvent &event);
-    void onMousePressed(QKeyEvent &event);
-    void onMouseReleased(QKeyEvent &event);
-    void onWheelEvent(QKeyEvent &event);
+    virtual void tick(float seconds) = 0;
+    virtual void draw(Graphics *g) = 0;
+
+    virtual void onKeyPressed(QKeyEvent *event);
+    virtual void onKeyReleased(QKeyEvent *event);
+    virtual void onMousePressed(QKeyEvent *event);
+    virtual void onMouseReleased(QKeyEvent *event);
+    virtual void onMouseDragged(QKeyEvent *event) = 0;
+    virtual void onWheelEvent(QKeyEvent *event) = 0;
+
+protected:
+    std::map<std::string, bool> m_controlstates;
 };
 
 #endif // SCREEN_H

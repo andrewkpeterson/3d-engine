@@ -17,8 +17,7 @@ View::View(QWidget *parent) : QGLWidget(ViewFormat(), parent),
     m_time(), m_timer(),
     m_captureMouse(true),
     m_fps(0), m_frameIndex(0),
-    m_graphics(nullptr),
-    m_camera(nullptr)
+    m_graphics(nullptr)
 {
     /** SUPPORT CODE START **/
 
@@ -103,6 +102,7 @@ void View::initializeGL()
     m_graphics->addMaterial("grassMaterial", mySecondMaterial);
 
     // TODO (Warmup 1): Initialize application
+    app = WarmupApplication();
 }
 
 void View::paintGL()

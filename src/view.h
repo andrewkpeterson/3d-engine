@@ -2,6 +2,7 @@
 #define VIEW_H
 
 #include "engine/util/CommonIncludes.h"
+#include "src/game/WarmupApplication.h"
 
 #include <QGLWidget>
 #include <QTime>
@@ -53,10 +54,8 @@ private:
 
     Graphics* m_graphics;
 
-    // TODO (Warmup 1): You might want to remove this after completing the lab
-    std::shared_ptr<Camera> m_camera;
-
     // TODO (Warmup 1): Add an application variable to the View class
+    WarmupApplication app;
 
 private slots:
     void tick();

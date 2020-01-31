@@ -4,11 +4,13 @@
 #include "src/engine/common/Application.h"
 
 class WarmupApplication : public Application {
+
+public:
     WarmupApplication();
     ~WarmupApplication();
 
-    virtual void tick(float dt);
-    virtual void draw(Graphics &g);
+    void startScreenToGameplayScreen();
+    void restart();
 };
 
 #endif // WARMUPAPPLICATION_H

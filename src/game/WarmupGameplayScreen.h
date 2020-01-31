@@ -2,15 +2,21 @@
 #define WARMUPGAMEPLAYSCREEN_H
 
 #include "src/engine/graphics/Graphics.h"
+#include "src/engine/common/Application.h"
+#include "src/engine/common/Screen.h"
+#include "src/engine/graphics/Camera.h"
 
-class WarmupGameplayScreen
+class WarmupGameplayScreen : public Screen
 {
 public:
     WarmupGameplayScreen();
-    ~WarmupGameplayScreen();
+    virtual ~WarmupGameplayScreen() override;
 
-    virtual void tick(float dt);
-    virtual void draw(Graphics &g);
+    void tick(float seconds) override;
+    void draw(Graphics *g) override;
+
+private:
+    std::shared_ptr<Camera> m_camera;
 };
 
 #endif // WARMUPGAMEPLAYSCREEN_H

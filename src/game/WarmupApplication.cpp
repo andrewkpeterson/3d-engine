@@ -9,3 +9,11 @@ WarmupApplication::~WarmupApplication()
 {
 
 }
+
+void WarmupApplication::startScreenToGameplayScreen() {
+
+}
+
+void WarmupApplication::restart() {
+
+}
