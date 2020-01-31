@@ -2,11 +2,12 @@
 #define WARMUPAPPLICATION_H
 
 #include "src/engine/common/Application.h"
+#include "src/engine/graphics/Graphics.h"
 
 class WarmupApplication : public Application {
 
 public:
-    WarmupApplication();
+    WarmupApplication(Graphics *g);
     ~WarmupApplication();
 
     void startScreenToGameplayScreen();

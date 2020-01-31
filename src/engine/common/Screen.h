@@ -15,12 +15,15 @@ public:
     virtual void tick(float seconds) = 0;
     virtual void draw(Graphics *g) = 0;
 
+    virtual void resize(int width, int height) = 0;
+
     virtual void onKeyPressed(QKeyEvent *event);
     virtual void onKeyReleased(QKeyEvent *event);
-    virtual void onMousePressed(QKeyEvent *event);
-    virtual void onMouseReleased(QKeyEvent *event);
-    virtual void onMouseDragged(QKeyEvent *event) = 0;
-    virtual void onWheelEvent(QKeyEvent *event) = 0;
+    virtual void onKeyRepeated(QKeyEvent *event) = 0;
+    virtual void onMousePressed(QMouseEvent *event);
+    virtual void onMouseReleased(QMouseEvent *event);
+    virtual void onMouseDragged(int deltaX, int deltaY) = 0;
+    virtual void onWheelEvent(QWheelEvent *event) = 0;
 
 protected:
     std::map<std::string, bool> m_controlstates;

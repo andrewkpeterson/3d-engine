@@ -1,6 +1,7 @@
 #include "WarmupStartScreen.h"
 
-WarmupStartScreen::WarmupStartScreen()
+WarmupStartScreen::WarmupStartScreen() :
+    Screen()
 {
 
 }
@@ -15,5 +16,9 @@ void WarmupStartScreen::draw(Graphics *g) {
 }
 
 void WarmupStartScreen::tick(float seconds) {
+
+}
+
+void WarmupStartScreen::resize(int w, int h) {
 
 }

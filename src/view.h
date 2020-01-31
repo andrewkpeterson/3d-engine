@@ -55,7 +55,7 @@ private:
     Graphics* m_graphics;
 
     // TODO (Warmup 1): Add an application variable to the View class
-    WarmupApplication app;
+    std::unique_ptr<WarmupApplication> app;
 
 private slots:
     void tick();

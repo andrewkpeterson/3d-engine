@@ -16,12 +16,16 @@ public:
 
     virtual void tick(float seconds);
     virtual void draw(Graphics *g);
+
+    void resize(int w, int h);
+
     void onKeyPressed(QKeyEvent *event);
     void onKeyReleased(QKeyEvent *event);
-    void onMouseDragged(QKeyEvent *event);
-    void onMousePressed(QKeyEvent *event);
-    void onMouseReleased(QKeyEvent *event);
-    void onWheelEvent(QKeyEvent *event);
+    void onKeyRepeated(QKeyEvent *event);
+    void onMouseDragged(int deltaX, int deltaY);
+    void onMousePressed(QMouseEvent *event);
+    void onMouseReleased(QMouseEvent *event);
+    void onWheelEvent(QWheelEvent *event);
 
 protected:
     std::map<std::string, std::shared_ptr<Screen>> m_screenmap;
