@@ -1,7 +1,9 @@
 #include "WarmupGameplayScreen.h"
 
 WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g, WarmupApplication *parent_app) :
-    Screen(parent_app)
+    Screen(parent_app),
+    off_ground(false),
+    y_vel(0)
 {
     m_camera = std::make_shared<Camera>();
     m_camera->setEye(glm::vec3(1,1,1));
@@ -45,6 +47,21 @@ void WarmupGameplayScreen::tick(float seconds) {
     if (m_controlstates["A"]) m_camera->translate(perp * WALK_SPEED);
     if (m_controlstates["D"]) m_camera->translate(-perp * WALK_SPEED);
     if (m_controlstates["R"]) m_parent->restart();
+    if (m_controlstates["SPACE"] && !off_ground) {
+        std::cout << "jumped" << std::endl;
+        off_ground = true;
+        y_vel = JUMP_SPEED;
+    }
+    if (m_camera->getEye().y < 1) {
+        std::cout << "hit ground" << std::endl;
+        off_ground = false;
+        y_vel = 0;
+        m_camera->setEye(glm::vec3(m_camera->getEye().x, 1.0f, m_camera->getEye().z));
+    }
+    m_camera->setEye(glm::vec3(m_camera->getEye().x, m_camera->getEye().y + y_vel, m_camera->getEye().z));
+    if (off_ground) {
+        y_vel += GRAVITY * seconds;
+    }
 }
 
 

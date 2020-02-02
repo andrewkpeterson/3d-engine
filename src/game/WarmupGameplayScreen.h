@@ -7,7 +7,7 @@
 #include "src/engine/common/Screen.h"
 #include "src/engine/graphics/Camera.h"
 
-class WarmupGameplayScreen : public Screen
+class WarmupGameplayScreen  : public Screen
 {
 public:
     WarmupGameplayScreen(Graphics *g, WarmupApplication *parent);
@@ -29,8 +29,12 @@ public:
 private:
     std::shared_ptr<Camera> m_camera;
 
-    const float MOUSE_SENSITIVITY = .1;
-    const float WALK_SPEED = .1;
+    const float MOUSE_SENSITIVITY = .1f;
+    const float WALK_SPEED = .1f;
+    const float GRAVITY = -.25f;
+    const float JUMP_SPEED = .15f;
+    bool off_ground;
+    float y_vel;
 };
 
 #endif // WARMUPGAMEPLAYSCREEN_H
