@@ -1,7 +1,10 @@
 #include "Application.h"
 
 Application::Application() :
-    m_current_screen(nullptr)
+    m_current_screen(nullptr),
+    m_graphics(Graphics::getGlobalInstance()),
+    app_height(1),
+    app_width(1)
 {
 
 }
@@ -20,7 +23,18 @@ void Application::tick(float seconds) {
 }
 
 void Application::resize(int width, int height) {
-    m_current_screen->resize(width, height);
+    //must resize all screens
+    app_height = height;
+    app_width = width;
+    std::map<std::string, std::shared_ptr<Screen>>::iterator it = m_screenmap.begin();
+    while (it != m_screenmap.end()) {
+        it->second->resize(width, height);
+        it++;
+    }
+}
+
+void Application::changeScreen(std::string screen_name) {
+    m_current_screen = m_screenmap[screen_name];
 }
 
 void Application::onKeyPressed(QKeyEvent *event) {

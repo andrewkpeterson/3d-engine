@@ -3,13 +3,14 @@
 
 #include "src/engine/graphics/Graphics.h"
 #include "src/engine/common/Application.h"
+#include "src/game/WarmupApplication.h"
 #include "src/engine/common/Screen.h"
 #include "src/engine/graphics/Camera.h"
 
 class WarmupGameplayScreen : public Screen
 {
 public:
-    WarmupGameplayScreen(Graphics *g);
+    WarmupGameplayScreen(Graphics *g, WarmupApplication *parent);
     virtual ~WarmupGameplayScreen() override;
 
     void tick(float seconds) override;

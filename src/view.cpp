@@ -89,14 +89,14 @@ void View::initializeGL()
     /** SUPPORT CODE END **/
 
     // TODO (Warmup 1): Initialize application
-    app = std::make_unique<WarmupApplication>(m_graphics);
+    app = std::make_unique<WarmupApplication>();
 }
 
 void View::paintGL()
 {
     /** SUPPORT CODE START **/
 
-    m_graphics->setClearColor(glm::vec3(1, 0, 0));
+    m_graphics->setClearColor(glm::vec3(0, 0, 0));
     m_graphics->clearScreen(Graphics::CLEAR_FLAG::ALL);
     m_graphics->clearShader();
     m_graphics->setDefaultMaterial();

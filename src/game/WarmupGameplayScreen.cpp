@@ -1,18 +1,18 @@
 #include "WarmupGameplayScreen.h"
 
-WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g) :
-    Screen()
+WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g, WarmupApplication *parent_app) :
+    Screen(parent_app)
 {
     m_camera = std::make_shared<Camera>();
-    m_camera->setEye(glm::vec3(0,1,0));
-    g->setCamera(m_camera);
-
+    m_camera->setEye(glm::vec3(1,1,1));
+    m_camera->setLook(glm::vec3(0,0,1));
     Material myFirstMaterial;
     myFirstMaterial.color = glm::vec3(0, 1, 0);
     g->addMaterial("boringGreen", myFirstMaterial);
 
     Material mySecondMaterial;
     mySecondMaterial.textureName = "grass";
+    mySecondMaterial.textureRepeat = glm::vec2(5,5);
     g->addMaterial("grassMaterial", mySecondMaterial);
 }
 
@@ -22,6 +22,7 @@ WarmupGameplayScreen::~WarmupGameplayScreen()
 }
 
 void WarmupGameplayScreen::draw(Graphics *g) {
+    g->setCamera(m_camera);
     g->clearTransform();
     g->scale(20.0);
     g->setMaterial("grassMaterial");
@@ -43,6 +44,7 @@ void WarmupGameplayScreen::tick(float seconds) {
     if (m_controlstates["S"]) m_camera->translate(-dir * WALK_SPEED);
     if (m_controlstates["A"]) m_camera->translate(perp * WALK_SPEED);
     if (m_controlstates["D"]) m_camera->translate(-perp * WALK_SPEED);
+    if (m_controlstates["R"]) m_parent->restart();
 }
 
 

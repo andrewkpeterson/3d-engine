@@ -16,8 +16,9 @@ public:
 
     virtual void tick(float seconds);
     virtual void draw(Graphics *g);
-
     void resize(int w, int h);
+    void changeScreen(std::string screen_name);
+    virtual void restart() = 0;
 
     void onKeyPressed(QKeyEvent *event);
     void onKeyReleased(QKeyEvent *event);
@@ -30,6 +31,9 @@ public:
 protected:
     std::map<std::string, std::shared_ptr<Screen>> m_screenmap;
     std::shared_ptr<Screen> m_current_screen;
+    Graphics *m_graphics;
+    int app_width;
+    int app_height;
 
 };
 

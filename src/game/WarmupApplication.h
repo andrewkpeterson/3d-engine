@@ -3,15 +3,15 @@
 
 #include "src/engine/common/Application.h"
 #include "src/engine/graphics/Graphics.h"
+#include "src/engine/util/CommonIncludes.h"
 
 class WarmupApplication : public Application {
 
 public:
-    WarmupApplication(Graphics *g);
+    WarmupApplication();
     ~WarmupApplication();
 
-    void startScreenToGameplayScreen();
-    void restart();
+    void restart() override;
 };
 
 #endif // WARMUPAPPLICATION_H

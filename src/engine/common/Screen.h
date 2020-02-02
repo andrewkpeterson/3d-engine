@@ -6,10 +6,12 @@
 
 #include "src/engine/graphics/Graphics.h"
 
+class Application;
+
 class Screen
 {
 public:
-    Screen();
+    Screen(Application *parent);
     virtual ~Screen();
 
     virtual void tick(float seconds) = 0;
@@ -27,6 +29,7 @@ public:
 
 protected:
     std::map<std::string, bool> m_controlstates;
+    Application *m_parent;
 };
 
 #endif // SCREEN_H
