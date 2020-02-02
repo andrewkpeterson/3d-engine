@@ -3,8 +3,8 @@
 Application::Application() :
     m_current_screen(nullptr),
     m_graphics(Graphics::getGlobalInstance()),
-    app_height(1),
-    app_width(1)
+    app_width(1),
+    app_height(1)
 {
 
 }
@@ -29,6 +29,14 @@ void Application::resize(int width, int height) {
     std::map<std::string, std::shared_ptr<Screen>>::iterator it = m_screenmap.begin();
     while (it != m_screenmap.end()) {
         it->second->resize(width, height);
+        it++;
+    }
+}
+
+void Application::restart() {
+    std::map<std::string, std::shared_ptr<Screen>>::iterator it = m_screenmap.begin();
+    while (it != m_screenmap.end()) {
+        it->second->restartScreen();
         it++;
     }
 }

@@ -27,6 +27,8 @@ public:
     virtual void onMouseDragged(int deltaX, int deltaY) = 0;
     virtual void onWheelEvent(QWheelEvent *event) = 0;
 
+    virtual void restartScreen();
+
 protected:
     std::map<std::string, bool> m_controlstates;
     Application *m_parent;

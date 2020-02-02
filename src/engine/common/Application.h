@@ -18,7 +18,7 @@ public:
     virtual void draw(Graphics *g);
     void resize(int w, int h);
     void changeScreen(std::string screen_name);
-    virtual void restart() = 0;
+    virtual void restart();
 
     void onKeyPressed(QKeyEvent *event);
     void onKeyReleased(QKeyEvent *event);

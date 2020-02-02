@@ -35,6 +35,16 @@ void Screen::onKeyReleased(QKeyEvent *event) {
     if (event->key() == Qt::Key_Space) m_controlstates["SPACE"] = false;
 }
 
+void Screen::restartScreen() {
+    m_controlstates["W"] = false;
+    m_controlstates["A"] = false;
+    m_controlstates["S"] = false;
+    m_controlstates["D"] = false;
+    m_controlstates["R"] = false;
+    m_controlstates["SPACE"] = false;
+    m_controlstates["MOUSE"] = false;
+}
+
 void Screen::onMousePressed(QMouseEvent *event) {
     m_controlstates["MOUSE"] = true;
 }

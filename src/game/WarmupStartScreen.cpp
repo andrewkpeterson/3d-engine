@@ -28,6 +28,11 @@ void WarmupStartScreen::tick(float seconds) {
 
 }
 
+void WarmupStartScreen::restartScreen() {
+    Screen::restartScreen();
+}
+
+
 void WarmupStartScreen::onMousePressed(QMouseEvent *event) {
     m_parent->changeScreen("gameplay");
 }

@@ -1,10 +1,11 @@
 #include "WarmupGameplayScreen.h"
 
 WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g, WarmupApplication *parent_app) :
-    Screen(parent_app),
-    off_ground(false),
-    y_vel(0)
+    Screen(parent_app)
 {
+    off_ground = false;
+    y_vel = 0.0f;
+
     m_camera = std::make_shared<Camera>();
     m_camera->setEye(glm::vec3(1,1,1));
     m_camera->setLook(glm::vec3(0,0,1));
@@ -18,9 +19,7 @@ WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g, WarmupApplication *paren
     g->addMaterial("grassMaterial", mySecondMaterial);
 }
 
-WarmupGameplayScreen::~WarmupGameplayScreen()
-{
-
+WarmupGameplayScreen::~WarmupGameplayScreen() {
 }
 
 void WarmupGameplayScreen::draw(Graphics *g) {
@@ -46,7 +45,9 @@ void WarmupGameplayScreen::tick(float seconds) {
     if (m_controlstates["S"]) m_camera->translate(-dir * WALK_SPEED);
     if (m_controlstates["A"]) m_camera->translate(perp * WALK_SPEED);
     if (m_controlstates["D"]) m_camera->translate(-perp * WALK_SPEED);
-    if (m_controlstates["R"]) m_parent->restart();
+    if (m_controlstates["R"]) {
+        restartApplication();
+    }
     if (m_controlstates["SPACE"] && !off_ground) {
         std::cout << "jumped" << std::endl;
         off_ground = true;
@@ -70,8 +71,18 @@ void WarmupGameplayScreen::onMouseDragged(int deltaX, int deltaY) {
 }
 
 
-void WarmupGameplayScreen::restart() {
+void WarmupGameplayScreen::restartApplication() {
+    m_parent->restart();
+}
 
+void WarmupGameplayScreen::restartScreen() {
+    Screen::restartScreen();
+    off_ground = false;
+    y_vel = 0.0f;
+
+    m_camera = std::make_shared<Camera>();
+    m_camera->setEye(glm::vec3(1,1,1));
+    m_camera->setLook(glm::vec3(0,0,1));
 }
 
 void WarmupGameplayScreen::resize(int w, int h) {
