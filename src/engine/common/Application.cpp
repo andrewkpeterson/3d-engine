@@ -45,6 +45,14 @@ void Application::changeScreen(std::string screen_name) {
     m_current_screen = m_screenmap[screen_name];
 }
 
+void Application::addScreen(std::shared_ptr<Screen> screen, std::string name) {
+    m_screenmap[name] = screen;
+}
+
+void Application::removeScreen(std::string name) {
+    m_screenmap.erase(name);
+}
+
 void Application::onKeyPressed(QKeyEvent *event) {
     m_current_screen->onKeyPressed(event);
 }
