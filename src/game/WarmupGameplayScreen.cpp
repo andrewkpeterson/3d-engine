@@ -15,7 +15,7 @@ WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g, WarmupApplication *paren
 
     Material mySecondMaterial;
     mySecondMaterial.textureName = "grass";
-    mySecondMaterial.textureRepeat = glm::vec2(5,5);
+    mySecondMaterial.textureRepeat = glm::vec2(10,10);
     g->addMaterial("grassMaterial", mySecondMaterial);
 }
 
