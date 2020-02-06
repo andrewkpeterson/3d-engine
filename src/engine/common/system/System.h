@@ -19,8 +19,8 @@ public:
     void addGameObject(); //what should this take in??
     void removeGameObject(); //what should this take in??
 
-private:
-    std::vector<GameObject> game_objects;
+protected:
+    std::vector<std::shared_ptr<GameObject>> m_gameobjects;
 };
 
 #endif // SYSTEM_H

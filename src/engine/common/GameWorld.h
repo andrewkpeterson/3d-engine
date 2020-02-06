@@ -1,9 +1,10 @@
 #ifndef GAMEWORLD_H
 #define GAMEWORLD_H
 
-#include "src/engine/util/CommonIncludes.h"
 #include <memory>
 #include <vector>
+
+#include "src/engine/util/CommonIncludes.h"
 
 class Graphics;
 class System;
@@ -24,9 +25,9 @@ public:
     void removeGameObject(std::string name); // what should this take in??
 
 private:
-    std::vector<Screen*> screens; // reference to screens that control this GameWorld
-    std::vector<GameObject> game_objects;
-    std::vector<System> systems;
+    std::vector<Screen*> m_screens; // reference to screens that control this GameWorld
+    std::vector<std::shared_ptr<GameObject>> m_gameobjects;
+    std::vector<std::shared_ptr<System>> m_systems;
 
 };
 

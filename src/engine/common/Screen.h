@@ -33,7 +33,7 @@ public:
 protected:
     std::map<std::string, bool> m_controlstates;
     Application *m_parent;
-    std::map<std::string, std::shared_ptr<GameWorld>> gameworlds;
+    std::map<std::string, std::shared_ptr<GameWorld>> m_gameworlds;
 };
 
 #endif // SCREEN_H

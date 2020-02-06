@@ -52,18 +52,15 @@ SOURCES += \
     src/game/WarmupStartScreen.cpp \
     src/engine/common/GameWorld.cpp \
     src/engine/common/GameObject.cpp \
-    src/engine/common/Component.cpp \
-    src/engine/common/DrawableComponent.cpp \
-    src/engine/common/TransformComponent.cpp \
-    src/engine/common/TickSystem.cpp \
     src/engine/common/system/TickSystem.cpp \
-    src/engine/common/system/TickSystem.cpp \
-    src/engine/common/component/TransformComponent.cpp \
     src/engine/common/component/CollisionComponent.cpp \
     src/engine/common/component/Component.cpp \
     src/engine/common/component/DrawableComponent.cpp \
     src/engine/common/component/TransformComponent.cpp \
-    src/engine/common/system/System.cpp
+    src/engine/common/system/System.cpp \
+    src/engine/common/component/PlayerControlComponent.cpp \
+    src/engine/common/system/DrawSystem.cpp \
+    src/engine/common/system/CollisionSystem.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -106,16 +103,15 @@ HEADERS += \
     src/engine/common/GameWorld.h \
     src/engine/common/System.h \
     src/engine/common/GameObject.h \
-    src/engine/common/Component.h \
-    src/engine/common/DrawableComponent.h \
-    src/engine/common/TransformComponent.h \
-    src/engine/common/CollisionComponent.h \
     src/engine/common/system/TickSystem.h \
     src/engine/common/component/CollisionComponent.h \
     src/engine/common/component/Component.h \
     src/engine/common/component/DrawableComponent.h \
     src/engine/common/component/TransformComponent.h \
-    src/engine/common/system/System.h
+    src/engine/common/system/System.h \
+    src/engine/common/component/PlayerControlComponent.h \
+    src/engine/common/system/DrawSystem.h \
+    src/engine/common/system/CollisionSystem.h
 
 FORMS += src/mainwindow.ui
 

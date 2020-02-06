@@ -2,6 +2,7 @@
 #define GAMEOBJECT_H
 
 #include <vector>
+#include <memory>
 
 class Component;
 
@@ -16,7 +17,7 @@ public:
     Component getComponent();
 
 private:
-    std::vector<Component> m_components;
+    std::vector<std::shared_ptr<Component>> m_components;
 
 };
 
