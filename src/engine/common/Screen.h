@@ -7,6 +7,7 @@
 #include "src/engine/graphics/Graphics.h"
 
 class Application;
+class GameWorld;
 
 class Screen
 {
@@ -32,6 +33,7 @@ public:
 protected:
     std::map<std::string, bool> m_controlstates;
     Application *m_parent;
+    std::map<std::string, std::shared_ptr<GameWorld>> gameworlds;
 };
 
 #endif // SCREEN_H

@@ -34,6 +34,7 @@ void Application::resize(int width, int height) {
 }
 
 void Application::restart() {
+    //call all the restart methods on each screen
     std::map<std::string, std::shared_ptr<Screen>>::iterator it = m_screenmap.begin();
     while (it != m_screenmap.end()) {
         it->second->restartScreen();

@@ -48,17 +48,23 @@ void WarmupGameplayScreen::tick(float seconds) {
     if (m_controlstates["R"]) {
         restartApplication();
     }
+
+    // handle jumping
     if (m_controlstates["SPACE"] && !off_ground) {
         std::cout << "jumped" << std::endl;
         off_ground = true;
         y_vel = JUMP_SPEED;
     }
+
+    // handle falling back to ground
     if (m_camera->getEye().y < 1) {
         std::cout << "hit ground" << std::endl;
         off_ground = false;
         y_vel = 0;
         m_camera->setEye(glm::vec3(m_camera->getEye().x, 1.0f, m_camera->getEye().z));
     }
+
+    // handle chaning y value
     m_camera->setEye(glm::vec3(m_camera->getEye().x, m_camera->getEye().y + y_vel, m_camera->getEye().z));
     if (off_ground) {
         y_vel += GRAVITY * seconds;
