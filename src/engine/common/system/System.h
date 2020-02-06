@@ -2,6 +2,7 @@
 #define SYSTEM_H
 
 #include "src/engine/util/CommonIncludes.h"
+#include "src/engine/util/TypeMap.h"
 #include <memory>
 #include <vector>
 
@@ -16,11 +17,11 @@ public:
     ~System();
 
     void tick();
-    void addGameObject(); //what should this take in??
-    void removeGameObject(); //what should this take in??
+    void addGameObject(std::shared_ptr<GameObject>); //what should this take in??
+    void removeGameObject(std::shared_ptr<GameObject>); //what should this take in??
 
 protected:
-    std::vector<std::shared_ptr<GameObject>> m_gameobjects;
+    TypeMap<std::shared_ptr<GameObject>> m_gameobjects;
 };
 
 #endif // SYSTEM_H

@@ -1,8 +1,9 @@
 #ifndef PLAYERCONTROLCOMPONENT_H
 #define PLAYERCONTROLCOMPONENT_H
 
+#include "Component.h"
 
-class PlayerControlComponent
+class PlayerControlComponent : public Component
 {
 public:
     PlayerControlComponent();

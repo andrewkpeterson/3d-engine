@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <map>
 
 #include "src/engine/util/CommonIncludes.h"
 
@@ -19,13 +20,13 @@ public:
 
     void tick();
     void draw(Graphics *g);
-    void addSystem(std::shared_ptr<System> system); // what should this take in??
-    void removeSystem(std::string name); // what should this take in??
-    void addGameObject(std::shared_ptr<GameObject> object); // what should this take in
-    void removeGameObject(std::string name); // what should this take in??
+    void addSystem(std::shared_ptr<System> system);
+    void removeSystem(std::shared_ptr<System> system);
+    void addGameObject(std::shared_ptr<GameObject> object); // adds a game object to the gameworld, and calls addToSystems on all of its components
+    void removeGameObject(std::shared_ptr<GameObject> object);
 
 private:
-    std::vector<Screen*> m_screens; // reference to screens that control this GameWorld
+    std::map<std::string, Screen*> m_screens; // reference to screens that control this GameWorld
     std::vector<std::shared_ptr<GameObject>> m_gameobjects;
     std::vector<std::shared_ptr<System>> m_systems;
 

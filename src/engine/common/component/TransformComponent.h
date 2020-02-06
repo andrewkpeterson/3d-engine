@@ -1,8 +1,9 @@
 #ifndef TRANSFORMCOMPONENT_H
 #define TRANSFORMCOMPONENT_H
 
+#include "Component.h"
 
-class TransformComponent
+class TransformComponent : public Component
 {
 public:
     TransformComponent();

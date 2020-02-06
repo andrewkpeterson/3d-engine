@@ -4,3 +4,8 @@ DrawSystem::DrawSystem()
 {
 
 }
+
+DrawSystem::~DrawSystem()
+{
+
+}

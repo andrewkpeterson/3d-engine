@@ -111,7 +111,8 @@ HEADERS += \
     src/engine/common/system/System.h \
     src/engine/common/component/PlayerControlComponent.h \
     src/engine/common/system/DrawSystem.h \
-    src/engine/common/system/CollisionSystem.h
+    src/engine/common/system/CollisionSystem.h \
+    src/engine/util/TypeMap.h
 
 FORMS += src/mainwindow.ui
 
