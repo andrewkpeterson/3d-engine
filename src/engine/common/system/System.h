@@ -10,6 +10,7 @@
 class Graphics;
 class System;
 class GameObject;
+class GameWorld;
 class Component;
 
 class System
@@ -19,12 +20,13 @@ public:
     virtual ~System();
 
     virtual void tick();
-    void addComponent(Component *component);
-    void removeComponent(Component *component);
+    void addComponent(std::shared_ptr<Component> component);
+    void removeComponent(std::shared_ptr<Component> component);
     const std::string getName();
 
 protected:
-    std::unordered_set<Component*> m_components;
+    std::unordered_set<std::shared_ptr<Component>> m_components;
+    std::shared_ptr<GameWorld> m_gw;
     const std::string name;
 };
 

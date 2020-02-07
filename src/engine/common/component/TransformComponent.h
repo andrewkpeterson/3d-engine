@@ -11,8 +11,8 @@ class TransformComponent : public Component
 public:
     TransformComponent();
     ~TransformComponent() override;
-    void addSelfToSystems(GameWorld *gw) override;
-    void removeSelfFromSystems(GameWorld *gw) override;
+    void addSelfToSystems(std::shared_ptr<GameWorld> gw) override;
+    void removeSelfFromSystems(std::shared_ptr<GameWorld> gw) override;
 };
 
 #endif // TRANSFORMCOMPONENT_H

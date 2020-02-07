@@ -26,9 +26,7 @@ void WarmupStartScreen::draw(Graphics *g) {
 }
 
 void WarmupStartScreen::tick(float seconds) {
-    if (Input::getPressed("MOUSE")) {
-        m_parent->changeScreen("gameplay");
-    }
+    if (Input::getPressed("MOUSE")) m_parent->changeScreen("gameplay");
 }
 
 void WarmupStartScreen::restartScreen() {

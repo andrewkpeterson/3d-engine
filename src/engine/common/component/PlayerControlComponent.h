@@ -11,8 +11,8 @@ class PlayerControlComponent : public Component
 public:
     PlayerControlComponent();
     ~PlayerControlComponent() override;
-    void addSelfToSystems(GameWorld *gw) override;
-    void removeSelfFromSystems(GameWorld *gw) override;
+    void addSelfToSystems(std::shared_ptr<GameWorld> gw) override;
+    void removeSelfFromSystems(std::shared_ptr<GameWorld> gw) override;
 };
 
 #endif // PLAYERCONTROLCOMPONENT_H

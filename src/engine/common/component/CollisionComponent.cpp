@@ -12,12 +12,12 @@ CollisionComponent::~CollisionComponent()
 
 }
 
-void CollisionComponent::addSelfToSystems(GameWorld *gw) {
+void CollisionComponent::addSelfToSystems(std::shared_ptr<GameWorld> gw) {
     //gw->getSystem("CollisionSystem")->addComponent(this);
-    gw->getSystem<CollisionSystem>()->addComponent(this);
+    gw->getSystem<CollisionSystem>()->addComponent(getSharedPtr());
 }
 
-void CollisionComponent::removeSelfFromSystems(GameWorld *gw) {
+void CollisionComponent::removeSelfFromSystems(std::shared_ptr<GameWorld> gw) {
     //gw->getSystem("CollisionSystem")->removeComponent(this);
-    gw->getSystem<CollisionSystem>()->removeComponent(this);
+    gw->getSystem<CollisionSystem>()->removeComponent(getSharedPtr());
 }

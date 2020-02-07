@@ -11,11 +11,11 @@ TransformComponent::~TransformComponent()
 
 }
 
-void TransformComponent::addSelfToSystems(GameWorld *gw)
+void TransformComponent::addSelfToSystems(std::shared_ptr<GameWorld> gw)
 {
     //gw->getSystem("TickSystem")->addComponent(this);
 }
 
-void TransformComponent::removeSelfFromSystems(GameWorld *gw) {
+void TransformComponent::removeSelfFromSystems(std::shared_ptr<GameWorld> gw) {
     //gw->getSystem("TickSystem")->addComponent(this);
 }

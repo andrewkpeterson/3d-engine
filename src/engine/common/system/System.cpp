@@ -15,11 +15,11 @@ void System::tick() {
 
 }
 
-void System::addComponent(Component *component) {
+void System::addComponent(std::shared_ptr<Component> component) {
     m_components.insert(component);
 }
 
-void System::removeComponent(Component *component) {
+void System::removeComponent(std::shared_ptr<Component> component) {
     m_components.erase(component);
 }
 

@@ -76,7 +76,7 @@ void Application::onMousePressed(QMouseEvent *event) {
 }
 
 void Application::onMouseReleased(QMouseEvent *event) {
-    m_current_screen->onMouseReleased(event);
+    Input::onMouseReleased(event);
 }
 
 void Application::onWheelEvent(QWheelEvent *event) {

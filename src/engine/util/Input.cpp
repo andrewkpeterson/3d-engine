@@ -56,8 +56,10 @@ void Input::restart() {
 
 void Input::onMousePressed(QMouseEvent *event) {
     m_controlstates["MOUSE"] = true;
+    std::cout << "mouse pressed" << std::endl;
 }
 
 void Input::onMouseReleased(QMouseEvent *event) {
     m_controlstates["MOUSE"] = false;
+    std::cout << "mouse released" << std::endl;
 }

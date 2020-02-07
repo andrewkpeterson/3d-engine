@@ -9,7 +9,7 @@
 class Application;
 class GameWorld;
 
-class Screen
+class Screen : std::enable_shared_from_this<Screen>
 {
 public:
     Screen(Application *parent);
@@ -30,9 +30,13 @@ public:
 
     virtual void restartScreen();
 
+    std::shared_ptr<Screen> getSharedPtr() {
+        return shared_from_this();
+    }
+
 protected:
     Application *m_parent;
-    std::map<std::string, std::shared_ptr<GameWorld>> m_gameworlds;
+    std::shared_ptr<GameWorld> m_gameworld;
 };
 
 #endif // SCREEN_H

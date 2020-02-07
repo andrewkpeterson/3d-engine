@@ -11,6 +11,16 @@
 class Component;
 class GameWorld;
 
+/**
+ * To properly create a GameObject, we first make a shared_ptr<GameObject>. Next, we
+ * create components and add those components to the GameObject. Finally, we add the
+ * object to the GameWorld. The Components of the GameObject indicate which systems
+ * the GameObject's components will be added to.
+ *
+ * To remove a GameObject from the GameWorld, we call the GameWorld's removeGameObject
+ * method. This will also remove the GameObject's components from the GameWorld's
+ * systems
+ */
 class GameObject
 {
 public:
@@ -32,12 +42,12 @@ public:
     //std::shared_ptr<Component> getComponent(std::string name);
     void addComponentsToSystems();
     void removeComponentsFromSystems();
-    GameWorld *getGameWorld();
+    std::shared_ptr<GameWorld> getGameWorld();
 
 private:
     std::map<std::string, std::shared_ptr<Component>> m_components;
     TypeMap<std::shared_ptr<Component>> comps;
-    GameWorld *m_gw;
+    std::shared_ptr<GameWorld> m_gw;
 
 };
 

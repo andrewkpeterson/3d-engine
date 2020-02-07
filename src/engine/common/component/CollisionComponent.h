@@ -9,8 +9,8 @@ class CollisionComponent : public Component
 public:
     CollisionComponent();
     ~CollisionComponent() override;
-    void addSelfToSystems(GameWorld *gw) override;
-    void removeSelfFromSystems(GameWorld *gw) override;
+    void addSelfToSystems(std::shared_ptr<GameWorld> gw) override;
+    void removeSelfFromSystems(std::shared_ptr<GameWorld> gw) override;
 };
 
 #endif // COLLISIONCOMPONENT_H

@@ -11,11 +11,11 @@ PlayerControlComponent::~PlayerControlComponent()
 
 }
 
-void PlayerControlComponent::addSelfToSystems(GameWorld *gw)
+void PlayerControlComponent::addSelfToSystems(std::shared_ptr<GameWorld> gw)
 {
     //gw->getSystem("TickSystem")->addComponent(this);
 }
 
-void PlayerControlComponent::removeSelfFromSystems(GameWorld *gw) {
+void PlayerControlComponent::removeSelfFromSystems(std::shared_ptr<GameWorld> gw) {
     //gw->getSystem("TickSystem")->addComponent(this);
 }

@@ -11,11 +11,11 @@ DrawableComponent::~DrawableComponent()
 
 }
 
-void DrawableComponent::addSelfToSystems(GameWorld *gw)
+void DrawableComponent::addSelfToSystems(std::shared_ptr<GameWorld> gw)
 {
     //gw->getSystem("DrawSystem")->addComponent(this);
 }
 
-void DrawableComponent::removeSelfFromSystems(GameWorld *gw) {
+void DrawableComponent::removeSelfFromSystems(std::shared_ptr<GameWorld> gw) {
     //gw->getSystem("DrawSystem")->removeComponent(this);
 }

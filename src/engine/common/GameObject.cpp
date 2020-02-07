@@ -44,7 +44,7 @@ void GameObject::removeComponentsFromSystems()
     }
 }
 
-GameWorld *GameObject::getGameWorld()
+std::shared_ptr<GameWorld> GameObject::getGameWorld()
 {
     return m_gw;
 }
