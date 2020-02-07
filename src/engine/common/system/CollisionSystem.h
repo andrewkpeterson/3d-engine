@@ -1,8 +1,9 @@
 #ifndef COLLISIONSYSTEM_H
 #define COLLISIONSYSTEM_H
 
+#include "System.h"
 
-class CollisionSystem
+class CollisionSystem : public System
 {
 public:
     CollisionSystem();

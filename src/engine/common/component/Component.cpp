@@ -1,6 +1,7 @@
 #include "Component.h"
 
-Component::Component()
+Component::Component(std::string str) :
+    name(str)
 {
 
 }
@@ -8,4 +9,9 @@ Component::Component()
 Component::~Component()
 {
 
+}
+
+const std::string Component::getName()
+{
+    return name;
 }

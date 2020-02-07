@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "src/engine/util/Input.h"
 
 Application::Application() :
     m_current_screen(nullptr),
@@ -71,7 +72,7 @@ void Application::onMouseDragged(int deltaX, int deltaY) {
 }
 
 void Application::onMousePressed(QMouseEvent *event) {
-    m_current_screen->onMousePressed(event);
+    Input::onMousePressed(event);
 }
 
 void Application::onMouseReleased(QMouseEvent *event) {

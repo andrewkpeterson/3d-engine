@@ -1,6 +1,7 @@
 #include "DrawSystem.h"
 
-DrawSystem::DrawSystem()
+DrawSystem::DrawSystem() :
+    System("DrawSystem")
 {
 
 }

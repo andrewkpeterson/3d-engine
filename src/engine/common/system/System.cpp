@@ -1,6 +1,7 @@
 #include "System.h"
 
-System::System()
+System::System(std::string str) :
+    name(str)
 {
 
 }
@@ -11,7 +12,21 @@ System::~System()
 }
 
 void System::tick() {
-    for (int i = 0; i < m_gameobjects.size(); i++) {
-        // update game objects
-    }
+
+}
+
+void System::draw(Graphics *g) {
+
+}
+
+void System::addComponent(Component *component) {
+    m_components.insert(component);
+}
+
+void System::removeComponent(Component *component) {
+    m_components.erase(component);
+}
+
+const std::string System::getName() {
+    return name;
 }

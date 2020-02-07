@@ -1,4 +1,5 @@
 #include "WarmupGameplayScreen.h"
+#include "src/engine/util/Input.h"
 
 WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g, WarmupApplication *parent_app) :
     Screen(parent_app)
@@ -41,11 +42,11 @@ void WarmupGameplayScreen::tick(float seconds) {
     glm::vec3 dir = glm::normalize(glm::vec3(look.x, 0, look.z));
     glm::vec3 perp = glm::vec3(dir.z, 0, -dir.x);
 
-    if (m_controlstates["W"]) m_camera->translate(dir * WALK_SPEED);
-    if (m_controlstates["S"]) m_camera->translate(-dir * WALK_SPEED);
-    if (m_controlstates["A"]) m_camera->translate(perp * WALK_SPEED);
-    if (m_controlstates["D"]) m_camera->translate(-perp * WALK_SPEED);
-    if (m_controlstates["R"]) {
+    if (Input::getPressed("W")) m_camera->translate(dir * WALK_SPEED);
+    if (Input::getPressed("S")) m_camera->translate(-dir * WALK_SPEED);
+    if (Input::getPressed("A")) m_camera->translate(perp * WALK_SPEED);
+    if (Input::getPressed("D")) m_camera->translate(-perp * WALK_SPEED);
+    if (Input::getPressed("R")) {
         restartApplication();
     }
 

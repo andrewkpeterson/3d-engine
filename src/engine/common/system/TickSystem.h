@@ -1,8 +1,9 @@
 #ifndef TICKSYSTEM_H
 #define TICKSYSTEM_H
 
+#include "System.h"
 
-class TickSystem
+class TickSystem : public System
 {
 public:
     TickSystem();

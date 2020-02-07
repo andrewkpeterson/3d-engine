@@ -3,9 +3,12 @@
 
 #include <vector>
 #include <memory>
-#include "src/engine/util/TypeMap.h"
+#include <map>
+
+#include "src/engine/common/component/Component.h"
 
 class Component;
+class GameWorld;
 
 class GameObject
 {
@@ -14,11 +17,15 @@ public:
     ~GameObject();
 
     void addComponent(std::shared_ptr<Component> component);
-    void removeComponent(std::shared_ptr<Component> component);
-    Component getComponent();
+    void removeComponent(std::string name);
+    std::shared_ptr<Component> getComponent(std::string name);
+    void addComponentsToSystems();
+    void removeComponentsFromSystems();
+    GameWorld *getGameWorld();
 
 private:
-    TypeMap<std::shared_ptr<Component>> m_components;
+    std::map<std::string, std::shared_ptr<Component>> m_components;
+    GameWorld *m_gw;
 
 };
 

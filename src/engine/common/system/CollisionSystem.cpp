@@ -1,6 +1,7 @@
 #include "CollisionSystem.h"
 
-CollisionSystem::CollisionSystem()
+CollisionSystem::CollisionSystem() :
+    System("CollisionSystem")
 {
 
 }

@@ -2,15 +2,15 @@
 #define COLLISIONCOMPONENT_H
 
 #include "Component.h"
-
-class GameWorld;
+#include "src/engine/common/GameWorld.h"
 
 class CollisionComponent : public Component
 {
 public:
     CollisionComponent();
     ~CollisionComponent();
-    void addObjectToGameWorldSystems(GameWorld *gw) override;
+    void addSelfToSystems(GameWorld *gw) override;
+    void removeSelfFromSystems(GameWorld *gw) override;
 };
 
 #endif // COLLISIONCOMPONENT_H
