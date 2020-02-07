@@ -10,7 +10,7 @@ class TransformComponent : public Component
 {
 public:
     TransformComponent();
-    ~TransformComponent();
+    ~TransformComponent() override;
     void addSelfToSystems(GameWorld *gw) override;
     void removeSelfFromSystems(GameWorld *gw) override;
 };

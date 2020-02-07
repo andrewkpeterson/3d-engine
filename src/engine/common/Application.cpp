@@ -56,11 +56,11 @@ void Application::removeScreen(std::string name) {
 }
 
 void Application::onKeyPressed(QKeyEvent *event) {
-    m_current_screen->onKeyPressed(event);
+    Input::onKeyPressed(event);
 }
 
 void Application::onKeyReleased(QKeyEvent *event) {
-    m_current_screen->onKeyReleased(event);
+    Input::onKeyReleased(event);
 }
 
 void Application::onKeyRepeated(QKeyEvent *event) {

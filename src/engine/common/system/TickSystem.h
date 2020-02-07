@@ -7,7 +7,7 @@ class TickSystem : public System
 {
 public:
     TickSystem();
-    ~TickSystem();
+    ~TickSystem() override;
 };
 
 #endif // TICKSYSTEM_H

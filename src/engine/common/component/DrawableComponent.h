@@ -8,7 +8,7 @@ class DrawableComponent : public Component
 {
 public:
     DrawableComponent();
-    ~DrawableComponent();
+    ~DrawableComponent() override;
     void addSelfToSystems(GameWorld *gw) override;
     void removeSelfFromSystems(GameWorld *gw) override;
 };

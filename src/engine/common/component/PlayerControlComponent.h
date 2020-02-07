@@ -10,7 +10,7 @@ class PlayerControlComponent : public Component
 {
 public:
     PlayerControlComponent();
-    ~PlayerControlComponent();
+    ~PlayerControlComponent() override;
     void addSelfToSystems(GameWorld *gw) override;
     void removeSelfFromSystems(GameWorld *gw) override;
 };

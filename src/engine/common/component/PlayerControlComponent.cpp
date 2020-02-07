@@ -13,9 +13,9 @@ PlayerControlComponent::~PlayerControlComponent()
 
 void PlayerControlComponent::addSelfToSystems(GameWorld *gw)
 {
-    gw->getSystem("TickSystem")->addComponent(this);
+    //gw->getSystem("TickSystem")->addComponent(this);
 }
 
 void PlayerControlComponent::removeSelfFromSystems(GameWorld *gw) {
-    gw->getSystem("TickSystem")->addComponent(this);
+    //gw->getSystem("TickSystem")->addComponent(this);
 }

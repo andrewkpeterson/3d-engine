@@ -19,7 +19,4 @@ public:
     static std::map<std::string, bool> m_controlstates;
 };
 
-std::map<std::string, bool> Input::m_controlstates = {{"W",false}, {"A",false}, {"S",false}, {"D",false},
-                                                      {"R",false}, {"SPACE",false},{"MOUSE",false}};
-
 #endif // INPUT_H

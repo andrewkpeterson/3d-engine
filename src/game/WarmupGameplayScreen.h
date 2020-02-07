@@ -7,7 +7,7 @@
 #include "src/engine/common/Screen.h"
 #include "src/engine/graphics/Camera.h"
 
-class WarmupGameplayScreen  : public Screen
+class WarmupGameplayScreen : public Screen
 {
 public:
     WarmupGameplayScreen(Graphics *g, WarmupApplication *parent);

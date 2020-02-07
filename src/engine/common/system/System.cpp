@@ -15,10 +15,6 @@ void System::tick() {
 
 }
 
-void System::draw(Graphics *g) {
-
-}
-
 void System::addComponent(Component *component) {
     m_components.insert(component);
 }

@@ -7,7 +7,9 @@ class DrawSystem : public System
 {
 public:
     DrawSystem();
-    ~DrawSystem();
+    ~DrawSystem() override;
+
+    void draw(Graphics *g);
 
 
 };

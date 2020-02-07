@@ -7,7 +7,7 @@ class CollisionSystem : public System
 {
 public:
     CollisionSystem();
-    ~CollisionSystem();
+    ~CollisionSystem() override;
 };
 
 #endif // COLLISIONSYSTEM_H

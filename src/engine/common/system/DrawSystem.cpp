@@ -10,3 +10,7 @@ DrawSystem::~DrawSystem()
 {
 
 }
+
+void DrawSystem::draw(Graphics *g) {
+
+}

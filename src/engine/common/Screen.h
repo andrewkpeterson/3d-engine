@@ -31,7 +31,6 @@ public:
     virtual void restartScreen();
 
 protected:
-    std::map<std::string, bool> m_controlstates;
     Application *m_parent;
     std::map<std::string, std::shared_ptr<GameWorld>> m_gameworlds;
 };

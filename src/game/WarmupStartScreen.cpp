@@ -1,4 +1,5 @@
 #include "WarmupStartScreen.h"
+#include "src/engine/util/Input.h"
 
 WarmupStartScreen::WarmupStartScreen(Graphics *g, WarmupApplication *parent_app) :
     Screen(parent_app)
@@ -25,7 +26,9 @@ void WarmupStartScreen::draw(Graphics *g) {
 }
 
 void WarmupStartScreen::tick(float seconds) {
-
+    if (Input::getPressed("MOUSE")) {
+        m_parent->changeScreen("gameplay");
+    }
 }
 
 void WarmupStartScreen::restartScreen() {

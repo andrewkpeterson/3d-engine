@@ -8,7 +8,7 @@ class CollisionComponent : public Component
 {
 public:
     CollisionComponent();
-    ~CollisionComponent();
+    ~CollisionComponent() override;
     void addSelfToSystems(GameWorld *gw) override;
     void removeSelfFromSystems(GameWorld *gw) override;
 };

@@ -10,19 +10,21 @@ GameObject::~GameObject()
 
 }
 
+/*
 void GameObject::addComponent(std::shared_ptr<Component> component) {
     m_components[component->getName()] = component;
 }
-
+*/
 
 void GameObject::removeComponent(std::string name) {
     m_components.erase(name);
 }
 
-
+/*
 std::shared_ptr<Component> GameObject::getComponent(std::string name) {
     return m_components.at(name);
 }
+*/
 
 void GameObject::addComponentsToSystems()
 {

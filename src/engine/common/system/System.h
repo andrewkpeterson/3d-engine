@@ -2,6 +2,7 @@
 #define SYSTEM_H
 
 #include "src/engine/util/CommonIncludes.h"
+#include "src/engine/util/TypeMap.h"
 #include <memory>
 #include <vector>
 #include <unordered_set>
@@ -15,10 +16,9 @@ class System
 {
 public:
     System(std::string str);
-    ~System();
+    virtual ~System();
 
     virtual void tick();
-    virtual void draw(Graphics *g);
     void addComponent(Component *component);
     void removeComponent(Component *component);
     const std::string getName();

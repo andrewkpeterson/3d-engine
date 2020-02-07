@@ -51,7 +51,7 @@ void WarmupGameplayScreen::tick(float seconds) {
     }
 
     // handle jumping
-    if (m_controlstates["SPACE"] && !off_ground) {
+    if (Input::getPressed("SPACE") && !off_ground) {
         std::cout << "jumped" << std::endl;
         off_ground = true;
         y_vel = JUMP_SPEED;

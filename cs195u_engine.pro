@@ -61,7 +61,9 @@ SOURCES += \
     src/engine/common/component/PlayerControlComponent.cpp \
     src/engine/common/system/DrawSystem.cpp \
     src/engine/common/system/CollisionSystem.cpp \
-    src/engine/util/Input.cpp
+    src/engine/util/Input.cpp \
+    src/engine/common/system/ControlCallbackSystem.cpp \
+    src/engine/util/TypeMap.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -113,7 +115,9 @@ HEADERS += \
     src/engine/common/component/PlayerControlComponent.h \
     src/engine/common/system/DrawSystem.h \
     src/engine/common/system/CollisionSystem.h \
-    src/engine/util/Input.h
+    src/engine/util/Input.h \
+    src/engine/common/system/ControlCallbackSystem.h \
+    src/engine/util/TypeMap.h
 
 FORMS += src/mainwindow.ui
 
