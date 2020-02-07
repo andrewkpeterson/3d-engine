@@ -29,13 +29,19 @@ public:
 
     template <typename Comp>
     void addComponent(std::shared_ptr<Comp> &&c) {
-      comps.put<Comp>(std::forward<std::shared_ptr<Comp>>(c));
+      m_components.put<Comp>(std::forward<std::shared_ptr<Comp>>(c));
     }
-    void removeComponent(std::string name);
+
+    template <typename Comp>
+    void removeSystem() {
+        m_components.remove<Comp>();
+    }
+
+    //void removeComponent(std::string name);
     template <typename Comp>
     Comp* getComponent() {
-        auto it = comps.find<Comp>();
-        assert(it != comps.end());
+        auto it = m_components.find<Comp>();
+        assert(it != m_components.end());
         return static_cast<Comp*>(it->second.get());
     }
     //void addComponent(std::shared_ptr<Component> component);
@@ -45,8 +51,8 @@ public:
     std::shared_ptr<GameWorld> getGameWorld();
 
 private:
-    std::map<std::string, std::shared_ptr<Component>> m_components;
-    TypeMap<std::shared_ptr<Component>> comps;
+    //std::map<std::string, std::shared_ptr<Component>> m_components;
+    TypeMap<std::shared_ptr<Component>> m_components;
     std::shared_ptr<GameWorld> m_gw;
 
 };

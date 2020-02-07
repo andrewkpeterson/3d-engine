@@ -16,6 +16,11 @@ class Graphics;
 class System;
 class Screen;
 
+
+/**
+ * A GameWorld is controlled by a Screen. The initial Systems and GameObjects of a
+ * Screen are created in the game-defined Screen subclass' constructor.
+ */
 class GameWorld
 {
 public:
@@ -51,7 +56,7 @@ public:
     //std::shared_ptr<System> getSystem(std::string name);
 
 private:
-    std::map<std::string, Screen*> m_screens; // reference to screens that control this GameWorld
+    Screen* m_screen;
     std::unordered_set<std::shared_ptr<GameObject>> m_gameobjects;
     TypeMap<std::shared_ptr<System>> m_systems;
     //std::map<std::string, std::shared_ptr<System>> m_systems;

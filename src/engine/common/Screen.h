@@ -9,7 +9,14 @@
 class Application;
 class GameWorld;
 
-class Screen : std::enable_shared_from_this<Screen>
+/**
+ * A screen handles its GameWorld and game-side subclasses can define behavior
+ * for screens to receive information from other screens.
+ *
+ * The Systems and initial GameObjects in the GameWorld of the Screen are
+ * initialized in the constructor of the game-defined subclasses of Screen.
+ */
+class Screen
 {
 public:
     Screen(Application *parent);
@@ -29,10 +36,6 @@ public:
     virtual void onWheelEvent(QWheelEvent *event) = 0;
 
     virtual void restartScreen();
-
-    std::shared_ptr<Screen> getSharedPtr() {
-        return shared_from_this();
-    }
 
 protected:
     Application *m_parent;

@@ -8,6 +8,10 @@
 #include "src/engine/graphics/Graphics.h"
 #include "src/engine/common/Screen.h"
 
+/**
+ * The Application is in charge of creating screens and changing between them.
+ * Information can be shared between screens using game-side methods.
+ */
 class Application
 {
 public:

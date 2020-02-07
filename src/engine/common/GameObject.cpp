@@ -16,9 +16,11 @@ void GameObject::addComponent(std::shared_ptr<Component> component) {
 }
 */
 
+/*
 void GameObject::removeComponent(std::string name) {
     m_components.erase(name);
 }
+*/
 
 /*
 std::shared_ptr<Component> GameObject::getComponent(std::string name) {
@@ -28,7 +30,7 @@ std::shared_ptr<Component> GameObject::getComponent(std::string name) {
 
 void GameObject::addComponentsToSystems()
 {
-    std::map<std::string, std::shared_ptr<Component>>::iterator it = m_components.begin();
+    auto it = m_components.begin();
     while (it != m_components.end()) {
         it->second->addSelfToSystems(m_gw);
         it++;
@@ -37,7 +39,7 @@ void GameObject::addComponentsToSystems()
 
 void GameObject::removeComponentsFromSystems()
 {
-    std::map<std::string, std::shared_ptr<Component>>::iterator it = m_components.begin();
+    auto it = m_components.begin();
     while (it != m_components.end()) {
         it->second->removeSelfFromSystems(m_gw);
         it++;
