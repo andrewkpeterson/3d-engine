@@ -1,6 +1,7 @@
 #ifndef TYPEMAP_H
 #define TYPEMAP_H
 
+// from https://gpfault.net/posts/mapping-types-to-values.txt.html
 
 // In a header file:
 #include <atomic>

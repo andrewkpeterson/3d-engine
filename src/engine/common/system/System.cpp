@@ -1,8 +1,8 @@
 #include "System.h"
 
 System::System(std::string str, std::shared_ptr<GameWorld> gameworld) :
-    name(str),
-    m_gameworld(gameworld)
+    m_gameworld(gameworld),
+    name(str)
 {
 
 }
@@ -16,12 +16,12 @@ void System::tick() {
 
 }
 
-void System::addGameObject(std::shared_ptr<GameObject> gameobject) {
-    m_gameobjects.insert(gameobject);
+void System::addComponent(std::shared_ptr<Component> component) {
+    m_components.insert(component);
 }
 
-void System::removeGameObject(std::shared_ptr<GameObject> gameobject) {
-    m_gameobjects.erase(gameobject);
+void System::removeComponent(std::shared_ptr<Component> component) {
+    m_components.erase(component);
 }
 
 const std::string System::getName() {

@@ -26,6 +26,7 @@ public:
     virtual void draw(Graphics *g);
 
     virtual void resize(int width, int height);
+    virtual void restartApplication();
 
     virtual void initializeGameWorld() = 0;
 

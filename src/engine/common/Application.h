@@ -6,7 +6,8 @@
 #include <memory>
 
 #include "src/engine/graphics/Graphics.h"
-#include "src/engine/common/Screen.h"
+
+class Screen;
 
 /**
  * The Application is in charge of creating screens and changing between them.

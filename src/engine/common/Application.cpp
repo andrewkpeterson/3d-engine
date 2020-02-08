@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "src/engine/util/Input.h"
+#include "src/engine/common/Screen.h"
 
 Application::Application() :
     m_current_screen(nullptr),

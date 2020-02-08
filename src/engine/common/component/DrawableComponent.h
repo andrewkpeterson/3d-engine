@@ -20,7 +20,6 @@ private:
     std::string m_matname;
     std::string m_geometry;
     Graphics *g;
-
 };
 
 #endif // DRAWABLECOMPONENT_H

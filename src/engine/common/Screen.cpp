@@ -1,4 +1,5 @@
 #include "Screen.h"
+#include "Application.h"
 
 Screen::Screen(Application *parent) :
     m_parent(parent),
@@ -22,6 +23,10 @@ void Screen::draw(Graphics *g) {
 
 void Screen::resize(int width, int height) {
     m_gameworld->resize(width, height);
+}
+
+void Screen::restartApplication() {
+    m_parent->restart();
 }
 
 void Screen::onKeyPressed(QKeyEvent *event) {

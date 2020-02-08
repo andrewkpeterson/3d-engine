@@ -1,4 +1,6 @@
 #include "ControlCallbackSystem.h"
+#include "src/engine/common/GameObject.h"
+#include "src/engine/common/component/PlayerControlComponent.h"
 
 ControlCallbackSystem::ControlCallbackSystem(std::shared_ptr<GameWorld> gameworld) :
     System("ControlCallbackSystem", gameworld)
@@ -12,6 +14,7 @@ ControlCallbackSystem::~ControlCallbackSystem()
 }
 
 void ControlCallbackSystem::onKeyPressed(QKeyEvent *event) {
+
 }
 
 void ControlCallbackSystem::onKeyReleased(QKeyEvent *event) {

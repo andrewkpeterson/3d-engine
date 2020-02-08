@@ -20,6 +20,9 @@ public:
     void onMouseReleased(QMouseEvent *event);
     void onMouseDragged(int deltaX, int deltaY);
     void onWheelEvent(QWheelEvent *event);
+
+private:
+
 };
 
 #endif // CONTROLCALLBACKSYSTEM_H

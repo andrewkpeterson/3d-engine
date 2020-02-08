@@ -37,21 +37,18 @@ public:
         m_components.remove<Comp>();
     }
 
-    //void removeComponent(std::string name);
     template <typename Comp>
-    Comp* getComponent() {
+    std::shared_ptr<Comp> getComponent() {
         auto it = m_components.find<Comp>();
         assert(it != m_components.end());
-        return static_cast<Comp*>(it->second.get());
+        return std::dynamic_pointer_cast<Comp>(it->second);
     }
-    //void addComponent(std::shared_ptr<Component> component);
-    //std::shared_ptr<Component> getComponent(std::string name);
+
     void addSelfToSystems();
     void removeSelfFromSystems();
     std::shared_ptr<GameWorld> getGameWorld();
 
 private:
-    //std::map<std::string, std::shared_ptr<Component>> m_components;
     TypeMap<std::shared_ptr<Component>> m_components;
     std::shared_ptr<GameWorld> m_gw;
 

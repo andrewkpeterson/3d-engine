@@ -29,18 +29,6 @@ void GameWorld::resize(int width, int height) {
 
 }
 
-/*
-void GameWorld::addSystem(std::shared_ptr<System> system) {
-    m_systems[system->getName()] = system;
-}
-*/
-
-/*
-void GameWorld::removeSystem(std::shared_ptr<System> system) {
-    m_systems.erase(system->getName());
-}
-*/
-
 void GameWorld::addGameObject(std::shared_ptr<GameObject> object) {
     m_gameobjects.insert(object);
     object->addSelfToSystems();
@@ -50,12 +38,6 @@ void GameWorld::removeGameObject(std::shared_ptr<GameObject> object) {
     object->removeSelfFromSystems();
     m_gameobjects.erase(object);
 }
-
-/*
-std::shared_ptr<System> GameWorld::getSystem(std::string name) {
-    return m_systems.at(name);
-}
-*/
 
 void GameWorld::onKeyPressed(QKeyEvent *event) {
     getSystem<ControlCallbackSystem>()->onKeyPressed(event);

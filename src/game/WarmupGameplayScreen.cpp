@@ -2,12 +2,15 @@
 #include "src/engine/util/Input.h"
 #include "src/engine/common/component/TransformComponent.h"
 #include "src/engine/common/component/DrawableComponent.h"
+#include "src/engine/common/component/CameraComponent.h"
+#include "src/engine/common/system/CameraSystem.h"
 
 WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g, WarmupApplication *parent_app) :
     Screen(parent_app)
 {
 
     initializeGameWorld();
+
     off_ground = false;
     y_vel = 0.0f;
 
@@ -32,10 +35,11 @@ void WarmupGameplayScreen::initializeGameWorld() {
     m_gameworld->addSystem<TickSystem>(std::make_shared<TickSystem>(m_gameworld));
     m_gameworld->addSystem<ControlCallbackSystem>(std::make_shared<ControlCallbackSystem>(m_gameworld));
     m_gameworld->addSystem<CollisionSystem>(std::make_shared<CollisionSystem>(m_gameworld));
+    m_gameworld->addSystem<CameraSystem>(std::make_shared<CameraSystem>(m_gameworld));
 
     //make floor
     std::shared_ptr<GameObject> floor = std::make_shared<GameObject>(m_gameworld);
-    floor->addComponent<TransformComponent>(std::make_shared<TransformComponent>(floor, glm::vec3(0,0,0)));
+    floor->addComponent<TransformComponent>(std::make_shared<TransformComponent>(floor, glm::vec3(0,0,0), 20.0));
     Material floor_mat;
     floor_mat.textureName = "grass";
     floor_mat.textureRepeat = glm::vec2(10,10);
@@ -44,10 +48,14 @@ void WarmupGameplayScreen::initializeGameWorld() {
     std::cout << "hello" << std::endl;
 
     //make camera
-
+    std::shared_ptr<GameObject> player = std::make_shared<GameObject>(m_gameworld);
+    player->addComponent<CameraComponent>(std::make_shared<CameraComponent>(player, glm::vec3(0,1,0), glm::vec3(0,0,1)));
+    m_gameworld->addGameObject(player);
+    m_gameworld->getSystem<CameraSystem>()->setCurrCamComponent(player->getComponent<CameraComponent>());
 
 }
 
+/*
 void WarmupGameplayScreen::draw(Graphics *g) {
     g->setCamera(m_camera);
     g->clearTransform();
@@ -120,5 +128,5 @@ void WarmupGameplayScreen::restartScreen() {
 void WarmupGameplayScreen::resize(int w, int h) {
     m_camera->setScreenSize(glm::vec2(w, h));
 }
-
+*/
 

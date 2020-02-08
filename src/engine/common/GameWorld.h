@@ -43,16 +43,12 @@ public:
     }
 
     template <typename Sys>
-    Sys* getSystem() {
+    std::shared_ptr<Sys> getSystem() {
         auto it = m_systems.find<Sys>();
         assert(it != m_systems.end());
-        return static_cast<Sys*>(it->second.get());
+        return std::dynamic_pointer_cast<Sys>(it->second);
     }
 
-
-    //void addSystem(std::shared_ptr<System> system);
-
-    //void removeSystem(std::shared_ptr<System> system);
     void tick(float seconds);
     void draw(Graphics *g);
     void resize(int width, int height);
@@ -67,14 +63,10 @@ public:
     void onMouseDragged(int deltaX, int deltaY);
     void onWheelEvent(QWheelEvent *event);
 
-    //std::shared_ptr<System> getSystem(std::string name);
-
 private:
     Screen* m_screen;
     std::unordered_set<std::shared_ptr<GameObject>> m_gameobjects;
     TypeMap<std::shared_ptr<System>> m_systems;
-    //std::map<std::string, std::shared_ptr<System>> m_systems;
-
 };
 
 #endif // GAMEWORLD_H

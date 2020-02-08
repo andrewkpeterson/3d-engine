@@ -8,7 +8,6 @@
 #include <unordered_set>
 
 class Graphics;
-class System;
 class GameObject;
 class GameWorld;
 class Component;
@@ -20,12 +19,12 @@ public:
     virtual ~System();
 
     virtual void tick();
-    void addGameObject(std::shared_ptr<GameObject> gameobject);
-    void removeGameObject(std::shared_ptr<GameObject> gameobject);
+    void addComponent(std::shared_ptr<Component> component);
+    void removeComponent(std::shared_ptr<Component> component);
     const std::string getName();
 
 protected:
-    std::unordered_set<std::shared_ptr<GameObject>> m_gameobjects;
+    std::unordered_set<std::shared_ptr<Component>> m_components;
     std::shared_ptr<GameWorld> m_gameworld;
     const std::string name;
 };

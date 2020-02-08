@@ -13,9 +13,9 @@ CollisionComponent::~CollisionComponent()
 }
 
 void CollisionComponent::addGameObjectToSystems() {
-    m_gameobject->getGameWorld()->getSystem<CollisionSystem>()->addGameObject(m_gameobject);
+    m_gameobject->getGameWorld()->getSystem<CollisionSystem>()->addComponent(getSharedPtr());
 }
 
 void CollisionComponent::removeGameObjectFromSystems() {
-    m_gameobject->getGameWorld()->getSystem<CollisionSystem>()->removeGameObject(m_gameobject);
+    m_gameobject->getGameWorld()->getSystem<CollisionSystem>()->removeComponent(getSharedPtr());
 }

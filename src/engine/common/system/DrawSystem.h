@@ -11,7 +11,8 @@ public:
 
     void draw(Graphics *g);
 
-
+private:
+    Graphics *g;
 };
 
 #endif // DRAWSYSTEM_H

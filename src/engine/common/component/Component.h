@@ -2,6 +2,7 @@
 #define COMPONENT_H
 
 #include "src/engine/util/CommonIncludes.h"
+#include "src/engine/graphics/Graphics.h"
 #include <memory>
 
 class GameObject;
