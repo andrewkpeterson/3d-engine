@@ -6,7 +6,7 @@
 class DrawSystem : public System
 {
 public:
-    DrawSystem();
+    DrawSystem(std::shared_ptr<GameWorld> gameworld);
     ~DrawSystem() override;
 
     void draw(Graphics *g);

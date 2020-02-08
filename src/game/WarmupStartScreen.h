@@ -17,6 +17,7 @@ public:
     void draw(Graphics *g) override;
     void resize(int w, int h) override;
     void restartScreen() override;
+    void initializeGameWorld() override;
 
     void onKeyRepeated(QKeyEvent *event) override {}
     void onMousePressed(QMouseEvent *event) override;

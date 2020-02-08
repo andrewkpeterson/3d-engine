@@ -6,8 +6,10 @@
 class TickSystem : public System
 {
 public:
-    TickSystem();
+    TickSystem(std::shared_ptr<GameWorld> gameworld);
     ~TickSystem() override;
+
+    void tick(float seconds);
 };
 
 #endif // TICKSYSTEM_H

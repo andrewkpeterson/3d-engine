@@ -1,9 +1,13 @@
 #include "WarmupGameplayScreen.h"
 #include "src/engine/util/Input.h"
+#include "src/engine/common/component/TransformComponent.h"
+#include "src/engine/common/component/DrawableComponent.h"
 
 WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g, WarmupApplication *parent_app) :
     Screen(parent_app)
 {
+
+    initializeGameWorld();
     off_ground = false;
     y_vel = 0.0f;
 
@@ -21,6 +25,27 @@ WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g, WarmupApplication *paren
 }
 
 WarmupGameplayScreen::~WarmupGameplayScreen() {
+}
+
+void WarmupGameplayScreen::initializeGameWorld() {
+    m_gameworld->addSystem<DrawSystem>(std::make_shared<DrawSystem>(m_gameworld));
+    m_gameworld->addSystem<TickSystem>(std::make_shared<TickSystem>(m_gameworld));
+    m_gameworld->addSystem<ControlCallbackSystem>(std::make_shared<ControlCallbackSystem>(m_gameworld));
+    m_gameworld->addSystem<CollisionSystem>(std::make_shared<CollisionSystem>(m_gameworld));
+
+    //make floor
+    std::shared_ptr<GameObject> floor = std::make_shared<GameObject>(m_gameworld);
+    floor->addComponent<TransformComponent>(std::make_shared<TransformComponent>(floor, glm::vec3(0,0,0)));
+    Material floor_mat;
+    floor_mat.textureName = "grass";
+    floor_mat.textureRepeat = glm::vec2(10,10);
+    floor->addComponent<DrawableComponent>(std::make_shared<DrawableComponent>(floor, "quad", "grassTexture", floor_mat));
+    m_gameworld->addGameObject(floor);
+    std::cout << "hello" << std::endl;
+
+    //make camera
+
+
 }
 
 void WarmupGameplayScreen::draw(Graphics *g) {

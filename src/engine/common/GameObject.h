@@ -24,7 +24,7 @@ class GameWorld;
 class GameObject
 {
 public:
-    GameObject();
+    GameObject(std::shared_ptr<GameWorld> gameworld);
     ~GameObject();
 
     template <typename Comp>
@@ -46,8 +46,8 @@ public:
     }
     //void addComponent(std::shared_ptr<Component> component);
     //std::shared_ptr<Component> getComponent(std::string name);
-    void addComponentsToSystems();
-    void removeComponentsFromSystems();
+    void addSelfToSystems();
+    void removeSelfFromSystems();
     std::shared_ptr<GameWorld> getGameWorld();
 
 private:

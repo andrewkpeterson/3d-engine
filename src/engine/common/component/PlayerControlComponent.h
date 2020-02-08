@@ -6,13 +6,16 @@
 
 class GameWorld;
 
+/**
+ * Controls the
+ */
 class PlayerControlComponent : public Component
 {
 public:
-    PlayerControlComponent();
+    PlayerControlComponent(std::shared_ptr<GameObject> gameobject);
     ~PlayerControlComponent() override;
-    void addSelfToSystems(std::shared_ptr<GameWorld> gw) override;
-    void removeSelfFromSystems(std::shared_ptr<GameWorld> gw) override;
+    void addGameObjectToSystems() override;
+    void removeGameObjectFromSystems() override;
 };
 
 #endif // PLAYERCONTROLCOMPONENT_H

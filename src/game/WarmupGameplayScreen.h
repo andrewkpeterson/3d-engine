@@ -7,6 +7,11 @@
 #include "src/engine/common/Screen.h"
 #include "src/engine/graphics/Camera.h"
 
+#include "src/engine/common/system/CollisionSystem.h"
+#include "src/engine/common/system/DrawSystem.h"
+#include "src/engine/common/system/TickSystem.h"
+#include "src/engine/common/system/ControlCallbackSystem.h"
+
 class WarmupGameplayScreen : public Screen
 {
 public:
@@ -18,6 +23,7 @@ public:
     void resize(int w, int h) override;
     void restartApplication();
     void restartScreen() override;
+    void initializeGameWorld() override;
 
     void onKeyRepeated(QKeyEvent *event) override {}
     void onMousePressed(QMouseEvent *event) override {}

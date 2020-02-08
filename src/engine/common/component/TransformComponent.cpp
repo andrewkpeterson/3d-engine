@@ -1,7 +1,8 @@
 #include "TransformComponent.h"
 
-TransformComponent::TransformComponent() :
-    Component("TransformComponent")
+TransformComponent::TransformComponent(std::shared_ptr<GameObject> gameobject, glm::vec3 pos) :
+    Component("TransformComponent", gameobject),
+    m_pos(pos)
 {
 
 }
@@ -11,11 +12,15 @@ TransformComponent::~TransformComponent()
 
 }
 
-void TransformComponent::addSelfToSystems(std::shared_ptr<GameWorld> gw)
+void TransformComponent::addGameObjectToSystems()
 {
-    //gw->getSystem("TickSystem")->addComponent(this);
+
 }
 
-void TransformComponent::removeSelfFromSystems(std::shared_ptr<GameWorld> gw) {
-    //gw->getSystem("TickSystem")->addComponent(this);
+void TransformComponent::removeGameObjectFromSystems() {
+
+}
+
+void TransformComponent::setObjectTransform() {
+
 }

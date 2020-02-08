@@ -16,6 +16,10 @@ WarmupStartScreen::~WarmupStartScreen()
 
 }
 
+void WarmupStartScreen::initializeGameWorld() {
+
+}
+
 void WarmupStartScreen::draw(Graphics *g) {
     g->setCamera(m_camera);
 

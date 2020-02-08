@@ -5,9 +5,9 @@
 #include <map>
 
 #include "src/engine/graphics/Graphics.h"
+#include "src/engine/common/GameWorld.h"
 
 class Application;
-class GameWorld;
 
 /**
  * A screen handles its GameWorld and game-side subclasses can define behavior
@@ -22,18 +22,20 @@ public:
     Screen(Application *parent);
     virtual ~Screen();
 
-    virtual void tick(float seconds) = 0;
-    virtual void draw(Graphics *g) = 0;
+    virtual void tick(float seconds);
+    virtual void draw(Graphics *g);
 
-    virtual void resize(int width, int height) = 0;
+    virtual void resize(int width, int height);
+
+    virtual void initializeGameWorld() = 0;
 
     virtual void onKeyPressed(QKeyEvent *event);
     virtual void onKeyReleased(QKeyEvent *event);
-    virtual void onKeyRepeated(QKeyEvent *event) = 0;
+    virtual void onKeyRepeated(QKeyEvent *event);
     virtual void onMousePressed(QMouseEvent *event);
     virtual void onMouseReleased(QMouseEvent *event);
-    virtual void onMouseDragged(int deltaX, int deltaY) = 0;
-    virtual void onWheelEvent(QWheelEvent *event) = 0;
+    virtual void onMouseDragged(int deltaX, int deltaY);
+    virtual void onWheelEvent(QWheelEvent *event);
 
     virtual void restartScreen();
 

@@ -1,7 +1,8 @@
 #include "Component.h"
 
-Component::Component(std::string str) :
-    name(str)
+Component::Component(std::string str, std::shared_ptr<GameObject> gameobject) :
+    name(str),
+    m_gameobject(gameobject)
 {
 
 }

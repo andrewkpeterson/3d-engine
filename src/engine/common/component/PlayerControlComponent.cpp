@@ -1,7 +1,8 @@
 #include "PlayerControlComponent.h"
+#include "src/engine/common/system/TickSystem.h"
 
-PlayerControlComponent::PlayerControlComponent() :
-    Component("PlayerControlComponent")
+PlayerControlComponent::PlayerControlComponent(std::shared_ptr<GameObject> gameobject) :
+    Component("PlayerControlComponent", gameobject)
 {
 
 }
@@ -11,11 +12,11 @@ PlayerControlComponent::~PlayerControlComponent()
 
 }
 
-void PlayerControlComponent::addSelfToSystems(std::shared_ptr<GameWorld> gw)
+void PlayerControlComponent::addGameObjectToSystems()
 {
-    //gw->getSystem("TickSystem")->addComponent(this);
+    m_gameobject->getGameWorld()->getSystem<TickSystem>()->addGameObject(m_gameobject);
 }
 
-void PlayerControlComponent::removeSelfFromSystems(std::shared_ptr<GameWorld> gw) {
-    //gw->getSystem("TickSystem")->addComponent(this);
+void PlayerControlComponent::removeGameObjectFromSystems() {
+    m_gameobject->getGameWorld()->getSystem<TickSystem>()->removeGameObject(m_gameobject);
 }

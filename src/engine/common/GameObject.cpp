@@ -1,6 +1,7 @@
 #include "GameObject.h"
 
-GameObject::GameObject()
+GameObject::GameObject(std::shared_ptr<GameWorld> gameworld) :
+    m_gw(gameworld)
 {
 
 }
@@ -28,20 +29,20 @@ std::shared_ptr<Component> GameObject::getComponent(std::string name) {
 }
 */
 
-void GameObject::addComponentsToSystems()
+void GameObject::addSelfToSystems()
 {
     auto it = m_components.begin();
     while (it != m_components.end()) {
-        it->second->addSelfToSystems(m_gw);
+        it->second->addGameObjectToSystems();
         it++;
     }
 }
 
-void GameObject::removeComponentsFromSystems()
+void GameObject::removeSelfFromSystems()
 {
     auto it = m_components.begin();
     while (it != m_components.end()) {
-        it->second->removeSelfFromSystems(m_gw);
+        it->second->removeGameObjectFromSystems();
         it++;
     }
 }

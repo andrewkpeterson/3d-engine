@@ -10,10 +10,10 @@ class GameWorld;
 class Component : public std::enable_shared_from_this<Component>
 {
 public:
-    Component(std::string str);
+    Component(std::string str, std::shared_ptr<GameObject> gameobject);
     virtual ~Component();
-    virtual void addSelfToSystems(std::shared_ptr<GameWorld> gw) = 0;
-    virtual void removeSelfFromSystems(std::shared_ptr<GameWorld> gw) = 0;
+    virtual void addGameObjectToSystems() = 0;
+    virtual void removeGameObjectFromSystems() = 0;
     const std::string getName();
     std::shared_ptr<Component> getSharedPtr() {
         return shared_from_this();

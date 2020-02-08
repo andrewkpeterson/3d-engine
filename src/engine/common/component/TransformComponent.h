@@ -9,10 +9,14 @@ class GameWorld;
 class TransformComponent : public Component
 {
 public:
-    TransformComponent();
+    TransformComponent(std::shared_ptr<GameObject> gameobject, glm::vec3 pos);
     ~TransformComponent() override;
-    void addSelfToSystems(std::shared_ptr<GameWorld> gw) override;
-    void removeSelfFromSystems(std::shared_ptr<GameWorld> gw) override;
+    void addGameObjectToSystems() override;
+    void removeGameObjectFromSystems() override;
+
+    void setObjectTransform();
+private:
+    glm::vec3 m_pos;
 };
 
 #endif // TRANSFORMCOMPONENT_H

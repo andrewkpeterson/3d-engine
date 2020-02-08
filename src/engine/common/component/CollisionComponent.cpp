@@ -1,8 +1,8 @@
 #include "CollisionComponent.h"
 #include "src/engine/common/system/CollisionSystem.h"
 
-CollisionComponent::CollisionComponent() :
-    Component("CollisionComponent")
+CollisionComponent::CollisionComponent(std::shared_ptr<GameObject> gameobject) :
+    Component("CollisionComponent", gameobject)
 {
 
 }
@@ -12,12 +12,10 @@ CollisionComponent::~CollisionComponent()
 
 }
 
-void CollisionComponent::addSelfToSystems(std::shared_ptr<GameWorld> gw) {
-    //gw->getSystem("CollisionSystem")->addComponent(this);
-    gw->getSystem<CollisionSystem>()->addComponent(getSharedPtr());
+void CollisionComponent::addGameObjectToSystems() {
+    m_gameobject->getGameWorld()->getSystem<CollisionSystem>()->addGameObject(m_gameobject);
 }
 
-void CollisionComponent::removeSelfFromSystems(std::shared_ptr<GameWorld> gw) {
-    //gw->getSystem("CollisionSystem")->removeComponent(this);
-    gw->getSystem<CollisionSystem>()->removeComponent(getSharedPtr());
+void CollisionComponent::removeGameObjectFromSystems() {
+    m_gameobject->getGameWorld()->getSystem<CollisionSystem>()->removeGameObject(m_gameobject);
 }

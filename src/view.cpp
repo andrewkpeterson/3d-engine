@@ -6,6 +6,7 @@
 #include "engine/graphics/Camera.h"
 #include "engine/graphics/Material.h"
 #include "engine/common/GameWorld.h"
+#include "engine/common/system/System.h"
 
 #include <QApplication>
 #include <QKeyEvent>
@@ -91,7 +92,6 @@ void View::initializeGL()
 
     // TODO (Warmup 1): Initialize application
     app = std::make_unique<WarmupApplication>();
-    GameWorld();
 }
 
 void View::paintGL()

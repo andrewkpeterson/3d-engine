@@ -1,7 +1,7 @@
 #include "CollisionSystem.h"
 
-CollisionSystem::CollisionSystem() :
-    System("CollisionSystem")
+CollisionSystem::CollisionSystem(std::shared_ptr<GameWorld> gameworld) :
+    System("CollisionSystem", gameworld)
 {
 
 }
