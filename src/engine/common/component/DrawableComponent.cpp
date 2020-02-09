@@ -4,7 +4,7 @@
 
 DrawableComponent::DrawableComponent(std::shared_ptr<GameObject> gameobject, std::string geometry,
                                      std::string matname, Material material) :
-    Component("DrawableComponent", gameobject),
+    Component(gameobject),
     m_material(material),
     m_matname(matname),
     m_geometry(geometry)
@@ -20,11 +20,11 @@ DrawableComponent::~DrawableComponent()
 
 void DrawableComponent::addGameObjectToSystems()
 {
-    m_gameobject->getGameWorld()->getSystem<DrawSystem>()->addComponent(getSharedPtr());
+    m_gameobject->getGameWorld()->getSystem<DrawSystem>()->addComponent(this);
 }
 
 void DrawableComponent::removeGameObjectFromSystems() {
-    m_gameobject->getGameWorld()->getSystem<DrawSystem>()->removeComponent(getSharedPtr());
+    m_gameobject->getGameWorld()->getSystem<DrawSystem>()->removeComponent(this);
 }
 
 void DrawableComponent::drawSelf() {

@@ -2,10 +2,9 @@
 #include "Application.h"
 
 Screen::Screen(Application *parent) :
-    m_parent(parent),
-    m_gameworld(std::make_shared<GameWorld>(this))
+    m_app(parent)
 {
-
+    m_gameworld = std::make_shared<GameWorld>(this);
 }
 
 Screen::~Screen()
@@ -25,8 +24,8 @@ void Screen::resize(int width, int height) {
     m_gameworld->resize(width, height);
 }
 
-void Screen::restartApplication() {
-    m_parent->restart();
+void Screen::setAppReadyToRestart() {
+    m_app->setReadyToRestart();
 }
 
 void Screen::onKeyPressed(QKeyEvent *event) {

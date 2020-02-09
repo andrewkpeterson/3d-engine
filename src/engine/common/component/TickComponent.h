@@ -6,9 +6,9 @@
 class TickComponent : public Component
 {
 public:
-    TickComponent(std::string str, std::shared_ptr<GameObject> gameobject);
+    TickComponent(std::shared_ptr<GameObject> gameobject);
     ~TickComponent();
-    virtual void tick() = 0;
+    virtual void tick(float seconds) = 0;
 };
 
 #endif // TICKCOMPONENT_H

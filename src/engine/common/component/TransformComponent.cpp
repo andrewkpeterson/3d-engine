@@ -1,7 +1,7 @@
 #include "TransformComponent.h"
 
 TransformComponent::TransformComponent(std::shared_ptr<GameObject> gameobject, glm::vec3 pos, float scale) :
-    Component("TransformComponent", gameobject),
+    Component(gameobject),
     m_pos(pos),
     m_scale(scale)
 {
@@ -13,8 +13,7 @@ TransformComponent::~TransformComponent()
 
 }
 
-void TransformComponent::addGameObjectToSystems()
-{
+void TransformComponent::addGameObjectToSystems() {
 
 }
 

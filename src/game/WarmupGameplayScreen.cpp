@@ -3,28 +3,13 @@
 #include "src/engine/common/component/TransformComponent.h"
 #include "src/engine/common/component/DrawableComponent.h"
 #include "src/engine/common/component/CameraComponent.h"
+#include "src/engine/common/component/PlayerControlComponent.h"
 #include "src/engine/common/system/CameraSystem.h"
 
 WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g, WarmupApplication *parent_app) :
     Screen(parent_app)
 {
-
     initializeGameWorld();
-
-    off_ground = false;
-    y_vel = 0.0f;
-
-    m_camera = std::make_shared<Camera>();
-    m_camera->setEye(glm::vec3(1,1,1));
-    m_camera->setLook(glm::vec3(0,0,1));
-    Material myFirstMaterial;
-    myFirstMaterial.color = glm::vec3(0, 1, 0);
-    g->addMaterial("boringGreen", myFirstMaterial);
-
-    Material mySecondMaterial;
-    mySecondMaterial.textureName = "grass";
-    mySecondMaterial.textureRepeat = glm::vec2(10,10);
-    g->addMaterial("grassMaterial", mySecondMaterial);
 }
 
 WarmupGameplayScreen::~WarmupGameplayScreen() {
@@ -45,13 +30,14 @@ void WarmupGameplayScreen::initializeGameWorld() {
     floor_mat.textureRepeat = glm::vec2(10,10);
     floor->addComponent<DrawableComponent>(std::make_shared<DrawableComponent>(floor, "quad", "grassTexture", floor_mat));
     m_gameworld->addGameObject(floor);
-    std::cout << "hello" << std::endl;
 
     //make camera
     std::shared_ptr<GameObject> player = std::make_shared<GameObject>(m_gameworld);
     player->addComponent<CameraComponent>(std::make_shared<CameraComponent>(player, glm::vec3(0,1,0), glm::vec3(0,0,1)));
+    player->addComponent<PlayerControlComponent>(std::make_shared<PlayerControlComponent>(player));
+    player->addComponent<TransformComponent>(std::make_shared<TransformComponent>(player, glm::vec3(0,1,0), 1.0));
     m_gameworld->addGameObject(player);
-    m_gameworld->getSystem<CameraSystem>()->setCurrCamComponent(player->getComponent<CameraComponent>());
+    m_gameworld->getSystem<CameraSystem>()->setCurrCamComponent(player->getComponent<CameraComponent>().get());
 
 }
 

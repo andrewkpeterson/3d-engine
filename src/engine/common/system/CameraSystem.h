@@ -2,8 +2,7 @@
 #define CAMERASYSTEM_H
 
 #include "System.h"
-
-class CameraComponent;
+#include "src/engine/common/component/CameraComponent.h"
 
 /**
  * The CameraSystem contains all the objects with cameras in the GameWorld.
@@ -15,15 +14,16 @@ public:
     CameraSystem(std::shared_ptr<GameWorld> gameworld);
     ~CameraSystem();
 
-    void addComponent(std::shared_ptr<CameraComponent> component);
-    void removeComponent(std::shared_ptr<CameraComponent> component);
+    void addComponent(CameraComponent *component);
+    void removeComponent(CameraComponent *component);
 
-    void setCurrCamComponent(std::shared_ptr<CameraComponent>);
-    std::shared_ptr<CameraComponent> getCurrCamComponent();
+    void setCurrCamComponent(CameraComponent *component);
+    CameraComponent *getCurrCamComponent();
+    void resizeCameras(int width, int height);
 
 private:
-    std::unordered_set<std::shared_ptr<CameraComponent>> m_components;
-    std::shared_ptr<CameraComponent> m_currcam;
+    std::unordered_set<CameraComponent*> m_components;
+    CameraComponent *m_currcam;
 };
 
 #endif // CAMERASYSTEM_H

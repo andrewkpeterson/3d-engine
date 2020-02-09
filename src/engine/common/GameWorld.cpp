@@ -19,6 +19,7 @@ GameWorld::~GameWorld()
 
 void GameWorld::tick(float seconds) {
     getSystem<TickSystem>()->tick(seconds);
+    getSystem<CollisionSystem>()->tick(seconds);
 }
 
 void GameWorld::draw(Graphics *g) {
@@ -26,7 +27,7 @@ void GameWorld::draw(Graphics *g) {
 }
 
 void GameWorld::resize(int width, int height) {
-
+    getSystem<CameraSystem>()->resizeCameras(width, height);
 }
 
 void GameWorld::addGameObject(std::shared_ptr<GameObject> object) {
@@ -65,4 +66,8 @@ void GameWorld::onMouseDragged(int deltaX, int deltaY) {
 
 void GameWorld::onWheelEvent(QWheelEvent *event) {
     getSystem<ControlCallbackSystem>()->onWheelEvent(event);
+}
+
+Screen *GameWorld::getScreen() {
+    return m_screen;
 }

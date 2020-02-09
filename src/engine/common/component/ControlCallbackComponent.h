@@ -5,19 +5,23 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 
-class ControlCallbackComponent
+#include "TickComponent.h"
+
+class ControlCallbackComponent : public TickComponent
 {
 public:
-    ControlCallbackComponent();
+    ControlCallbackComponent(std::shared_ptr<GameObject> gameobject);
     ~ControlCallbackComponent();
 
-    virtual void onKeyPressed(QKeyEvent *event);
-    virtual void onKeyReleased(QKeyEvent *event);
-    virtual void onKeyRepeated(QKeyEvent *event);
-    virtual void onMousePressed(QMouseEvent *event);
-    virtual void onMouseReleased(QMouseEvent *event);
-    virtual void onMouseDragged(int deltaX, int deltaY);
-    virtual void onWheelEvent(QWheelEvent *event);
+    virtual void tick(float seconds) = 0;
+
+    virtual void onKeyPressed(QKeyEvent *event) = 0;
+    virtual void onKeyReleased(QKeyEvent *event) = 0;
+    virtual void onKeyRepeated(QKeyEvent *event) = 0;
+    virtual void onMousePressed(QMouseEvent *event) = 0;
+    virtual void onMouseReleased(QMouseEvent *event) = 0;
+    virtual void onMouseDragged(int deltaX, int deltaY) = 0;
+    virtual void onWheelEvent(QWheelEvent *event) = 0;
 };
 
 #endif // CONTROLCALLBACKCOMPONENT_H

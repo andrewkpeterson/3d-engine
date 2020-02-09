@@ -26,7 +26,7 @@ public:
     virtual void draw(Graphics *g);
 
     virtual void resize(int width, int height);
-    virtual void restartApplication();
+    virtual void setAppReadyToRestart();
 
     virtual void initializeGameWorld() = 0;
 
@@ -40,8 +40,10 @@ public:
 
     virtual void restartScreen();
 
+    void setReadyToRestart();
+
 protected:
-    Application *m_parent;
+    Application *m_app;
     std::shared_ptr<GameWorld> m_gameworld;
 };
 

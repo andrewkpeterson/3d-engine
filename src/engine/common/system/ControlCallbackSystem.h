@@ -2,6 +2,7 @@
 #define CONTROLCALLBACKSYSTEM_H
 
 #include "System.h"
+#include "src/engine/common/component/ControlCallbackComponent.h"
 
 #include <QKeyEvent>
 #include <QMouseEvent>
@@ -13,8 +14,8 @@ public:
     ControlCallbackSystem(std::shared_ptr<GameWorld> gameworld);
     ~ControlCallbackSystem() override;
 
-    void addComponent(std::shared_ptr<Component> component);
-    void removeComponent(std::shared_ptr<Component> component);
+    void addComponent(ControlCallbackComponent *component);
+    void removeComponent(ControlCallbackComponent *component);
 
     void onKeyPressed(QKeyEvent *event);
     void onKeyReleased(QKeyEvent *event);
@@ -25,7 +26,7 @@ public:
     void onWheelEvent(QWheelEvent *event);
 
 private:
-
+    std::unordered_set<ControlCallbackComponent*> m_components;
 };
 
 #endif // CONTROLCALLBACKSYSTEM_H

@@ -9,8 +9,7 @@ class CollisionComponent : public Component
 public:
     CollisionComponent(std::shared_ptr<GameObject> gameobject);
     ~CollisionComponent() override;
-    void addGameObjectToSystems() override;
-    void removeGameObjectFromSystems() override;
+    virtual void tick(float seconds) = 0;
 };
 
 #endif // COLLISIONCOMPONENT_H

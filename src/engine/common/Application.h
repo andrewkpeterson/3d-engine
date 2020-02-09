@@ -35,12 +35,15 @@ public:
     void onMouseReleased(QMouseEvent *event);
     void onWheelEvent(QWheelEvent *event);
 
+    void setReadyToRestart();
+
 protected:
     std::map<std::string, std::shared_ptr<Screen>> m_screenmap;
     std::shared_ptr<Screen> m_current_screen;
     Graphics *m_graphics;
     int app_width;
     int app_height;
+    bool m_ready_to_restart;
 
 };
 

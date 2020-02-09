@@ -13,6 +13,7 @@ public:
     void addGameObjectToSystems() override;
     void removeGameObjectFromSystems() override;
     std::shared_ptr<Camera> getCamera();
+    void resizeCamera(int width, int height);
 
 private:
     glm::vec3 m_initial_pos;

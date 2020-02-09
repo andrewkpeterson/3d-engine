@@ -63,6 +63,8 @@ public:
     void onMouseDragged(int deltaX, int deltaY);
     void onWheelEvent(QWheelEvent *event);
 
+    Screen *getScreen();
+
 private:
     Screen* m_screen;
     std::unordered_set<std::shared_ptr<GameObject>> m_gameobjects;

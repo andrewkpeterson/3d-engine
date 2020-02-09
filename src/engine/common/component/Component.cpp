@@ -1,7 +1,6 @@
 #include "Component.h"
 
-Component::Component(std::string str, std::shared_ptr<GameObject> gameobject) :
-    name(str),
+Component::Component(std::shared_ptr<GameObject> gameobject) :
     m_gameobject(gameobject)
 {
 
@@ -10,9 +9,4 @@ Component::Component(std::string str, std::shared_ptr<GameObject> gameobject) :
 Component::~Component()
 {
 
-}
-
-const std::string Component::getName()
-{
-    return name;
 }

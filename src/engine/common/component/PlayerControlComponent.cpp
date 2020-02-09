@@ -5,7 +5,9 @@
 #include "src/engine/util/Input.h"
 
 PlayerControlComponent::PlayerControlComponent(std::shared_ptr<GameObject> gameobject) :
-    Component("PlayerControlComponent", gameobject)
+    ControlCallbackComponent(gameobject),
+    off_ground(false),
+    y_vel(0.0)
 {
 
 }
@@ -17,13 +19,13 @@ PlayerControlComponent::~PlayerControlComponent()
 
 void PlayerControlComponent::addGameObjectToSystems()
 {
-    m_gameobject->getGameWorld()->getSystem<TickSystem>()->addComponent(getSharedPtr());
-    m_gameobject->getGameWorld()->getSystem<ControlCallbackSystem>()->addComponent(getSharedPtr());
+    m_gameobject->getGameWorld()->getSystem<TickSystem>()->addComponent(this);
+    m_gameobject->getGameWorld()->getSystem<ControlCallbackSystem>()->addComponent(this);
 }
 
 void PlayerControlComponent::removeGameObjectFromSystems() {
-    m_gameobject->getGameWorld()->getSystem<TickSystem>()->removeComponent(getSharedPtr());
-    m_gameobject->getGameWorld()->getSystem<ControlCallbackSystem>()->removeComponent(getSharedPtr());
+    m_gameobject->getGameWorld()->getSystem<TickSystem>()->removeComponent(this);
+    m_gameobject->getGameWorld()->getSystem<ControlCallbackSystem>()->removeComponent(this);
 }
 
 void PlayerControlComponent::draw(Graphics *g) {
@@ -51,10 +53,10 @@ void PlayerControlComponent::tick(float seconds) {
     if (Input::getPressed("S")) camera->translate(-dir * WALK_SPEED);
     if (Input::getPressed("A")) camera->translate(perp * WALK_SPEED);
     if (Input::getPressed("D")) camera->translate(-perp * WALK_SPEED);
-    /*
+
     if (Input::getPressed("R")) {
-        restartApplication();
-    }*/
+        m_gameobject->getGameWorld()->getScreen()->restartApplication();
+    }
 
     // handle jumping
     if (Input::getPressed("SPACE") && !off_ground) {
@@ -82,4 +84,22 @@ void PlayerControlComponent::tick(float seconds) {
 void PlayerControlComponent::onMouseDragged(int deltaX, int deltaY) {
     std::shared_ptr<Camera> camera = m_gameobject->getComponent<CameraComponent>()->getCamera();
     camera->rotate(-deltaX / 100.0f * MOUSE_SENSITIVITY, -deltaY / 100.0f * MOUSE_SENSITIVITY);
+}
+
+void PlayerControlComponent::onKeyPressed(QKeyEvent *event) {
+}
+
+void PlayerControlComponent::onKeyReleased(QKeyEvent *event) {
+}
+
+void PlayerControlComponent::onKeyRepeated(QKeyEvent *event) {
+}
+
+void PlayerControlComponent::onMousePressed(QMouseEvent *event) {
+}
+
+void PlayerControlComponent::onMouseReleased(QMouseEvent *event) {
+}
+
+void PlayerControlComponent::onWheelEvent(QWheelEvent *event) {
 }

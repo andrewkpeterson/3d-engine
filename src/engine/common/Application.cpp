@@ -6,7 +6,8 @@ Application::Application() :
     m_current_screen(nullptr),
     m_graphics(Graphics::getGlobalInstance()),
     app_width(1),
-    app_height(1)
+    app_height(1),
+    m_ready_to_restart(false)
 {
 
 }
@@ -21,7 +22,12 @@ void Application::draw(Graphics *g) {
 }
 
 void Application::tick(float seconds) {
-    m_current_screen->tick(seconds);
+    if (m_ready_to_restart) {
+        restart();
+        m_ready_to_restart = false;
+    } else {
+        m_current_screen->tick(seconds);
+    }
 }
 
 void Application::resize(int width, int height) {
@@ -82,4 +88,8 @@ void Application::onMouseReleased(QMouseEvent *event) {
 
 void Application::onWheelEvent(QWheelEvent *event) {
     m_current_screen->onWheelEvent(event);
+}
+
+void Application::setReadyToRestart() {
+    m_ready_to_restart = true;
 }

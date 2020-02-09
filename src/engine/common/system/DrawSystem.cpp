@@ -1,8 +1,4 @@
 #include "DrawSystem.h"
-#include "src/engine/common/GameObject.h"
-#include "src/engine/common/component/DrawableComponent.h"
-#include "src/engine/common/system/CameraSystem.h"
-#include "src/engine/common/component/CameraComponent.h"
 
 DrawSystem::DrawSystem(std::shared_ptr<GameWorld> gameworld) :
     System("DrawSystem", gameworld)
@@ -15,12 +11,20 @@ DrawSystem::~DrawSystem()
 
 }
 
+void DrawSystem::addComponent(DrawableComponent *component) {
+    m_components.insert(component);
+}
+
+void DrawSystem::removeComponent(DrawableComponent *component) {
+    m_components.erase(component);
+}
+
 void DrawSystem::draw(Graphics *g) {
     g->setCamera(m_gameworld->getSystem<CameraSystem>()->getCurrCamComponent()->getCamera());
     auto it = m_components.begin();
     while(it != m_components.end()) {
         //it is fine to cast here because we know that only Drawable components can add themselves to the Draw System
-        std::shared_ptr<DrawableComponent> comp = std::dynamic_pointer_cast<DrawableComponent>(*it);
+        DrawableComponent *comp = *it;
         comp->drawSelf();
         it++;
     }
