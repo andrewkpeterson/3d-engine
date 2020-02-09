@@ -55,7 +55,7 @@ void PlayerControlComponent::tick(float seconds) {
     if (Input::getPressed("D")) camera->translate(-perp * WALK_SPEED);
 
     if (Input::getPressed("R")) {
-        m_gameobject->getGameWorld()->getScreen()->restartApplication();
+        m_gameobject->getGameWorld()->getScreen()->setAppReadyToRestart();
     }
 
     // handle jumping

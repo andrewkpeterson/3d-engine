@@ -8,7 +8,7 @@ GameObject::GameObject(std::shared_ptr<GameWorld> gameworld) :
 
 GameObject::~GameObject()
 {
-
+    std::cout << "object destroyed" << std::endl;
 }
 
 void GameObject::addSelfToSystems()
