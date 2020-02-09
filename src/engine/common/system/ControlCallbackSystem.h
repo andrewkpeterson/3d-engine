@@ -13,6 +13,9 @@ public:
     ControlCallbackSystem(std::shared_ptr<GameWorld> gameworld);
     ~ControlCallbackSystem() override;
 
+    void addComponent(std::shared_ptr<Component> component);
+    void removeComponent(std::shared_ptr<Component> component);
+
     void onKeyPressed(QKeyEvent *event);
     void onKeyReleased(QKeyEvent *event);
     void onKeyRepeated(QKeyEvent *event);

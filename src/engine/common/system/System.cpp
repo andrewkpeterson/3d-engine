@@ -12,10 +12,6 @@ System::~System()
 
 }
 
-void System::tick() {
-
-}
-
 void System::addComponent(std::shared_ptr<Component> component) {
     m_components.insert(component);
 }

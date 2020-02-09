@@ -19,6 +19,7 @@ void DrawSystem::draw(Graphics *g) {
     g->setCamera(m_gameworld->getSystem<CameraSystem>()->getCurrCamComponent()->getCamera());
     auto it = m_components.begin();
     while(it != m_components.end()) {
+        //it is fine to cast here because we know that only Drawable components can add themselves to the Draw System
         std::shared_ptr<DrawableComponent> comp = std::dynamic_pointer_cast<DrawableComponent>(*it);
         comp->drawSelf();
         it++;

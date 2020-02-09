@@ -18,13 +18,9 @@ public:
     System(std::string str, std::shared_ptr<GameWorld> gameworld);
     virtual ~System();
 
-    virtual void tick();
-    void addComponent(std::shared_ptr<Component> component);
-    void removeComponent(std::shared_ptr<Component> component);
     const std::string getName();
 
 protected:
-    std::unordered_set<std::shared_ptr<Component>> m_components;
     std::shared_ptr<GameWorld> m_gameworld;
     const std::string name;
 };

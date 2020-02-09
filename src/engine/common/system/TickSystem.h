@@ -9,6 +9,9 @@ public:
     TickSystem(std::shared_ptr<GameWorld> gameworld);
     ~TickSystem() override;
 
+    void addComponent(std::shared_ptr<Component> component);
+    void removeComponent(std::shared_ptr<Component> component);
+
     void tick(float seconds);
 };
 

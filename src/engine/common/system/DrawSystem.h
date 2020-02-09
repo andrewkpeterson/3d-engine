@@ -9,6 +9,9 @@ public:
     DrawSystem(std::shared_ptr<GameWorld> gameworld);
     ~DrawSystem() override;
 
+    void addComponent(std::shared_ptr<Component> component);
+    void removeComponent(std::shared_ptr<Component> component);
+
     void draw(Graphics *g);
 
 private:

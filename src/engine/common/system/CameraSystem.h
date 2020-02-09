@@ -15,10 +15,14 @@ public:
     CameraSystem(std::shared_ptr<GameWorld> gameworld);
     ~CameraSystem();
 
+    void addComponent(std::shared_ptr<CameraComponent> component);
+    void removeComponent(std::shared_ptr<CameraComponent> component);
+
     void setCurrCamComponent(std::shared_ptr<CameraComponent>);
     std::shared_ptr<CameraComponent> getCurrCamComponent();
 
 private:
+    std::unordered_set<std::shared_ptr<CameraComponent>> m_components;
     std::shared_ptr<CameraComponent> m_currcam;
 };
 

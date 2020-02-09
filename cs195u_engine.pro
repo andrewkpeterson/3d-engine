@@ -65,7 +65,9 @@ SOURCES += \
     src/engine/common/system/ControlCallbackSystem.cpp \
     src/engine/util/TypeMap.cpp \
     src/engine/common/component/CameraComponent.cpp \
-    src/engine/common/system/CameraSystem.cpp
+    src/engine/common/system/CameraSystem.cpp \
+    src/engine/common/component/TickComponent.cpp \
+    src/engine/common/component/ControlCallbackComponent.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -121,7 +123,9 @@ HEADERS += \
     src/engine/common/system/ControlCallbackSystem.h \
     src/engine/util/TypeMap.h \
     src/engine/common/component/CameraComponent.h \
-    src/engine/common/system/CameraSystem.h
+    src/engine/common/system/CameraSystem.h \
+    src/engine/common/component/TickComponent.h \
+    src/engine/common/component/ControlCallbackComponent.h
 
 FORMS += src/mainwindow.ui
 
