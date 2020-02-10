@@ -7,7 +7,10 @@ class NPCChaseComponent : public TickComponent
 {
 public:
     NPCChaseComponent(GameObject *gameobject);
-    ~NPCChaseComponent();
+    ~NPCChaseComponent() override;
+
+    void addComponentToSystems() override;
+    void removeComponentFromSystems() override;
 
     void tick(float seconds) override;
 };

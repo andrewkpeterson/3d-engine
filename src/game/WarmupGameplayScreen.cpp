@@ -8,6 +8,7 @@
 #include "src/engine/common/system/CameraSystem.h"
 #include "src/engine/common/ui/UI.h"
 #include "src/engine/common/ui/UILabel.h"
+#include "src/game/NPCChaseComponent.h"
 
 WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g, WarmupApplication *parent_app) :
     Screen(parent_app)
@@ -20,15 +21,17 @@ WarmupGameplayScreen::~WarmupGameplayScreen() {
 
 void WarmupGameplayScreen::initializeGameWorld() {
     //set up UI
+    /*
     std::shared_ptr<UI> ui = std::make_shared<UI>(m_gameworld.get());
     std::shared_ptr<UILabel> label = std::make_shared<UILabel>("Press mouse to play", 80.0f, glm::vec3(1,1,1), glm::vec2(20.0f,20.0f), "white");
     ui->addElement(label);
     m_gameworld->addUI(ui, "HUD");
     m_gameworld->setActiveUI("HUD");
+    */
 
     //make floor
     std::shared_ptr<GameObject> floor = std::make_shared<GameObject>(m_gameworld.get());
-    floor->addComponent<TransformComponent>(std::make_shared<TransformComponent>(floor.get(), glm::vec3(0,0,0), 20.0));
+    floor->addComponent<TransformComponent>(std::make_shared<TransformComponent>(floor.get(), glm::vec3(0,0,0), 40.0));
     Material floor_mat;
     floor_mat.textureName = "grass";
     floor_mat.textureRepeat = glm::vec2(10,10);
@@ -36,7 +39,7 @@ void WarmupGameplayScreen::initializeGameWorld() {
     m_gameworld->addGameObject(floor);
 
     //make camera and player representation
-    std::shared_ptr<GameObject> player = std::make_shared<GameObject>(m_gameworld.get());
+    std::shared_ptr<GameObject> player = std::make_shared<GameObject>(m_gameworld.get(), "player");
     player->addComponent<CameraComponent>(std::make_shared<CameraComponent>(player.get(), glm::vec3(0,0,0), glm::vec3(0,0,1)));
     player->addComponent<PlayerControlComponent>(std::make_shared<PlayerControlComponent>(player.get()));
     player->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(player.get(), 1.0f, 2.0f));
@@ -48,9 +51,10 @@ void WarmupGameplayScreen::initializeGameWorld() {
     m_gameworld->getSystem<CameraSystem>()->setCurrentMainCameraComponent(player->getComponent<CameraComponent>().get());
 
     //make NPC
-    std::shared_ptr<GameObject> npc = std::make_shared<GameObject>(m_gameworld.get());
-    npc->addComponent<TransformComponent>(std::make_shared<TransformComponent>(npc.get(), glm::vec3(1,0,1), 2.0));
+    std::shared_ptr<GameObject> npc = std::make_shared<GameObject>(m_gameworld.get(), "npc");
+    npc->addComponent<TransformComponent>(std::make_shared<TransformComponent>(npc.get(), glm::vec3(10,0,10), 2.0));
     npc->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(npc.get(), 1.0f, 2.0f));
+    npc->addComponent<NPCChaseComponent>(std::make_shared<NPCChaseComponent>(npc.get()));
     Material npc_mat;
     npc_mat.color = glm::vec3(.8,0,.3);
     npc->addComponent<DrawableComponent>(std::make_shared<DrawableComponent>(npc.get(), "cylinder", "npcMat", npc_mat));

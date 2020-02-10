@@ -7,13 +7,7 @@
 
 WarmupStartScreen::WarmupStartScreen(Graphics *g, WarmupApplication *parent_app) :
     Screen(parent_app)
-{   /*
-    m_camera = std::make_shared<Camera>();
-    m_camera->setUI(true);
-    Material whiteMaterial;
-    whiteMaterial.color = glm::vec3(1, 1, 1);
-    g->addMaterial("white", whiteMaterial);
-    */
+{
     initializeGameWorld();
 }
 

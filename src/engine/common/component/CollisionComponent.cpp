@@ -23,3 +23,7 @@ void CollisionComponent::clearCollisions() {
 void CollisionComponent::addCollision(Collision collision) {
     m_collisions.push_back(collision);
 }
+
+void CollisionComponent::setCollisionCallback(std::function<void(Collision)> func) {
+    m_callback = func;
+}

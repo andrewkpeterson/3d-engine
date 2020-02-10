@@ -45,13 +45,15 @@ void GameWorld::resize(int width, int height) {
 }
 
 void GameWorld::addGameObject(std::shared_ptr<GameObject> object) {
-    m_gameobjects.insert(object);
+    assert(m_gameobjects.find(object->getID()) == m_gameobjects.end());
+    m_gameobjects.insert({object->getID(), object});
     object->addSelfToSystems();
 }
 
 void GameWorld::removeGameObject(std::shared_ptr<GameObject> object) {
+    assert(m_gameobjects.find(object->getID()) != m_gameobjects.end());
     object->removeSelfFromSystems();
-    m_gameobjects.erase(object);
+    m_gameobjects.erase(object->getID());
 }
 
 void GameWorld::onKeyPressed(QKeyEvent *event) {
@@ -96,4 +98,9 @@ void GameWorld::setActiveUI(std::string name) {
 
 Screen *GameWorld::getScreen() {
     return m_screen;
+}
+
+std::shared_ptr<GameObject> GameWorld::getGameObjectByID(std::string id) {
+    assert(m_gameobjects.find(id) != m_gameobjects.end());
+    return m_gameobjects[id];
 }

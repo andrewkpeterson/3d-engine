@@ -48,6 +48,7 @@ public:
     void removeSelfFromSystems();
     void removeAllComponents();
     GameWorld *getGameWorld();
+    std::string getID();
 
 private:
     TypeMap<std::shared_ptr<Component>> m_components;

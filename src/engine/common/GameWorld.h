@@ -69,10 +69,11 @@ public:
     void setActiveUI(std::string);
 
     Screen *getScreen();
+    std::shared_ptr<GameObject> getGameObjectByID(std::string id);
 
 private:
     Screen* m_screen;
-    std::unordered_set<std::shared_ptr<GameObject>> m_gameobjects;
+    std::map<std::string, std::shared_ptr<GameObject>> m_gameobjects;
     TypeMap<std::shared_ptr<System>> m_systems;
     std::map<std::string, std::shared_ptr<UI>> m_uis;
     std::shared_ptr<UI> m_activeui;
