@@ -47,7 +47,7 @@ void PlayerControlComponent::handleCollisionResolutionAndResponse() {
     std::shared_ptr<TransformComponent> t = m_gameobject->getComponent<TransformComponent>();
     for(int i = 0; i < collisions.size(); i++) {
         t->translate(collisions[i].half_mtv);
-        if (collisions[i].half_mtv.x == 0 && collisions[i].half_mtv.z == 0 && collisions[i].half_mtv.y > 0) {
+        if (collisions[i].half_mtv.x == 0 && collisions[i].half_mtv.z == 0 && collisions[i].half_mtv.y > 0 && y_vel < 0) {
             can_jump = true;
             t->translate(glm::vec3(0,distance_last_fallen,0));
         } else {
