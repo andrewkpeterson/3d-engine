@@ -19,7 +19,7 @@ GameWorld::~GameWorld()
 
 void GameWorld::tick(float seconds) {
     getSystem<TickSystem>()->tick(seconds);
-    getSystem<CollisionSystem>()->tick(seconds);
+    getSystem<CollisionSystem>()->checkForCollisions(seconds);
 }
 
 void GameWorld::draw(Graphics *g) {

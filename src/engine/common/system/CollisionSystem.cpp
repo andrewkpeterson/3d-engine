@@ -1,4 +1,5 @@
 #include "CollisionSystem.h"
+#include "src/engine/common/component/CollisionComponent.h"
 
 CollisionSystem::CollisionSystem(GameWorld *gameworld) :
     System(gameworld)
@@ -19,13 +20,19 @@ void CollisionSystem::removeComponent(CollisionComponent *component) {
     m_components.erase(component);
 }
 
-void CollisionSystem::tick(float seconds) {
-    auto it = m_components.begin();
-    while(it != m_components.end()) {
-        //it is fine to cast here because we know that only Drawable components can add themselves to the Draw System
-        CollisionComponent *comp = *it;
+void CollisionSystem::checkForCollisions(float seconds) {
+    auto i = m_components.begin();
+    while(i != m_components.end()) {
+        CollisionComponent *comp1 = *i;
+        auto j = i;
+        j++;
+        while (j != m_components.end()) {
+            CollisionComponent *comp2 = *j;
+            comp1->checkCollision(comp2);
+            j++;
+        }
 
-        it++;
+        i++;
     }
 }
 

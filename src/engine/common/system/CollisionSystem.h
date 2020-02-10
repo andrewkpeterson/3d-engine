@@ -2,7 +2,9 @@
 #define COLLISIONSYSTEM_H
 
 #include "System.h"
-#include "src/engine/common/component/CollisionComponent.h"
+
+class CollisionComponent;
+class CylinderCollisionComponent;
 
 class CollisionSystem : public System
 {
@@ -13,7 +15,7 @@ public:
     void addComponent(CollisionComponent *component);
     void removeComponent(CollisionComponent *component);
 
-    void tick(float seconds);
+    void checkForCollisions(float seconds);
 
 private:
     std::unordered_set<CollisionComponent*> m_components;

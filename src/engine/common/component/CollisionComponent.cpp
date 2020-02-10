@@ -12,6 +12,14 @@ CollisionComponent::~CollisionComponent()
 
 }
 
-void CollisionComponent::tick(float seconds) {
+std::vector<Collision> CollisionComponent::getCollisions() {
+    return m_collisions;
+}
 
+void CollisionComponent::clearCollisions() {
+    m_collisions.clear();
+}
+
+void CollisionComponent::addCollision(Collision collision) {
+    m_collisions.push_back(collision);
 }

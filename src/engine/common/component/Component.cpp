@@ -10,3 +10,7 @@ Component::~Component()
 {
 
 }
+
+GameObject *Component::getGameObject() {
+    return m_gameobject;
+}

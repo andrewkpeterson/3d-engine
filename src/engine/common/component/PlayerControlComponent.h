@@ -16,6 +16,8 @@ public:
     void removeGameObjectFromSystems() override;
 
     void tick(float seconds) override;
+    void update(float seconds);
+    void handleCollisionResolutionAndResponse();
 
     void onKeyPressed(QKeyEvent *event) override;
     void onKeyReleased(QKeyEvent *event) override;
@@ -28,11 +30,13 @@ public:
 private:
     const float MOUSE_SENSITIVITY = .1f;
     const float WALK_SPEED = .1f;
-    const float GRAVITY = -.25f;
-    const float JUMP_SPEED = .15f;
+    const float GRAVITY = -5.0f;
+    const float JUMP_SPEED = 5.0f;
     const float GROUND_LEVEL = 0.0f;
     bool off_ground;
+    bool can_jump;
     float y_vel;
+    float distance_last_fallen;
     bool use_third_person;
     float third_person_cam_pos;
     const float MIN_CAM_TRANSLATION = 5.0f;

@@ -15,7 +15,7 @@ public:
     virtual ~Component();
     virtual void addGameObjectToSystems() = 0;
     virtual void removeGameObjectFromSystems() = 0;
-    const std::string getName();
+    GameObject *getGameObject();
 
 protected:
     GameObject *m_gameobject;
