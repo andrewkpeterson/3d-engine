@@ -6,6 +6,8 @@
 #include "src/engine/common/component/PlayerControlComponent.h"
 #include "src/engine/common/component/CylinderCollisionComponent.h"
 #include "src/engine/common/system/CameraSystem.h"
+#include "src/engine/common/ui/UI.h"
+#include "src/engine/common/ui/UILabel.h"
 
 WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g, WarmupApplication *parent_app) :
     Screen(parent_app)
@@ -17,11 +19,12 @@ WarmupGameplayScreen::~WarmupGameplayScreen() {
 }
 
 void WarmupGameplayScreen::initializeGameWorld() {
-    m_gameworld->addSystem<DrawSystem>(std::make_shared<DrawSystem>(m_gameworld.get()));
-    m_gameworld->addSystem<TickSystem>(std::make_shared<TickSystem>(m_gameworld.get()));
-    m_gameworld->addSystem<ControlCallbackSystem>(std::make_shared<ControlCallbackSystem>(m_gameworld.get()));
-    m_gameworld->addSystem<CollisionSystem>(std::make_shared<CollisionSystem>(m_gameworld.get()));
-    m_gameworld->addSystem<CameraSystem>(std::make_shared<CameraSystem>(m_gameworld.get()));
+    //set up UI
+    std::shared_ptr<UI> ui = std::make_shared<UI>(m_gameworld.get());
+    std::shared_ptr<UILabel> label = std::make_shared<UILabel>("Press mouse to play", 80.0f, glm::vec3(1,1,1), glm::vec2(20.0f,20.0f), "white");
+    ui->addElement(label);
+    m_gameworld->addUI(ui, "HUD");
+    m_gameworld->setActiveUI("HUD");
 
     //make floor
     std::shared_ptr<GameObject> floor = std::make_shared<GameObject>(m_gameworld.get());
@@ -42,7 +45,7 @@ void WarmupGameplayScreen::initializeGameWorld() {
     player_mat.color = glm::vec3(.4,.3,.8);
     player->addComponent<DrawableComponent>(std::make_shared<DrawableComponent>(player.get(), "cylinder", "playerMat", player_mat));
     m_gameworld->addGameObject(player);
-    m_gameworld->getSystem<CameraSystem>()->setCurrCamComponent(player->getComponent<CameraComponent>().get());
+    m_gameworld->getSystem<CameraSystem>()->setCurrentMainCameraComponent(player->getComponent<CameraComponent>().get());
 
     //make NPC
     std::shared_ptr<GameObject> npc = std::make_shared<GameObject>(m_gameworld.get());

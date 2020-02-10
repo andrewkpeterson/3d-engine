@@ -5,11 +5,17 @@
 #include "system/ControlCallbackSystem.h"
 #include "component/DrawableComponent.h"
 #include "component/TransformComponent.h"
+#include "src/engine/common/ui/UI.h"
 
 GameWorld::GameWorld(Screen *screen) :
-    m_screen(screen)
+    m_screen(screen),
+    m_activeui(nullptr)
 {
-
+    addSystem<DrawSystem>(std::make_shared<DrawSystem>(this));
+    addSystem<TickSystem>(std::make_shared<TickSystem>(this));
+    addSystem<ControlCallbackSystem>(std::make_shared<ControlCallbackSystem>(this));
+    addSystem<CollisionSystem>(std::make_shared<CollisionSystem>(this));
+    addSystem<CameraSystem>(std::make_shared<CameraSystem>(this));
 }
 
 GameWorld::~GameWorld()
@@ -24,10 +30,18 @@ void GameWorld::tick(float seconds) {
 
 void GameWorld::draw(Graphics *g) {
     getSystem<DrawSystem>()->draw(g);
+    if (m_activeui != nullptr) {
+        m_activeui->drawUI();
+    }
 }
 
 void GameWorld::resize(int width, int height) {
     getSystem<CameraSystem>()->resizeCameras(width, height);
+    auto it = m_uis.begin();
+    while (it != m_uis.end()) {
+        it->second->resize(width, height);
+        it++;
+    }
 }
 
 void GameWorld::addGameObject(std::shared_ptr<GameObject> object) {
@@ -66,6 +80,18 @@ void GameWorld::onMouseDragged(int deltaX, int deltaY) {
 
 void GameWorld::onWheelEvent(QWheelEvent *event) {
     getSystem<ControlCallbackSystem>()->onWheelEvent(event);
+}
+
+void GameWorld::addUI(std::shared_ptr<UI> ui, std::string name) {
+    m_uis[name] = ui;
+}
+
+std::shared_ptr<UI> GameWorld::getActiveUI() {
+    return m_activeui;
+}
+
+void GameWorld::setActiveUI(std::string name) {
+    m_activeui = m_uis[name];
 }
 
 Screen *GameWorld::getScreen() {

@@ -12,8 +12,8 @@ class PlayerControlComponent : public ControlCallbackComponent
 public:
     PlayerControlComponent(GameObject *gameobject);
     ~PlayerControlComponent() override;
-    void addGameObjectToSystems() override;
-    void removeGameObjectFromSystems() override;
+    void addComponentToSystems() override;
+    void removeComponentFromSystems() override;
 
     void tick(float seconds) override;
     void update(float seconds);

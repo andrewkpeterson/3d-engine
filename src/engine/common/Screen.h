@@ -40,6 +40,8 @@ public:
 
     virtual void restartScreen();
 
+    Application *getApp();
+
 protected:
     Application *m_app;
     std::shared_ptr<GameWorld> m_gameworld;

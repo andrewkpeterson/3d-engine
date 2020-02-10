@@ -14,11 +14,11 @@ CylinderCollisionComponent::~CylinderCollisionComponent()
 
 }
 
-void CylinderCollisionComponent::addGameObjectToSystems() {
+void CylinderCollisionComponent::addComponentToSystems() {
     m_gameobject->getGameWorld()->getSystem<CollisionSystem>()->addComponent(this);
 }
 
-void CylinderCollisionComponent::removeGameObjectFromSystems() {
+void CylinderCollisionComponent::removeComponentFromSystems() {
     m_gameobject->getGameWorld()->getSystem<CollisionSystem>()->removeComponent(this);
 }
 

@@ -60,3 +60,7 @@ void Screen::onMouseDragged(int deltaX, int deltaY) {
 void Screen::onWheelEvent(QWheelEvent *event) {
     m_gameworld->onWheelEvent(event);
 }
+
+Application *Screen::getApp() {
+   return m_app;
+}

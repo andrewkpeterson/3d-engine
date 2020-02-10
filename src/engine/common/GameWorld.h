@@ -19,6 +19,7 @@
 class Graphics;
 class System;
 class Screen;
+class UI;
 
 
 /**
@@ -63,12 +64,18 @@ public:
     void onMouseDragged(int deltaX, int deltaY);
     void onWheelEvent(QWheelEvent *event);
 
+    void addUI(std::shared_ptr<UI>, std::string);
+    std::shared_ptr<UI> getActiveUI();
+    void setActiveUI(std::string);
+
     Screen *getScreen();
 
 private:
     Screen* m_screen;
     std::unordered_set<std::shared_ptr<GameObject>> m_gameobjects;
     TypeMap<std::shared_ptr<System>> m_systems;
+    std::map<std::string, std::shared_ptr<UI>> m_uis;
+    std::shared_ptr<UI> m_activeui;
 };
 
 #endif // GAMEWORLD_H

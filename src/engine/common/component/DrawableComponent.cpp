@@ -19,12 +19,12 @@ DrawableComponent::~DrawableComponent()
 
 }
 
-void DrawableComponent::addGameObjectToSystems()
+void DrawableComponent::addComponentToSystems()
 {
     m_gameobject->getGameWorld()->getSystem<DrawSystem>()->addComponent(this);
 }
 
-void DrawableComponent::removeGameObjectFromSystems() {
+void DrawableComponent::removeComponentFromSystems() {
     m_gameobject->getGameWorld()->getSystem<DrawSystem>()->removeComponent(this);
 }
 

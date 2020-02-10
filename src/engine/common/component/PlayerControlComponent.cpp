@@ -24,13 +24,13 @@ PlayerControlComponent::~PlayerControlComponent()
 
 }
 
-void PlayerControlComponent::addGameObjectToSystems()
+void PlayerControlComponent::addComponentToSystems()
 {
     m_gameobject->getGameWorld()->getSystem<TickSystem>()->addComponent(this);
     m_gameobject->getGameWorld()->getSystem<ControlCallbackSystem>()->addComponent(this);
 }
 
-void PlayerControlComponent::removeGameObjectFromSystems() {
+void PlayerControlComponent::removeComponentFromSystems() {
     m_gameobject->getGameWorld()->getSystem<TickSystem>()->removeComponent(this);
     m_gameobject->getGameWorld()->getSystem<ControlCallbackSystem>()->removeComponent(this);
 }
@@ -51,7 +51,7 @@ void PlayerControlComponent::handleCollisionResolutionAndResponse() {
             can_jump = true;
             t->translate(glm::vec3(0,distance_last_fallen,0));
         } else {
-            t->translate(collisions[i].half_mtv);
+            t->translate(2.0f*collisions[i].half_mtv);
         }
         comp->clearCollisions();
     }

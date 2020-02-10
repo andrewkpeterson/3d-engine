@@ -68,7 +68,12 @@ SOURCES += \
     src/engine/common/system/CameraSystem.cpp \
     src/engine/common/component/TickComponent.cpp \
     src/engine/common/component/ControlCallbackComponent.cpp \
-    src/engine/common/component/CylinderCollisionComponent.cpp
+    src/engine/common/component/CylinderCollisionComponent.cpp \
+    src/engine/common/ui/UI.cpp \
+    src/engine/common/ui/UIElement.cpp \
+    src/engine/common/ui/UILabel.cpp \
+    src/game/StartControlComponent.cpp \
+    src/game/NPCChaseComponent.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -109,7 +114,6 @@ HEADERS += \
     src/game/WarmupGameplayScreen.h \
     src/game/WarmupStartScreen.h \
     src/engine/common/GameWorld.h \
-    src/engine/common/System.h \
     src/engine/common/GameObject.h \
     src/engine/common/system/TickSystem.h \
     src/engine/common/component/CollisionComponent.h \
@@ -127,7 +131,12 @@ HEADERS += \
     src/engine/common/system/CameraSystem.h \
     src/engine/common/component/TickComponent.h \
     src/engine/common/component/ControlCallbackComponent.h \
-    src/engine/common/component/CylinderCollisionComponent.h
+    src/engine/common/component/CylinderCollisionComponent.h \
+    src/engine/common/ui/UI.h \
+    src/engine/common/ui/UIElement.h \
+    src/engine/common/ui/UILabel.h \
+    src/game/StartControlComponent.h \
+    src/game/NPCChaseComponent.h
 
 FORMS += src/mainwindow.ui
 

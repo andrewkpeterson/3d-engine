@@ -24,7 +24,7 @@ class GameWorld;
 class GameObject
 {
 public:
-    GameObject(GameWorld *gameworld);
+    GameObject(GameWorld *gameworld, std::string id="");
     ~GameObject();
 
     template <typename Comp>
@@ -52,6 +52,8 @@ public:
 private:
     TypeMap<std::shared_ptr<Component>> m_components;
     GameWorld *m_gw;
+    std::string m_id;
+    static int nextID;
 
 };
 

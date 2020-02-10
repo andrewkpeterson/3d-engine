@@ -11,8 +11,8 @@ public:
     DrawableComponent(GameObject *gameobject, std::string geometry,
                       std::string matname, Material material);
     ~DrawableComponent() override;
-    void addGameObjectToSystems() override;
-    void removeGameObjectFromSystems() override;
+    void addComponentToSystems() override;
+    void removeComponentFromSystems() override;
     void drawSelf();
     void setDraw(bool draw);
 

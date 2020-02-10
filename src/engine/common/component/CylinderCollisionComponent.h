@@ -10,8 +10,8 @@ class CylinderCollisionComponent : public CollisionComponent
 public:
     CylinderCollisionComponent(GameObject *gameworld, float radius, float height);
     ~CylinderCollisionComponent() override;
-    void addGameObjectToSystems() override;
-    void removeGameObjectFromSystems() override;
+    void addComponentToSystems() override;
+    void removeComponentFromSystems() override;
 
     void checkCollision(CollisionComponent *comp) override;
     void checkCollisionWithCylinder(CylinderCollisionComponent *comp) override;

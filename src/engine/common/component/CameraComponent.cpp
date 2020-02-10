@@ -16,12 +16,12 @@ CameraComponent::~CameraComponent()
 
 }
 
-void CameraComponent::addGameObjectToSystems()
+void CameraComponent::addComponentToSystems()
 {
     m_gameobject->getGameWorld()->getSystem<CameraSystem>()->addComponent(this);
 }
 
-void CameraComponent::removeGameObjectFromSystems() {
+void CameraComponent::removeComponentFromSystems() {
     m_gameobject->getGameWorld()->getSystem<CameraSystem>()->removeComponent(this);
 }
 

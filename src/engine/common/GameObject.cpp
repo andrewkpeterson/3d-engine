@@ -1,9 +1,16 @@
 #include "GameObject.h"
 
-GameObject::GameObject(GameWorld *gameworld) :
+int GameObject::nextID = 0;
+
+GameObject::GameObject(GameWorld *gameworld, std::string id) :
     m_gw(gameworld)
 {
-
+    if (id.compare("") == 0) {
+        id = std::to_string(nextID);
+        nextID++;
+    } else {
+        m_id = id;
+    }
 }
 
 GameObject::~GameObject()
@@ -15,7 +22,7 @@ void GameObject::addSelfToSystems()
 {
     auto it = m_components.begin();
     while (it != m_components.end()) {
-        it->second->addGameObjectToSystems();
+        it->second->addComponentToSystems();
         it++;
     }
 }
@@ -24,7 +31,7 @@ void GameObject::removeSelfFromSystems()
 {
     auto it = m_components.begin();
     while (it != m_components.end()) {
-        it->second->removeGameObjectFromSystems();
+        it->second->removeComponentFromSystems();
         it++;
     }
 }

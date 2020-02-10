@@ -13,8 +13,8 @@ class Component
 public:
     Component(GameObject *gameobject);
     virtual ~Component();
-    virtual void addGameObjectToSystems() = 0;
-    virtual void removeGameObjectFromSystems() = 0;
+    virtual void addComponentToSystems() = 0;
+    virtual void removeComponentFromSystems() = 0;
     GameObject *getGameObject();
 
 protected:

@@ -1,14 +1,20 @@
 #include "WarmupStartScreen.h"
 #include "src/engine/util/Input.h"
+#include "src/engine/common/ui/UILabel.h"
+#include "src/game/StartControlComponent.h"
+#include "src/engine/common/system/CameraSystem.h"
+#include "src/engine/common/component/CameraComponent.h"
 
 WarmupStartScreen::WarmupStartScreen(Graphics *g, WarmupApplication *parent_app) :
     Screen(parent_app)
-{
+{   /*
     m_camera = std::make_shared<Camera>();
     m_camera->setUI(true);
     Material whiteMaterial;
     whiteMaterial.color = glm::vec3(1, 1, 1);
     g->addMaterial("white", whiteMaterial);
+    */
+    initializeGameWorld();
 }
 
 WarmupStartScreen::~WarmupStartScreen()
@@ -17,31 +23,17 @@ WarmupStartScreen::~WarmupStartScreen()
 }
 
 void WarmupStartScreen::initializeGameWorld() {
+    std::shared_ptr<UI> ui = std::make_shared<UI>(m_gameworld.get());
+    std::shared_ptr<UILabel> label = std::make_shared<UILabel>("Press mouse to play", 80.0f, glm::vec3(1,1,1),
+                                                               glm::vec2(20.0f,20.0f), "white");
+    ui->addElement(label);
+    m_gameworld->addUI(ui, "HUD");
+    m_gameworld->setActiveUI("HUD");
 
-}
+    std::shared_ptr<GameObject> obj = std::make_shared<GameObject>(m_gameworld.get());
+    obj->addComponent(std::make_shared<StartControlComponent>(obj.get()));
+    obj->addComponent<CameraComponent>(std::make_shared<CameraComponent>(obj.get(), glm::vec3(0,0,0), glm::vec3(0,0,1)));
+    m_gameworld->addGameObject(obj);
+    m_gameworld->getSystem<CameraSystem>()->setCurrentMainCameraComponent(obj->getComponent<CameraComponent>().get());
 
-void WarmupStartScreen::draw(Graphics *g) {
-    g->setCamera(m_camera);
-
-    g->clearTransform();
-    g->setMaterial("white");
-    g->translate(glm::vec3(20.0f, 20.0f, 0.0f));
-    g->drawText("Press mouse to play", 80);
-}
-
-void WarmupStartScreen::tick(float seconds) {
-    if (Input::getPressed("MOUSE")) m_app->changeScreen("gameplay");
-}
-
-void WarmupStartScreen::restartScreen() {
-    Screen::restartScreen();
-}
-
-
-void WarmupStartScreen::onMousePressed(QMouseEvent *event) {
-    m_app->changeScreen("gameplay");
-}
-
-void WarmupStartScreen::resize(int w, int h) {
-    m_camera->setScreenSize(glm::vec2(w,h));
 }

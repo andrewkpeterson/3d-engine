@@ -13,11 +13,11 @@ TransformComponent::~TransformComponent()
 
 }
 
-void TransformComponent::addGameObjectToSystems() {
+void TransformComponent::addComponentToSystems() {
 
 }
 
-void TransformComponent::removeGameObjectFromSystems() {
+void TransformComponent::removeComponentFromSystems() {
 
 }
 

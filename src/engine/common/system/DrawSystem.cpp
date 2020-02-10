@@ -20,7 +20,7 @@ void DrawSystem::removeComponent(DrawableComponent *component) {
 }
 
 void DrawSystem::draw(Graphics *g) {
-    g->setCamera(m_gameworld->getSystem<CameraSystem>()->getCurrCamComponent()->getCamera());
+    g->setCamera(m_gameworld->getSystem<CameraSystem>()->getCurrentMainCameraComponent()->getCamera());
     auto it = m_components.begin();
     while(it != m_components.end()) {
         DrawableComponent *comp = *it;

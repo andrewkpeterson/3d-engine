@@ -17,13 +17,13 @@ public:
     void addComponent(CameraComponent *component);
     void removeComponent(CameraComponent *component);
 
-    void setCurrCamComponent(CameraComponent *component);
-    CameraComponent *getCurrCamComponent();
+    void setCurrentMainCameraComponent(CameraComponent *component);
+    CameraComponent *getCurrentMainCameraComponent();
     void resizeCameras(int width, int height);
 
 private:
     std::unordered_set<CameraComponent*> m_components;
-    CameraComponent *m_currcam;
+    CameraComponent *m_main;
 };
 
 #endif // CAMERASYSTEM_H

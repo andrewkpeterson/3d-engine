@@ -11,8 +11,8 @@ class TransformComponent : public Component
 public:
     TransformComponent(GameObject *gameobject, glm::vec3 pos, float scale);
     ~TransformComponent() override;
-    void addGameObjectToSystems() override;
-    void removeGameObjectFromSystems() override;
+    void addComponentToSystems() override;
+    void removeComponentFromSystems() override;
 
     void setObjectTransform();
     void translate(glm::vec3 translation);
