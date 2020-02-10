@@ -2,12 +2,13 @@
 #include "TransformComponent.h"
 #include "src/engine/common/system/DrawSystem.h"
 
-DrawableComponent::DrawableComponent(std::shared_ptr<GameObject> gameobject, std::string geometry,
+DrawableComponent::DrawableComponent(GameObject *gameobject, std::string geometry,
                                      std::string matname, Material material) :
     Component(gameobject),
     m_material(material),
     m_matname(matname),
-    m_geometry(geometry)
+    m_geometry(geometry),
+    shouldDraw(true)
 {
     g = Graphics::getGlobalInstance();
     g->addMaterial(m_matname, m_material);
@@ -28,8 +29,14 @@ void DrawableComponent::removeGameObjectFromSystems() {
 }
 
 void DrawableComponent::drawSelf() {
-    g->clearTransform();
-    m_gameobject->getComponent<TransformComponent>()->setObjectTransform();
-    g->setMaterial(m_matname);
-    g->drawShape(m_geometry);
+    if (shouldDraw) {
+        g->clearTransform();
+        m_gameobject->getComponent<TransformComponent>()->setObjectTransform();
+        g->setMaterial(m_matname);
+        g->drawShape(m_geometry);
+    }
+}
+
+void DrawableComponent::setDraw(bool draw) {
+    shouldDraw = draw;
 }

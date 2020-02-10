@@ -1,7 +1,7 @@
 #include "TickSystem.h"
 
-TickSystem::TickSystem(std::shared_ptr<GameWorld> gameworld) :
-    System("TickSystem", gameworld)
+TickSystem::TickSystem(GameWorld *gameworld) :
+    System(gameworld)
 {
 
 }

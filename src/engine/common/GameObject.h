@@ -19,12 +19,12 @@ class GameWorld;
  *
  * To remove a GameObject from the GameWorld, we call the GameWorld's removeGameObject
  * method. This will also remove the GameObject's components from the GameWorld's
- * systems
+ * systems.
  */
 class GameObject
 {
 public:
-    GameObject(std::shared_ptr<GameWorld> gameworld);
+    GameObject(GameWorld *gameworld);
     ~GameObject();
 
     template <typename Comp>
@@ -33,7 +33,7 @@ public:
     }
 
     template <typename Comp>
-    void removeSystem() {
+    void removeComponent() {
         m_components.remove<Comp>();
     }
 
@@ -46,11 +46,12 @@ public:
 
     void addSelfToSystems();
     void removeSelfFromSystems();
-    std::shared_ptr<GameWorld> getGameWorld();
+    void removeAllComponents();
+    GameWorld *getGameWorld();
 
 private:
     TypeMap<std::shared_ptr<Component>> m_components;
-    std::shared_ptr<GameWorld> m_gw;
+    GameWorld *m_gw;
 
 };
 

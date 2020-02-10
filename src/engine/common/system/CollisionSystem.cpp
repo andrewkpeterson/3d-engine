@@ -1,7 +1,7 @@
 #include "CollisionSystem.h"
 
-CollisionSystem::CollisionSystem(std::shared_ptr<GameWorld> gameworld) :
-    System("CollisionSystem", gameworld)
+CollisionSystem::CollisionSystem(GameWorld *gameworld) :
+    System(gameworld)
 {
 
 }
@@ -28,3 +28,4 @@ void CollisionSystem::tick(float seconds) {
         it++;
     }
 }
+

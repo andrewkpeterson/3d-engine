@@ -49,6 +49,10 @@ public:
     m_map[getTypeId<Key>()] = std::forward<ValueType>(value);
   }
 
+  void clear() {
+      m_map.clear();
+  }
+
 private:
   template <class Key>
   inline static int getTypeId() {

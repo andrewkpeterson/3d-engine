@@ -1,6 +1,6 @@
 #include "TickComponent.h"
 
-TickComponent::TickComponent(std::shared_ptr<GameObject> gameobject) :
+TickComponent::TickComponent(GameObject *gameobject) :
     Component(gameobject)
 {
 

@@ -7,7 +7,7 @@
 class TickSystem : public System
 {
 public:
-    TickSystem(std::shared_ptr<GameWorld> gameworld);
+    TickSystem(GameWorld *gameworld);
     ~TickSystem() override;
 
     void addComponent(TickComponent *component);

@@ -2,12 +2,16 @@
 #include "src/engine/common/system/TickSystem.h"
 #include "src/engine/common/system/ControlCallbackSystem.h"
 #include "src/engine/common/component/CameraComponent.h"
+#include "src/engine/common/component/DrawableComponent.h"
+#include "src/engine/common/component/TransformComponent.h"
 #include "src/engine/util/Input.h"
 
-PlayerControlComponent::PlayerControlComponent(std::shared_ptr<GameObject> gameobject) :
+PlayerControlComponent::PlayerControlComponent(GameObject *gameobject) :
     ControlCallbackComponent(gameobject),
     off_ground(false),
-    y_vel(0.0)
+    y_vel(0.0),
+    use_third_person(true),
+    third_person_cam_pos(5.0)
 {
 
 }
@@ -28,20 +32,6 @@ void PlayerControlComponent::removeGameObjectFromSystems() {
     m_gameobject->getGameWorld()->getSystem<ControlCallbackSystem>()->removeComponent(this);
 }
 
-void PlayerControlComponent::draw(Graphics *g) {
-    std::shared_ptr<Camera> camera = m_gameobject->getComponent<CameraComponent>()->getCamera();
-    g->setCamera(camera);
-    g->clearTransform();
-    g->scale(20.0);
-    g->setMaterial("grassMaterial");
-    g->drawShape("quad");
-
-    g->clearTransform();
-    g->setDefaultMaterial();
-    g->translate(glm::vec3(1.0f, 1.0f, 10.0f));
-    g->scale(5);
-    g->drawShape("cylinder");
-}
 
 void PlayerControlComponent::tick(float seconds) {
     std::shared_ptr<Camera> camera = m_gameobject->getComponent<CameraComponent>()->getCamera();
@@ -49,34 +39,44 @@ void PlayerControlComponent::tick(float seconds) {
     glm::vec3 dir = glm::normalize(glm::vec3(look.x, 0, look.z));
     glm::vec3 perp = glm::vec3(dir.z, 0, -dir.x);
 
-    if (Input::getPressed("W")) camera->translate(dir * WALK_SPEED);
-    if (Input::getPressed("S")) camera->translate(-dir * WALK_SPEED);
-    if (Input::getPressed("A")) camera->translate(perp * WALK_SPEED);
-    if (Input::getPressed("D")) camera->translate(-perp * WALK_SPEED);
-
-    if (Input::getPressed("R")) {
-        m_gameobject->getGameWorld()->getScreen()->setAppReadyToRestart();
+    std::shared_ptr<TransformComponent> t = m_gameobject->getComponent<TransformComponent>();
+    if (Input::getPressed("W")) {
+        t->translate(dir * WALK_SPEED);
+    }
+    if (Input::getPressed("S")) {
+        t->translate(-dir * WALK_SPEED);
+    }
+    if (Input::getPressed("A")) {
+        t->translate(perp * WALK_SPEED);
+    }
+    if (Input::getPressed("D")) {
+        t->translate(-perp * WALK_SPEED);
     }
 
     // handle jumping
     if (Input::getPressed("SPACE") && !off_ground) {
-        std::cout << "jumped" << std::endl;
         off_ground = true;
         y_vel = JUMP_SPEED;
     }
 
     // handle falling back to ground
-    if (camera->getEye().y < 1) {
-        std::cout << "hit ground" << std::endl;
+    if (t->getPos().y < GROUND_LEVEL) {
         off_ground = false;
         y_vel = 0;
-        camera->setEye(glm::vec3(camera->getEye().x, 1.0f, camera->getEye().z));
+        t->setPos(glm::vec3(t->getPos().x, GROUND_LEVEL, t->getPos().z));
     }
 
-    // handle chaning y value
-    camera->setEye(glm::vec3(camera->getEye().x, camera->getEye().y + y_vel, camera->getEye().z));
+    // handle changing y value
+    t->setPos(glm::vec3(t->getPos().x, t->getPos().y + y_vel, t->getPos().z));
     if (off_ground) {
         y_vel += GRAVITY * seconds;
+    }
+
+    //set the camera eye to the appropriate place given the position of the transformation component
+    if (use_third_person) {
+        camera->setEye(t->getPos() + glm::vec3(0,1,0) - third_person_cam_pos*camera->getLook());
+    } else {
+        camera->setEye(t->getPos() + glm::vec3(0,1,0));
     }
 }
 
@@ -87,6 +87,11 @@ void PlayerControlComponent::onMouseDragged(int deltaX, int deltaY) {
 }
 
 void PlayerControlComponent::onKeyPressed(QKeyEvent *event) {
+    if (event->key() == Qt::Key_R) m_gameobject->getGameWorld()->getScreen()->setAppReadyToRestart();
+    if (event->key() == Qt::Key_T) {
+        use_third_person = !use_third_person;
+        m_gameobject->getComponent<DrawableComponent>()->setDraw(!use_third_person);
+    }
 }
 
 void PlayerControlComponent::onKeyReleased(QKeyEvent *event) {
@@ -102,4 +107,8 @@ void PlayerControlComponent::onMouseReleased(QMouseEvent *event) {
 }
 
 void PlayerControlComponent::onWheelEvent(QWheelEvent *event) {
+    if (use_third_person) {
+        third_person_cam_pos = glm::clamp(third_person_cam_pos - .002f*event->angleDelta().y(),
+                                          MIN_CAM_TRANSLATION, MAX_CAM_TRANSLATION);
+    }
 }

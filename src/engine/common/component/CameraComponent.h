@@ -8,7 +8,7 @@
 class CameraComponent : public Component
 {
 public:
-    CameraComponent(std::shared_ptr<GameObject> gameobject, glm::vec3 pos, glm::vec3 look);
+    CameraComponent(GameObject *gameobject, glm::vec3 initial_pos, glm::vec3 initial_look);
     ~CameraComponent();
     void addGameObjectToSystems() override;
     void removeGameObjectFromSystems() override;

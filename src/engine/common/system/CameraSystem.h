@@ -11,7 +11,7 @@
 class CameraSystem : public System
 {
 public:
-    CameraSystem(std::shared_ptr<GameWorld> gameworld);
+    CameraSystem(GameWorld *gameworld);
     ~CameraSystem();
 
     void addComponent(CameraComponent *component);

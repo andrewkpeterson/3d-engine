@@ -11,7 +11,7 @@
 class ControlCallbackSystem : public System
 {
 public:
-    ControlCallbackSystem(std::shared_ptr<GameWorld> gameworld);
+    ControlCallbackSystem(GameWorld *gameworld);
     ~ControlCallbackSystem() override;
 
     void addComponent(ControlCallbackComponent *component);

@@ -10,7 +10,7 @@
 class ControlCallbackComponent : public TickComponent
 {
 public:
-    ControlCallbackComponent(std::shared_ptr<GameObject> gameobject);
+    ControlCallbackComponent(GameObject *gameobject);
     ~ControlCallbackComponent();
 
     virtual void tick(float seconds) = 0;

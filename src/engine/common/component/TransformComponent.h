@@ -9,12 +9,15 @@ class GameWorld;
 class TransformComponent : public Component
 {
 public:
-    TransformComponent(std::shared_ptr<GameObject> gameobject, glm::vec3 pos, float scale);
+    TransformComponent(GameObject *gameobject, glm::vec3 pos, float scale);
     ~TransformComponent() override;
     void addGameObjectToSystems() override;
     void removeGameObjectFromSystems() override;
 
     void setObjectTransform();
+    void translate(glm::vec3 translation);
+    void setPos(glm::vec3 position);
+    glm::vec3 getPos();
 private:
     glm::vec3 m_pos;
     float m_scale;

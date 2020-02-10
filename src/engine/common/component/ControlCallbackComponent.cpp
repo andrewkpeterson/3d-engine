@@ -1,6 +1,6 @@
 #include "ControlCallbackComponent.h"
 
-ControlCallbackComponent::ControlCallbackComponent(std::shared_ptr<GameObject> gameobject) :
+ControlCallbackComponent::ControlCallbackComponent(GameObject *gameobject) :
     TickComponent(gameobject)
 {
 

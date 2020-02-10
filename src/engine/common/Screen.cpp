@@ -41,7 +41,7 @@ void Screen::onKeyRepeated(QKeyEvent *event) {
 }
 
 void Screen::restartScreen() {
-    m_gameworld = std::make_shared<GameWorld>(this);
+    m_gameworld.reset(new GameWorld(this));
     initializeGameWorld();
 }
 

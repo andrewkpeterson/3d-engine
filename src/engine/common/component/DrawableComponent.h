@@ -8,17 +8,19 @@
 class DrawableComponent : public Component
 {
 public:
-    DrawableComponent(std::shared_ptr<GameObject> gameobject, std::string geometry,
+    DrawableComponent(GameObject *gameobject, std::string geometry,
                       std::string matname, Material material);
     ~DrawableComponent() override;
     void addGameObjectToSystems() override;
     void removeGameObjectFromSystems() override;
     void drawSelf();
+    void setDraw(bool draw);
 
 private:
     Material m_material;
     std::string m_matname;
     std::string m_geometry;
+    bool shouldDraw;
     Graphics *g;
 };
 

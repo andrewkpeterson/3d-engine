@@ -11,14 +11,14 @@ class GameWorld;
 class Component
 {
 public:
-    Component(std::shared_ptr<GameObject> gameobject);
+    Component(GameObject *gameobject);
     virtual ~Component();
     virtual void addGameObjectToSystems() = 0;
     virtual void removeGameObjectFromSystems() = 0;
     const std::string getName();
 
 protected:
-    std::shared_ptr<GameObject> m_gameobject;
+    GameObject *m_gameobject;
 };
 
 #endif // COMPONENT_H

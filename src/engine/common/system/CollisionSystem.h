@@ -7,7 +7,7 @@
 class CollisionSystem : public System
 {
 public:
-    CollisionSystem(std::shared_ptr<GameWorld> gameworld);
+    CollisionSystem(GameWorld *gameworld);
     ~CollisionSystem() override;
 
     void addComponent(CollisionComponent *component);

@@ -1,7 +1,7 @@
 #include "CameraSystem.h"
 
-CameraSystem::CameraSystem(std::shared_ptr<GameWorld> gameworld) :
-    System("CameraSystem", gameworld)
+CameraSystem::CameraSystem(GameWorld *gameworld) :
+    System(gameworld)
 {
 
 }
@@ -26,6 +26,7 @@ void CameraSystem::setCurrCamComponent(CameraComponent *component) {
 CameraComponent *CameraSystem::getCurrCamComponent() {
     return m_currcam;
 }
+
 void CameraSystem::resizeCameras(int width, int height) {
     auto it = m_components.begin();
     while(it != m_components.end()) {

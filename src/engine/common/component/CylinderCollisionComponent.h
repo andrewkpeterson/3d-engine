@@ -8,7 +8,7 @@
 class CylinderCollisionComponent : public CollisionComponent
 {
 public:
-    CylinderCollisionComponent(std::shared_ptr<GameObject> gameworld);
+    CylinderCollisionComponent(GameObject *gameworld);
     ~CylinderCollisionComponent() override;
     void addGameObjectToSystems() override;
     void removeGameObjectFromSystems() override;

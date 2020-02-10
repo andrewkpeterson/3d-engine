@@ -14,7 +14,7 @@ GameWorld::GameWorld(Screen *screen) :
 
 GameWorld::~GameWorld()
 {
-    std::cout << "object destroyed" << std::endl;
+
 }
 
 void GameWorld::tick(float seconds) {

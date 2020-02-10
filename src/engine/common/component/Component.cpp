@@ -1,6 +1,6 @@
 #include "Component.h"
 
-Component::Component(std::shared_ptr<GameObject> gameobject) :
+Component::Component(GameObject *gameobject) :
     m_gameobject(gameobject)
 {
 

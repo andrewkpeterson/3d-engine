@@ -1,8 +1,8 @@
 #include "ControlCallbackSystem.h"
 #include "src/engine/common/GameObject.h"
 
-ControlCallbackSystem::ControlCallbackSystem(std::shared_ptr<GameWorld> gameworld) :
-    System("ControlCallbackSystem", gameworld)
+ControlCallbackSystem::ControlCallbackSystem(GameWorld *gameworld) :
+    System(gameworld)
 {
 
 }

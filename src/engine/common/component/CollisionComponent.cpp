@@ -1,7 +1,7 @@
 #include "CollisionComponent.h"
 #include "src/engine/common/system/CollisionSystem.h"
 
-CollisionComponent::CollisionComponent(std::shared_ptr<GameObject> gameobject) :
+CollisionComponent::CollisionComponent(GameObject *gameobject) :
     Component(gameobject)
 {
 

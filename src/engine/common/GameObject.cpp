@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(std::shared_ptr<GameWorld> gameworld) :
+GameObject::GameObject(GameWorld *gameworld) :
     m_gw(gameworld)
 {
 
@@ -8,7 +8,7 @@ GameObject::GameObject(std::shared_ptr<GameWorld> gameworld) :
 
 GameObject::~GameObject()
 {
-    std::cout << "object destroyed" << std::endl;
+
 }
 
 void GameObject::addSelfToSystems()
@@ -29,7 +29,11 @@ void GameObject::removeSelfFromSystems()
     }
 }
 
-std::shared_ptr<GameWorld> GameObject::getGameWorld()
+void GameObject::removeAllComponents() {
+    m_components.clear();
+}
+
+GameWorld *GameObject::getGameWorld()
 {
     return m_gw;
 }

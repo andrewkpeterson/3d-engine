@@ -1,6 +1,6 @@
 #include "CylinderCollisionComponent.h"
 
-CylinderCollisionComponent::CylinderCollisionComponent(std::shared_ptr<GameObject> gameworld) :
+CylinderCollisionComponent::CylinderCollisionComponent(GameObject *gameworld) :
     CollisionComponent(gameworld)
 {
 

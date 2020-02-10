@@ -15,13 +15,13 @@ class Component;
 class System
 {
 public:
-    System(std::string str, std::shared_ptr<GameWorld> gameworld);
+    System(GameWorld *gameworld);
     virtual ~System();
 
     const std::string getName();
 
 protected:
-    std::shared_ptr<GameWorld> m_gameworld;
+    GameWorld *m_gameworld;
     const std::string name;
 };
 

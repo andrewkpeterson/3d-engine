@@ -63,10 +63,12 @@ void Application::removeScreen(std::string name) {
 }
 
 void Application::onKeyPressed(QKeyEvent *event) {
+    m_current_screen->onKeyPressed(event);
     Input::onKeyPressed(event);
 }
 
 void Application::onKeyReleased(QKeyEvent *event) {
+    m_current_screen->onKeyReleased(event);
     Input::onKeyReleased(event);
 }
 
@@ -79,10 +81,12 @@ void Application::onMouseDragged(int deltaX, int deltaY) {
 }
 
 void Application::onMousePressed(QMouseEvent *event) {
+    m_current_screen->onMousePressed(event);
     Input::onMousePressed(event);
 }
 
 void Application::onMouseReleased(QMouseEvent *event) {
+    m_current_screen->onMouseReleased(event);
     Input::onMouseReleased(event);
 }
 

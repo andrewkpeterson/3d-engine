@@ -10,7 +10,7 @@
 class DrawSystem : public System
 {
 public:
-    DrawSystem(std::shared_ptr<GameWorld> gameworld);
+    DrawSystem(GameWorld *gameworld);
     ~DrawSystem() override;
 
     void addComponent(DrawableComponent *component);
