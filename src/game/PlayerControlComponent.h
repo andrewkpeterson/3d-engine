@@ -29,7 +29,7 @@ public:
     void onWheelEvent(QWheelEvent *event) override;
 
 private:
-    const float MOUSE_SENSITIVITY = .1f;
+    const float MOUSE_SENSITIVITY = 3.0f;
     const float WALK_SPEED = .1f;
     const float GRAVITY = -5.0f;
     const float JUMP_SPEED = 5.0f;
@@ -40,6 +40,8 @@ private:
     float distance_last_fallen;
     bool use_third_person;
     float third_person_cam_pos;
+    int m_deltaX;
+    int m_deltaY;
     const float MIN_CAM_TRANSLATION = 5.0f;
     const float MAX_CAM_TRANSLATION = 10.0f;
 
