@@ -1,7 +1,7 @@
 #include "Component.h"
 
-Component::Component(GameObject *gameobject) :
-    m_gameobject(gameobject)
+Component::Component() :
+    m_gameobject()
 {
 
 }
@@ -13,4 +13,8 @@ Component::~Component()
 
 GameObject *Component::getGameObject() {
     return m_gameobject;
+}
+
+void Component::setGameObject(GameObject *obj) {
+    m_gameobject = obj;
 }

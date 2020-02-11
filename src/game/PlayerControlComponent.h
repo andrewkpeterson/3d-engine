@@ -1,23 +1,24 @@
 #ifndef PLAYERCONTROLCOMPONENT_H
 #define PLAYERCONTROLCOMPONENT_H
 
-#include "ControlCallbackComponent.h"
+#include "src/engine/common/component/ControlCallbackComponent.h"
 #include "src/engine/common/GameWorld.h"
 #include "src/engine/common/Screen.h"
 
 class GameWorld;
+struct Collision;
 
 class PlayerControlComponent : public ControlCallbackComponent
 {
 public:
-    PlayerControlComponent(GameObject *gameobject);
+    PlayerControlComponent();
     ~PlayerControlComponent() override;
-    void addComponentToSystems() override;
+    void addComponentToSystemsAndConnectComponents() override;
     void removeComponentFromSystems() override;
 
     void tick(float seconds) override;
     void update(float seconds);
-    void handleCollisionResolutionAndResponse();
+    void handleCollisionResolutionAndResponse(Collision collision);
 
     void onKeyPressed(QKeyEvent *event) override;
     void onKeyReleased(QKeyEvent *event) override;

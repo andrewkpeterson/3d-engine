@@ -1,8 +1,8 @@
 #include "CameraComponent.h"
 #include "src/engine/common/system/CameraSystem.h"
 
-CameraComponent::CameraComponent(GameObject *gameobject, glm::vec3 initial_pos, glm::vec3 initial_look) :
-    Component(gameobject),
+CameraComponent::CameraComponent(glm::vec3 initial_pos, glm::vec3 initial_look) :
+    Component(),
     m_initial_pos(initial_pos),
     m_initial_look(initial_look),
     m_camera(std::make_shared<Camera>())
@@ -16,7 +16,7 @@ CameraComponent::~CameraComponent()
 
 }
 
-void CameraComponent::addComponentToSystems()
+void CameraComponent::addComponentToSystemsAndConnectComponents()
 {
     m_gameobject->getGameWorld()->getSystem<CameraSystem>()->addComponent(this);
 }

@@ -6,13 +6,13 @@
 #include "src/engine/common/system/TickSystem.h"
 #include "src/engine/common/system/ControlCallbackSystem.h"
 
-StartControlComponent::StartControlComponent(GameObject *gameobject) :
-    ControlCallbackComponent (gameobject)
+StartControlComponent::StartControlComponent() :
+    ControlCallbackComponent()
 {
 
 }
 
-void StartControlComponent::addComponentToSystems()
+void StartControlComponent::addComponentToSystemsAndConnectComponents()
 {
     m_gameobject->getGameWorld()->getSystem<TickSystem>()->addComponent(this);
     m_gameobject->getGameWorld()->getSystem<ControlCallbackSystem>()->addComponent(this);

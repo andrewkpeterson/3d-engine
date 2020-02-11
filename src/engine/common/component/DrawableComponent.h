@@ -8,10 +8,9 @@
 class DrawableComponent : public Component
 {
 public:
-    DrawableComponent(GameObject *gameobject, std::string geometry,
-                      std::string matname, Material material);
+    DrawableComponent(std::string geometry, std::string matname, Material material);
     ~DrawableComponent() override;
-    void addComponentToSystems() override;
+    void addComponentToSystemsAndConnectComponents() override;
     void removeComponentFromSystems() override;
     void drawSelf();
     void setDraw(bool draw);

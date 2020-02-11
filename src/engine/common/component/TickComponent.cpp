@@ -1,7 +1,7 @@
 #include "TickComponent.h"
 
-TickComponent::TickComponent(GameObject *gameobject) :
-    Component(gameobject)
+TickComponent::TickComponent() :
+    Component()
 {
 
 }

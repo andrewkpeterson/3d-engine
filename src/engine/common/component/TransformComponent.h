@@ -9,9 +9,9 @@ class GameWorld;
 class TransformComponent : public Component
 {
 public:
-    TransformComponent(GameObject *gameobject, glm::vec3 pos, float scale);
+    TransformComponent(glm::vec3 pos, float scale);
     ~TransformComponent() override;
-    void addComponentToSystems() override;
+    void addComponentToSystemsAndConnectComponents() override;
     void removeComponentFromSystems() override;
 
     void setObjectTransform();

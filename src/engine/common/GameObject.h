@@ -24,12 +24,14 @@ class GameWorld;
 class GameObject
 {
 public:
-    GameObject(GameWorld *gameworld, std::string id="");
+    GameObject(std::string id="");
     ~GameObject();
 
     template <typename Comp>
     void addComponent(std::shared_ptr<Comp> &&c) {
-      m_components.put<Comp>(std::forward<std::shared_ptr<Comp>>(c));
+        m_components.put<Comp>(std::forward<std::shared_ptr<Comp>>(c));
+        auto it = m_components.find<Comp>();
+        std::dynamic_pointer_cast<Comp>(it->second)->setGameObject(this);
     }
 
     template <typename Comp>
@@ -48,6 +50,7 @@ public:
     void removeSelfFromSystems();
     void removeAllComponents();
     GameWorld *getGameWorld();
+    void setGameWorld(GameWorld *gameworld);
     std::string getID();
 
 private:

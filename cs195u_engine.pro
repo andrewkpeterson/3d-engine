@@ -58,7 +58,6 @@ SOURCES += \
     src/engine/common/component/DrawableComponent.cpp \
     src/engine/common/component/TransformComponent.cpp \
     src/engine/common/system/System.cpp \
-    src/engine/common/component/PlayerControlComponent.cpp \
     src/engine/common/system/DrawSystem.cpp \
     src/engine/common/system/CollisionSystem.cpp \
     src/engine/util/Input.cpp \
@@ -73,7 +72,8 @@ SOURCES += \
     src/engine/common/ui/UIElement.cpp \
     src/engine/common/ui/UILabel.cpp \
     src/game/StartControlComponent.cpp \
-    src/game/NPCChaseComponent.cpp
+    src/game/NPCChaseComponent.cpp \
+    src/game/PlayerControlComponent.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -121,7 +121,6 @@ HEADERS += \
     src/engine/common/component/DrawableComponent.h \
     src/engine/common/component/TransformComponent.h \
     src/engine/common/system/System.h \
-    src/engine/common/component/PlayerControlComponent.h \
     src/engine/common/system/DrawSystem.h \
     src/engine/common/system/CollisionSystem.h \
     src/engine/util/Input.h \
@@ -136,7 +135,8 @@ HEADERS += \
     src/engine/common/ui/UIElement.h \
     src/engine/common/ui/UILabel.h \
     src/game/StartControlComponent.h \
-    src/game/NPCChaseComponent.h
+    src/game/NPCChaseComponent.h \
+    src/game/PlayerControlComponent.h
 
 FORMS += src/mainwindow.ui
 

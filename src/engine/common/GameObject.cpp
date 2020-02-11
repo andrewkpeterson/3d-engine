@@ -2,8 +2,7 @@
 
 int GameObject::nextID = 0;
 
-GameObject::GameObject(GameWorld *gameworld, std::string id) :
-    m_gw(gameworld)
+GameObject::GameObject(std::string id)
 {
     if (std::strcmp("", id.c_str()) == 0) {
         m_id = std::to_string(nextID);
@@ -22,7 +21,7 @@ void GameObject::addSelfToSystems()
 {
     auto it = m_components.begin();
     while (it != m_components.end()) {
-        it->second->addComponentToSystems();
+        it->second->addComponentToSystemsAndConnectComponents();
         it++;
     }
 }
@@ -43,6 +42,11 @@ void GameObject::removeAllComponents() {
 GameWorld *GameObject::getGameWorld()
 {
     return m_gw;
+}
+
+void GameObject::setGameWorld(GameWorld *gameworld)
+{
+    m_gw = gameworld;
 }
 
 std::string GameObject::getID() {

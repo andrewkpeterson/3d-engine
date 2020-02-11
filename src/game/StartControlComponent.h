@@ -6,10 +6,10 @@
 class StartControlComponent : public ControlCallbackComponent
 {
 public:
-    StartControlComponent(GameObject *gameobject);
+    StartControlComponent();
     ~StartControlComponent();
 
-    void addComponentToSystems() override;
+    void addComponentToSystemsAndConnectComponents() override;
     void removeComponentFromSystems() override;
 
     void tick(float seconds) override {}

@@ -5,10 +5,11 @@
 #include "src/engine/common/component/DrawableComponent.h"
 #include "src/engine/common/component/TransformComponent.h"
 #include "src/engine/common/component/CylinderCollisionComponent.h"
+#include "src/engine/common/ui/UI.h"
 #include "src/engine/util/Input.h"
 
-PlayerControlComponent::PlayerControlComponent(GameObject *gameobject) :
-    ControlCallbackComponent(gameobject),
+PlayerControlComponent::PlayerControlComponent() :
+    ControlCallbackComponent(),
     off_ground(false),
     can_jump(true),
     y_vel(0.0),
@@ -24,10 +25,13 @@ PlayerControlComponent::~PlayerControlComponent()
 
 }
 
-void PlayerControlComponent::addComponentToSystems()
+void PlayerControlComponent::addComponentToSystemsAndConnectComponents()
 {
     m_gameobject->getGameWorld()->getSystem<TickSystem>()->addComponent(this);
     m_gameobject->getGameWorld()->getSystem<ControlCallbackSystem>()->addComponent(this);
+
+    m_gameobject->getComponent<CylinderCollisionComponent>()->
+            setCollisionCallback(std::bind(&PlayerControlComponent::handleCollisionResolutionAndResponse, this, std::placeholders::_1));
 }
 
 void PlayerControlComponent::removeComponentFromSystems() {
@@ -38,22 +42,18 @@ void PlayerControlComponent::removeComponentFromSystems() {
 
 void PlayerControlComponent::tick(float seconds) {
     update(seconds);
-    handleCollisionResolutionAndResponse();
 }
 
-void PlayerControlComponent::handleCollisionResolutionAndResponse() {
+void PlayerControlComponent::handleCollisionResolutionAndResponse(Collision collision) {
+    m_gameobject->getGameWorld()->getActiveUI()->setShouldDisplay(true);
     std::shared_ptr<CylinderCollisionComponent> comp = m_gameobject->getComponent<CylinderCollisionComponent>();
-    std::vector<Collision> collisions = comp->getCollisions();
     std::shared_ptr<TransformComponent> t = m_gameobject->getComponent<TransformComponent>();
-    for(int i = 0; i < collisions.size(); i++) {
-        t->translate(collisions[i].half_mtv);
-        if (collisions[i].half_mtv.x == 0 && collisions[i].half_mtv.z == 0 && collisions[i].half_mtv.y > 0 && y_vel < 0) {
-            can_jump = true;
-            t->translate(glm::vec3(0,distance_last_fallen,0));
-        } else {
-            t->translate(2.0f*collisions[i].half_mtv);
-        }
-        comp->clearCollisions();
+    t->translate(collision.half_mtv);
+    if (collision.half_mtv.x == 0 && collision.half_mtv.z == 0 && collision.half_mtv.y > 0 && y_vel < 0) {
+        can_jump = true;
+        t->translate(glm::vec3(0,distance_last_fallen,0));
+    } else {
+        t->translate(2.0f*collision.half_mtv);
     }
 }
 

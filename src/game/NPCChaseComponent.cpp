@@ -3,8 +3,8 @@
 #include "src/engine/common/system/TickSystem.h"
 #include "src/engine/common/component/TransformComponent.h"
 
-NPCChaseComponent::NPCChaseComponent(GameObject *gameobject) :
-    TickComponent (gameobject)
+NPCChaseComponent::NPCChaseComponent() :
+    TickComponent ()
 {
 
 }
@@ -23,7 +23,7 @@ void NPCChaseComponent::tick(float seconds) {
     m_gameobject->getComponent<TransformComponent>()->setPos(npc_pos + 1.0f*move_dir*seconds);
 }
 
-void NPCChaseComponent::addComponentToSystems()
+void NPCChaseComponent::addComponentToSystemsAndConnectComponents()
 {
     m_gameobject->getGameWorld()->getSystem<TickSystem>()->addComponent(this);
 }

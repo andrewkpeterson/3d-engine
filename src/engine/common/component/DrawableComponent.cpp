@@ -2,9 +2,8 @@
 #include "TransformComponent.h"
 #include "src/engine/common/system/DrawSystem.h"
 
-DrawableComponent::DrawableComponent(GameObject *gameobject, std::string geometry,
-                                     std::string matname, Material material) :
-    Component(gameobject),
+DrawableComponent::DrawableComponent(std::string geometry, std::string matname, Material material) :
+    Component(),
     m_material(material),
     m_matname(matname),
     m_geometry(geometry),
@@ -19,7 +18,7 @@ DrawableComponent::~DrawableComponent()
 
 }
 
-void DrawableComponent::addComponentToSystems()
+void DrawableComponent::addComponentToSystemsAndConnectComponents()
 {
     m_gameobject->getGameWorld()->getSystem<DrawSystem>()->addComponent(this);
 }

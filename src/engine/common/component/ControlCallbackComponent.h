@@ -10,7 +10,7 @@
 class ControlCallbackComponent : public TickComponent
 {
 public:
-    ControlCallbackComponent(GameObject *gameobject);
+    ControlCallbackComponent();
     ~ControlCallbackComponent();
 
     virtual void tick(float seconds) = 0;

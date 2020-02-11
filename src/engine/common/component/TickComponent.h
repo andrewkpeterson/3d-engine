@@ -6,7 +6,7 @@
 class TickComponent : public Component
 {
 public:
-    TickComponent(GameObject *gameobject);
+    TickComponent();
     ~TickComponent();
     virtual void tick(float seconds) = 0;
 };

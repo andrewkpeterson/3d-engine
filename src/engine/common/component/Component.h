@@ -11,11 +11,12 @@ class GameWorld;
 class Component
 {
 public:
-    Component(GameObject *gameobject);
+    Component();
     virtual ~Component();
-    virtual void addComponentToSystems() = 0;
+    virtual void addComponentToSystemsAndConnectComponents() = 0;
     virtual void removeComponentFromSystems() = 0;
     GameObject *getGameObject();
+    void setGameObject(GameObject *obj);
 
 protected:
     GameObject *m_gameobject;

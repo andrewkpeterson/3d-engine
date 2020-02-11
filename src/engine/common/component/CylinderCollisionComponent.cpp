@@ -1,8 +1,8 @@
 #include "CylinderCollisionComponent.h"
 #include "TransformComponent.h"
 
-CylinderCollisionComponent::CylinderCollisionComponent(GameObject *gameworld, float radius, float height) :
-    CollisionComponent(gameworld),
+CylinderCollisionComponent::CylinderCollisionComponent(float radius, float height) :
+    CollisionComponent(),
     m_radius(radius),
     m_height(height)
 {
@@ -14,7 +14,7 @@ CylinderCollisionComponent::~CylinderCollisionComponent()
 
 }
 
-void CylinderCollisionComponent::addComponentToSystems() {
+void CylinderCollisionComponent::addComponentToSystemsAndConnectComponents() {
     m_gameobject->getGameWorld()->getSystem<CollisionSystem>()->addComponent(this);
 }
 
@@ -44,11 +44,11 @@ void CylinderCollisionComponent::checkCollisionWithCylinder(CylinderCollisionCom
         glm::vec2 horizontal_mtv2d = d / glm::length(d) * ((m_radius + that->m_radius) - glm::length(d));
         glm::vec3 horizonal_mtv = glm::vec3(horizontal_mtv2d.x, 0, horizontal_mtv2d.y);
         if (glm::length(horizonal_mtv) < glm::length(vertical_mtv)) {
-            addCollision(Collision({that, .5f*horizonal_mtv}));
-            that->addCollision(Collision({this, -.5f*horizonal_mtv}));
+            if (m_callback != nullptr) m_callback(Collision({that, .5f*horizonal_mtv}));
+            if (that->m_callback != nullptr) that->m_callback(Collision({this, -.5f*horizonal_mtv}));
         } else {
-            addCollision(Collision({that, -.5f*vertical_mtv}));
-            that->addCollision(Collision({this, .5f*vertical_mtv}));
+            if (m_callback != nullptr) m_callback(Collision({that, -.5f*vertical_mtv}));
+            if (that->m_callback != nullptr) that->m_callback(Collision({this, .5f*vertical_mtv}));
         }
     }
 }

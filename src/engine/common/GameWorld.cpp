@@ -47,6 +47,7 @@ void GameWorld::resize(int width, int height) {
 void GameWorld::addGameObject(std::shared_ptr<GameObject> object) {
     assert(m_gameobjects.find(object->getID()) == m_gameobjects.end());
     m_gameobjects.insert({object->getID(), object});
+    object->setGameWorld(this);
     object->addSelfToSystems();
 }
 
@@ -86,6 +87,7 @@ void GameWorld::onWheelEvent(QWheelEvent *event) {
 
 void GameWorld::addUI(std::shared_ptr<UI> ui, std::string name) {
     m_uis[name] = ui;
+    ui->setGameWorld(this);
 }
 
 std::shared_ptr<UI> GameWorld::getActiveUI() {

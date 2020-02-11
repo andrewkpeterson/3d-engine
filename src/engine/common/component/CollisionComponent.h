@@ -12,18 +12,14 @@ struct Collision;
 class CollisionComponent : public Component
 {
 public:
-    CollisionComponent(GameObject *gameobject);
+    CollisionComponent();
     ~CollisionComponent() override;
     
     virtual void checkCollision(CollisionComponent *comp) = 0;
     virtual void checkCollisionWithCylinder(CylinderCollisionComponent *comp) = 0;
-    std::vector<Collision> getCollisions();
-    void clearCollisions();
     void setCollisionCallback(std::function<void(Collision)> func);
 
 protected:
-    std::vector<Collision> m_collisions;
-    void addCollision(Collision collision);
     std::function<void(Collision)> m_callback;
 };
 
