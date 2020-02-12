@@ -111,13 +111,15 @@ void PlayerControlComponent::update(float seconds) {
         camera->setEye(t->getPos() + glm::vec3(0,1,0));
     }
 
-    camera->rotate(-m_deltaX / 100.0f * MOUSE_SENSITIVITY * seconds, -m_deltaY / 100.0f * MOUSE_SENSITIVITY * seconds);
+    //camera->rotate(-m_deltaX / 100.0f * MOUSE_SENSITIVITY * seconds, -m_deltaY / 100.0f * MOUSE_SENSITIVITY * seconds);
 }
 
 
 void PlayerControlComponent::onMouseDragged(int deltaX, int deltaY) {
     m_deltaX = deltaX;
     m_deltaY = deltaY;
+    std::shared_ptr<Camera> camera = m_gameobject->getComponent<CameraComponent>()->getCamera();
+    camera->rotate(-m_deltaX / 100.0f * MOUSE_SENSITIVITY, -m_deltaY / 100.0f * MOUSE_SENSITIVITY);
 }
 
 void PlayerControlComponent::onKeyPressed(QKeyEvent *event) {
