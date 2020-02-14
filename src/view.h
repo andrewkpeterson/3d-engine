@@ -2,7 +2,7 @@
 #define VIEW_H
 
 #include "engine/util/CommonIncludes.h"
-#include "src/game/WarmupApplication.h"
+#include "src/warmup/WarmupApplication.h"
 
 #include <QGLWidget>
 #include <QTime>

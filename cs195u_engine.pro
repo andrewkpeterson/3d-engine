@@ -45,11 +45,11 @@ SOURCES += \
     src/engine/graphics/Graphics.cpp \
     src/engine/graphics/Material.cpp \
     src/engine/graphics/Light.cpp \
-    src/game/WarmupApplication.cpp \
+    src/warmup/WarmupApplication.cpp \
     src/engine/common/Application.cpp \
     src/engine/common/Screen.cpp \
-    src/game/WarmupGameplayScreen.cpp \
-    src/game/WarmupStartScreen.cpp \
+    src/warmup/WarmupGameplayScreen.cpp \
+    src/warmup/WarmupStartScreen.cpp \
     src/engine/common/GameWorld.cpp \
     src/engine/common/GameObject.cpp \
     src/engine/common/system/TickSystem.cpp \
@@ -71,9 +71,9 @@ SOURCES += \
     src/engine/common/ui/UI.cpp \
     src/engine/common/ui/UIElement.cpp \
     src/engine/common/ui/UILabel.cpp \
-    src/game/StartControlComponent.cpp \
-    src/game/NPCChaseComponent.cpp \
-    src/game/PlayerControlComponent.cpp
+    src/warmup/StartControlComponent.cpp \
+    src/warmup/NPCChaseComponent.cpp \
+    src/warmup/PlayerControlComponent.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -108,11 +108,11 @@ HEADERS += \
     src/engine/graphics/Material.h \
     src/engine/graphics/Light.h \
     src/engine/graphics/Constants.h \
-    src/game/WarmupApplication.h \
+    src/warmup/WarmupApplication.h \
     src/engine/common/Application.h \
     src/engine/common/Screen.h \
-    src/game/WarmupGameplayScreen.h \
-    src/game/WarmupStartScreen.h \
+    src/warmup/WarmupGameplayScreen.h \
+    src/warmup/WarmupStartScreen.h \
     src/engine/common/GameWorld.h \
     src/engine/common/GameObject.h \
     src/engine/common/system/TickSystem.h \
@@ -134,9 +134,9 @@ HEADERS += \
     src/engine/common/ui/UI.h \
     src/engine/common/ui/UIElement.h \
     src/engine/common/ui/UILabel.h \
-    src/game/StartControlComponent.h \
-    src/game/NPCChaseComponent.h \
-    src/game/PlayerControlComponent.h
+    src/warmup/StartControlComponent.h \
+    src/warmup/NPCChaseComponent.h \
+    src/warmup/PlayerControlComponent.h
 
 FORMS += src/mainwindow.ui
 
