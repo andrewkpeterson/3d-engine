@@ -76,7 +76,11 @@ SOURCES += \
     src/warmup/PlayerControlComponent.cpp \
     src/dungeon/DungeonApplication.cpp \
     src/dungeon/DungeonGameplayScreen.cpp \
-    src/engine/common/map/MapGenerator.cpp
+    src/engine/common/map/MapGenerator.cpp \
+    src/dungeon/DungeonPlayerControlComponent.cpp \
+    src/engine/common/component/FrustumCullComponent.cpp \
+    src/engine/common/component/ChunkContainerComponent.cpp \
+    src/dungeon/DungeonEnvironmentComponent.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -142,7 +146,11 @@ HEADERS += \
     src/warmup/PlayerControlComponent.h \
     src/dungeon/DungeonApplication.h \
     src/dungeon/DungeonGameplayScreen.h \
-    src/engine/common/map/MapGenerator.h
+    src/engine/common/map/MapGenerator.h \
+    src/dungeon/DungeonPlayerControlComponent.h \
+    src/engine/common/component/FrustumCullComponent.h \
+    src/engine/common/component/ChunkContainerComponent.h \
+    src/dungeon/DungeonEnvironmentComponent.h
 
 FORMS += src/mainwindow.ui
 

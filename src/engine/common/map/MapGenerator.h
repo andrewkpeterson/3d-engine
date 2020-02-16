@@ -4,6 +4,7 @@
 #include "src/engine/util/CommonIncludes.h"
 #include <vector>
 #include <random>
+#include <memory>
 
 enum MapElement {OPEN, WALL, BLANK};
 
@@ -14,16 +15,15 @@ struct RoomInfo {
     int colend;
 };
 
-struct MapInfo {
-    int x;
-    int y;
+struct SegmentInfo {
+    int segment_num;
+    int exit_row;
     int seed;
 };
 
 struct MapSegment {
     std::vector<MapElement> data;
-    MapInfo info;
-    MapInfo next;
+    SegmentInfo info;
 };
 
 class MapGenerator {
@@ -38,11 +38,13 @@ public:
 private:
     static void cleanUpMap(std::shared_ptr<MapSegment> map);
     static bool checkValidCoordinates(int row, int col);
-    static void addExit();
+    static void addSegmentExit(std::shared_ptr<MapSegment> map);
+    static void addSegmentEntrance(std::shared_ptr<MapSegment> map);
     static RoomInfo spacePartition(std::shared_ptr<MapSegment> map, int depth, int colstart, int colend, int rowstart, int rowend);
 
     std::vector<MapElement> map;
     static const int MAX_DEPTH = 4;
+    static const int initial_seed = 506;
     static const constexpr float EARLY_STOP_PROB = .2f;
     static const int MAP_WIDTH = 50;
     static const int MAP_HEIGHT = 50;
@@ -50,7 +52,8 @@ private:
     static const int MIN_LEAF_HEIGHT = 5;
     static const int MIN_ROOM_HEIGHT = 2;
     static const int MIN_ROOM_WIDTH = 2;
-    static std::vector<MapInfo> map_info;
+    static std::vector<SegmentInfo> segment_info; // contains all the map info for maps that have been created by the Map Generator
+    static int next_segment_num;
 };
 
 #endif // MAP_H

@@ -1,5 +1,8 @@
 #include "MapGenerator.h"
 
+int MapGenerator::next_segment_num = 0;
+std::vector<SegmentInfo> MapGenerator::segment_info = {};
+
 MapGenerator::MapGenerator() {
 
 }
@@ -11,12 +14,21 @@ MapGenerator::~MapGenerator() {
 std::shared_ptr<MapSegment> MapGenerator::createMap(int seed) {
     std::srand(seed);
     std::shared_ptr<MapSegment> map = std::make_shared<MapSegment>();
+    map->info.seed = seed;
+    map->info.segment_num = next_segment_num;
+    next_segment_num++;
     map->data.reserve(MAP_WIDTH * MAP_HEIGHT);
     for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
         map->data.push_back(WALL);
     }
     spacePartition(map, 0, 1, MAP_WIDTH-1, 1, MAP_HEIGHT-1);
+    // choose the direction where the next segment will be added
+    addSegmentExit(map);
+    if (map->info.segment_num > 0) {
+        addSegmentEntrance(map);
+    }
     cleanUpMap(map);
+    MapGenerator::segment_info.push_back(map->info);
     printMap(map);
     return map;
 }
@@ -33,8 +45,8 @@ RoomInfo MapGenerator::spacePartition(std::shared_ptr<MapSegment> map, int depth
         int width = (std::rand() % (max_width - min_width)) + min_width;
         int room_row_start = (std::rand() % (max_height - height)) + rowstart;
         int room_col_start = (std::rand() % (max_width - width)) + colstart;
-        for (int row = 1; row < MAP_WIDTH-1; row++) {
-            for (int col = 1; col < MAP_HEIGHT-1; col++) {
+        for (int row = 1; row < MAP_HEIGHT-1; row++) {
+            for (int col = 1; col < MAP_WIDTH-1; col++) {
                 if (row >= room_row_start && row < room_row_start + height) {
                     if (col >= room_col_start && col < room_col_start + width) {
                         map->data[row * MAP_WIDTH + col] = OPEN;
@@ -58,8 +70,8 @@ RoomInfo MapGenerator::spacePartition(std::shared_ptr<MapSegment> map, int depth
             int connection_col = (std::rand() % (endcol - begincol)) + begincol;
             int row_connection_start = top.rowstart;
             int row_connection_end = bottom.rowend;
-            for (int row = 1; row < MAP_WIDTH-1; row++) {
-                for (int col = 1; col < MAP_HEIGHT-1; col++) {
+            for (int row = 1; row < MAP_HEIGHT-1; row++) {
+                for (int col = 1; col < MAP_WIDTH-1; col++) {
                     if (row >= row_connection_start && row < row_connection_end) {
                         if (col == connection_col) {
                             map->data[row * MAP_WIDTH + col] = OPEN;
@@ -82,8 +94,8 @@ RoomInfo MapGenerator::spacePartition(std::shared_ptr<MapSegment> map, int depth
             int connection_row = (std::rand() % (endrow - beginrow)) + beginrow;
             int col_connection_start = left.colstart;
             int col_connection_end = right.colend;
-            for (int row = 1; row < MAP_WIDTH-1; row++) {
-                for (int col = 1; col < MAP_HEIGHT-1; col++) {
+            for (int row = 1; row < MAP_HEIGHT-1; row++) {
+                for (int col = 1; col < MAP_WIDTH-1; col++) {
                     if (col >= col_connection_start && col < col_connection_end) {
                         if (row == connection_row) {
                             map->data[row * MAP_WIDTH + col] = OPEN;
@@ -95,6 +107,31 @@ RoomInfo MapGenerator::spacePartition(std::shared_ptr<MapSegment> map, int depth
         }
 
         return RoomInfo({rowstart, rowend, colstart, colend});
+    }
+}
+
+void MapGenerator::addSegmentEntrance(std::shared_ptr<MapSegment> map) {
+    int entrance_row = segment_info[map->info.segment_num - 1].exit_row;
+    int col = 0;
+    while (map->data[entrance_row * MAP_WIDTH + col] != OPEN) {
+        map->data[entrance_row * MAP_WIDTH + col] = OPEN;
+        col++;
+    }
+}
+
+void MapGenerator::addSegmentExit(std::shared_ptr<MapSegment> map) {
+    for (int row = 1; row < MAP_WIDTH-1; row++) {
+        for (int col = MAP_HEIGHT-2; col >= 1; col--) {
+            if (map->data[row * MAP_WIDTH + col] == OPEN) {
+                int exit_row = row;
+                int exit_col = col;
+                for (int c = exit_col; c < MAP_WIDTH; c++) {
+                    map->data[exit_row * MAP_WIDTH + c] = OPEN;
+                }
+                map->info.exit_row = exit_row;
+                return;
+            }
+        }
     }
 }
 

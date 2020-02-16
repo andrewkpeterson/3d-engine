@@ -12,7 +12,7 @@ public:
     ~DrawableComponent() override;
     void addComponentToSystemsAndConnectComponents() override;
     void removeComponentFromSystems() override;
-    void drawSelf();
+    virtual void drawSelf();
     void setDraw(bool draw);
 
 private:
