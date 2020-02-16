@@ -2,7 +2,7 @@
 #define VIEW_H
 
 #include "engine/util/CommonIncludes.h"
-#include "src/game/WarmupApplication.h"
+#include "src/dungeon/DungeonApplication.h"
 
 #include <QGLWidget>
 #include <QTime>
@@ -55,7 +55,7 @@ private:
     Graphics* m_graphics;
 
     // TODO (Warmup 1): Add an application variable to the View class
-    std::unique_ptr<WarmupApplication> app;
+    std::unique_ptr<DungeonApplication> app;
 
 private slots:
     void tick();

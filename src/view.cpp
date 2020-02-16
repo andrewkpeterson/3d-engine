@@ -91,7 +91,7 @@ void View::initializeGL()
     /** SUPPORT CODE END **/
 
     // TODO (Warmup 1): Initialize application
-    app = std::make_unique<WarmupApplication>();
+    app = std::make_unique<DungeonApplication>();
 }
 
 void View::paintGL()
