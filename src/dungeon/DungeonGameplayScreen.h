@@ -3,7 +3,7 @@
 
 #include "src/engine/common/Application.h"
 #include "src/engine/common/Screen.h"
-#include "src/engine/common/map/Map.h"
+#include "src/engine/common/map/MapGenerator.h"
 
 class DungeonGameplayScreen : public Screen
 {

@@ -1,26 +1,27 @@
-#include "Map.h"
+#include "MapGenerator.h"
 
-Map::Map(int seed) {
-    createMap(seed);
-}
-
-Map::~Map() {
+MapGenerator::MapGenerator() {
 
 }
 
-void Map::createMap(int seed) {
-    srand(seed);
-    map.reserve(MAP_WIDTH * MAP_HEIGHT);
+MapGenerator::~MapGenerator() {
+
+}
+
+std::shared_ptr<MapSegment> MapGenerator::createMap(int seed) {
+    std::srand(seed);
+    std::shared_ptr<MapSegment> map = std::make_shared<MapSegment>();
+    map->data.reserve(MAP_WIDTH * MAP_HEIGHT);
     for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
-        map.push_back(WALL);
+        map->data.push_back(WALL);
     }
-    spacePartition(0, 0, MAP_WIDTH, 0, MAP_HEIGHT);
-    printMap();
-    cleanUpMap();
-    printMap();
+    spacePartition(map, 0, 1, MAP_WIDTH-1, 1, MAP_HEIGHT-1);
+    cleanUpMap(map);
+    printMap(map);
+    return map;
 }
 
-RoomInfo Map::spacePartition(int depth, int colstart, int colend, int rowstart, int rowend) {
+RoomInfo MapGenerator::spacePartition(std::shared_ptr<MapSegment> map, int depth, int colstart, int colend, int rowstart, int rowend) {
     float stop = float(std::rand()) / float(RAND_MAX);
     if (depth > MAX_DEPTH || (depth == 2 && stop < EARLY_STOP_PROB)) {
         // create leaf
@@ -32,16 +33,15 @@ RoomInfo Map::spacePartition(int depth, int colstart, int colend, int rowstart, 
         int width = (std::rand() % (max_width - min_width)) + min_width;
         int room_row_start = (std::rand() % (max_height - height)) + rowstart;
         int room_col_start = (std::rand() % (max_width - width)) + colstart;
-        for (int row = 0; row < MAP_WIDTH; row++) {
-            for (int col = 0; col < MAP_HEIGHT; col++) {
+        for (int row = 1; row < MAP_WIDTH-1; row++) {
+            for (int col = 1; col < MAP_HEIGHT-1; col++) {
                 if (row >= room_row_start && row < room_row_start + height) {
                     if (col >= room_col_start && col < room_col_start + width) {
-                        map[row * MAP_WIDTH + col] = OPEN;
+                        map->data[row * MAP_WIDTH + col] = OPEN;
                     }
                 }
             }
         }
-        printMap();
         return RoomInfo({room_row_start, room_row_start + height, room_col_start, room_col_start + width});
     } else {
         if (depth % 2 == 0 && (rowend - rowstart) > MIN_LEAF_HEIGHT && (colend - colstart) > MIN_LEAF_WIDTH) {
@@ -49,8 +49,8 @@ RoomInfo Map::spacePartition(int depth, int colstart, int colend, int rowstart, 
             int split_start = 3*rowstart / 4 + rowend / 4;
             int split_end = 3*rowend / 4 + rowstart / 4;
             int split_row = (std::rand() % (split_end - split_start)) + split_start;
-            RoomInfo top = spacePartition(depth + 1, colstart, colend, rowstart, split_row);
-            RoomInfo bottom = spacePartition(depth + 1, colstart, colend, split_row, rowend);
+            RoomInfo top = spacePartition(map, depth + 1, colstart, colend, rowstart, split_row);
+            RoomInfo bottom = spacePartition(map, depth + 1, colstart, colend, split_row, rowend);
             // connect the two child nodes
             // select column to connect the two child nodes
             int begincol = std::max(top.colstart, bottom.colstart);
@@ -58,24 +58,23 @@ RoomInfo Map::spacePartition(int depth, int colstart, int colend, int rowstart, 
             int connection_col = (std::rand() % (endcol - begincol)) + begincol;
             int row_connection_start = top.rowstart;
             int row_connection_end = bottom.rowend;
-            for (int row = 0; row < MAP_WIDTH; row++) {
-                for (int col = 0; col < MAP_HEIGHT; col++) {
+            for (int row = 1; row < MAP_WIDTH-1; row++) {
+                for (int col = 1; col < MAP_HEIGHT-1; col++) {
                     if (row >= row_connection_start && row < row_connection_end) {
                         if (col == connection_col) {
-                            map[row * MAP_WIDTH + col] = OPEN;
+                            map->data[row * MAP_WIDTH + col] = OPEN;
                         }
                     }
                 }
             }
-            printMap();
             return RoomInfo({top.rowstart, bottom.rowend, begincol, endcol});
         } else if ((colend - colstart) > MIN_LEAF_WIDTH && (rowend - rowstart) > MIN_LEAF_HEIGHT) {
             // split vertically
             int split_start = 3*colstart / 4 + colend / 4;
             int split_end = 3*colend / 4 + colstart / 4;
             int split_col = (std::rand() % (split_end - split_start)) + split_start;
-            RoomInfo left = spacePartition(depth + 1, colstart, split_col, rowstart, rowend);
-            RoomInfo right = spacePartition(depth + 1, split_col, colend, rowstart, rowend);
+            RoomInfo left = spacePartition(map, depth + 1, colstart, split_col, rowstart, rowend);
+            RoomInfo right = spacePartition(map, depth + 1, split_col, colend, rowstart, rowend);
             // connect the two child nodes
             // select row to connect the two child nodes
             int beginrow = std::max(left.rowstart, right.rowstart);
@@ -83,16 +82,15 @@ RoomInfo Map::spacePartition(int depth, int colstart, int colend, int rowstart, 
             int connection_row = (std::rand() % (endrow - beginrow)) + beginrow;
             int col_connection_start = left.colstart;
             int col_connection_end = right.colend;
-            for (int row = 0; row < MAP_WIDTH; row++) {
-                for (int col = 0; col < MAP_HEIGHT; col++) {
+            for (int row = 1; row < MAP_WIDTH-1; row++) {
+                for (int col = 1; col < MAP_HEIGHT-1; col++) {
                     if (col >= col_connection_start && col < col_connection_end) {
                         if (row == connection_row) {
-                            map[row * MAP_WIDTH + col] = OPEN;
+                            map->data[row * MAP_WIDTH + col] = OPEN;
                         }
                     }
                 }
             }
-            printMap();
             return RoomInfo({beginrow, endrow, left.colstart, right.colend});
         }
 
@@ -100,7 +98,7 @@ RoomInfo Map::spacePartition(int depth, int colstart, int colend, int rowstart, 
     }
 }
 
-void Map::cleanUpMap() {
+void MapGenerator::cleanUpMap(std::shared_ptr<MapSegment> map) {
     std::vector<bool> remove;
     remove.reserve(MAP_WIDTH * MAP_HEIGHT);
     for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
@@ -109,16 +107,16 @@ void Map::cleanUpMap() {
     for (int row = 0; row < MAP_WIDTH; row++) {
         for (int col = 0; col < MAP_HEIGHT; col++) {
             bool found_open  = 0;
-            if (checkValidCoordinates(row + 1, col) && map[(row+1)*MAP_WIDTH+col] == OPEN) {
+            if (checkValidCoordinates(row + 1, col) && map->data[(row+1)*MAP_WIDTH+col] == OPEN) {
                 found_open = true;
             }
-            if (checkValidCoordinates(row, col + 1) && map[row*MAP_WIDTH+col+1] == OPEN) {
+            if (checkValidCoordinates(row, col + 1) && map->data[row*MAP_WIDTH+col+1] == OPEN) {
                 found_open = true;
             }
-            if (checkValidCoordinates(row - 1, col) && map[(row-1)*MAP_WIDTH+col] == OPEN) {
+            if (checkValidCoordinates(row - 1, col) && map->data[(row-1)*MAP_WIDTH+col] == OPEN) {
                 found_open = true;
             }
-            if (checkValidCoordinates(row, col - 1) && map[row*MAP_WIDTH+col-1] == OPEN) {
+            if (checkValidCoordinates(row, col - 1) && map->data[row*MAP_WIDTH+col-1] == OPEN) {
                 found_open = true;
             }
             if (!found_open) {
@@ -128,24 +126,24 @@ void Map::cleanUpMap() {
     }
     for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
         if (remove[i]) {
-            map[i] = BLANK;
+            map->data[i] = BLANK;
         }
     }
 }
 
-bool Map::checkValidCoordinates(int row, int col) {
+bool MapGenerator::checkValidCoordinates(int row, int col) {
     return row >= 0 && row < MAP_HEIGHT && col >= 0 && col < MAP_WIDTH;
 }
 
-void Map::printMap() {
+void MapGenerator::printMap(std::shared_ptr<MapSegment> map) {
     std::cout << "\n\n\nSTART MAP\n\n\n" << std::endl;
     for (int row = 0; row < MAP_WIDTH; row++) {
         for (int col = 0; col < MAP_HEIGHT; col++) {
-            if (map[row * MAP_WIDTH + col] == OPEN) {
+            if (map->data[row * MAP_WIDTH + col] == OPEN) {
                 std::cout << " ";
-            } else if (map[row * MAP_WIDTH + col] == WALL) {
+            } else if (map->data[row * MAP_WIDTH + col] == WALL) {
                 std::cout << "=";
-            } else if (map[row * MAP_WIDTH + col] == BLANK) {
+            } else if (map->data[row * MAP_WIDTH + col] == BLANK) {
                 std::cout << ".";
             }
         }
