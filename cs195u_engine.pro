@@ -74,7 +74,9 @@ SOURCES += \
     src/warmup/StartControlComponent.cpp \
     src/warmup/NPCChaseComponent.cpp \
     src/warmup/PlayerControlComponent.cpp \
-    src/dungeon/DungeonApplication.cpp
+    src/dungeon/DungeonApplication.cpp \
+    src/dungeon/DungeonGameplayScreen.cpp \
+    src/engine/common/map/Map.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -138,7 +140,9 @@ HEADERS += \
     src/warmup/StartControlComponent.h \
     src/warmup/NPCChaseComponent.h \
     src/warmup/PlayerControlComponent.h \
-    src/dungeon/DungeonApplication.h
+    src/dungeon/DungeonApplication.h \
+    src/dungeon/DungeonGameplayScreen.h \
+    src/engine/common/map/Map.h
 
 FORMS += src/mainwindow.ui
 

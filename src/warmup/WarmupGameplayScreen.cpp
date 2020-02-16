@@ -10,7 +10,7 @@
 #include "src/engine/common/ui/UILabel.h"
 #include "src/warmup/NPCChaseComponent.h"
 
-WarmupGameplayScreen::WarmupGameplayScreen(Graphics *g, WarmupApplication *parent_app) :
+WarmupGameplayScreen::WarmupGameplayScreen(WarmupApplication *parent_app) :
     Screen(parent_app)
 {
     initializeGameWorld();

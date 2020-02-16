@@ -15,7 +15,7 @@
 class WarmupGameplayScreen : public Screen
 {
 public:
-    WarmupGameplayScreen(Graphics *g, WarmupApplication *parent);
+    WarmupGameplayScreen(WarmupApplication *parent);
     virtual ~WarmupGameplayScreen() override;
 
     void initializeGameWorld() override;

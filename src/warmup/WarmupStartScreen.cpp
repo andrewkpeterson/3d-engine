@@ -5,7 +5,7 @@
 #include "src/engine/common/system/CameraSystem.h"
 #include "src/engine/common/component/CameraComponent.h"
 
-WarmupStartScreen::WarmupStartScreen(Graphics *g, WarmupApplication *parent_app) :
+WarmupStartScreen::WarmupStartScreen(WarmupApplication *parent_app) :
     Screen(parent_app)
 {
     initializeGameWorld();

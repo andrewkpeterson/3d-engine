@@ -10,7 +10,7 @@
 class WarmupStartScreen : public Screen
 {
 public:
-    WarmupStartScreen(Graphics *g, WarmupApplication *parent_app);
+    WarmupStartScreen(WarmupApplication *parent_app);
     ~WarmupStartScreen() override;
 
     void initializeGameWorld() override;
