@@ -8,17 +8,14 @@
 class DrawableComponent : public Component
 {
 public:
-    DrawableComponent(std::string geometry, std::string matname, Material material);
+    DrawableComponent();
     ~DrawableComponent() override;
-    void addComponentToSystemsAndConnectComponents() override;
-    void removeComponentFromSystems() override;
-    virtual void drawSelf();
+    virtual void addComponentToSystemsAndConnectComponents() override;
+    virtual void removeComponentFromSystems() override;
+    virtual void drawSelf() = 0;
     void setDraw(bool draw);
 
-private:
-    Material m_material;
-    std::string m_matname;
-    std::string m_geometry;
+protected:
     bool shouldDraw;
     Graphics *g;
 };

@@ -35,6 +35,9 @@ public:
     static std::shared_ptr<MapSegment> createMap(int seed);
     static void printMap(std::shared_ptr<MapSegment> map);
 
+    static const int MAP_WIDTH = 30;
+    static const int MAP_HEIGHT = 30;
+
 private:
     static void cleanUpMap(std::shared_ptr<MapSegment> map);
     static bool checkValidCoordinates(int row, int col);
@@ -43,11 +46,9 @@ private:
     static RoomInfo spacePartition(std::shared_ptr<MapSegment> map, int depth, int colstart, int colend, int rowstart, int rowend);
 
     std::vector<MapElement> map;
-    static const int MAX_DEPTH = 4;
+    static const int MAX_DEPTH = 3;
     static const int initial_seed = 506;
     static const constexpr float EARLY_STOP_PROB = .2f;
-    static const int MAP_WIDTH = 50;
-    static const int MAP_HEIGHT = 50;
     static const int MIN_LEAF_WIDTH = 5;
     static const int MIN_LEAF_HEIGHT = 5;
     static const int MIN_ROOM_HEIGHT = 2;

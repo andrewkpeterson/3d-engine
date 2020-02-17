@@ -78,9 +78,12 @@ SOURCES += \
     src/dungeon/DungeonGameplayScreen.cpp \
     src/engine/common/map/MapGenerator.cpp \
     src/dungeon/DungeonPlayerControlComponent.cpp \
-    src/engine/common/component/FrustumCullComponent.cpp \
-    src/engine/common/component/ChunkContainerComponent.cpp \
-    src/dungeon/DungeonEnvironmentComponent.cpp
+    src/dungeon/DungeonEnvironmentComponent.cpp \
+    src/engine/graphics/Chunk.cpp \
+    src/dungeon/environment/DungeonEnvironmentData.cpp \
+    src/engine/common/component/FrustumCullingComponent.cpp \
+    src/engine/common/component/PrimitiveDrawableComponent.cpp \
+    src/engine/common/component/ChunkDrawableComponent.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -148,9 +151,13 @@ HEADERS += \
     src/dungeon/DungeonGameplayScreen.h \
     src/engine/common/map/MapGenerator.h \
     src/dungeon/DungeonPlayerControlComponent.h \
-    src/engine/common/component/FrustumCullComponent.h \
-    src/engine/common/component/ChunkContainerComponent.h \
-    src/dungeon/DungeonEnvironmentComponent.h
+    src/dungeon/DungeonEnvironmentComponent.h \
+    src/engine/graphics/Chunk.h \
+    src/dungeon/environment/WallData.h \
+    src/dungeon/environment/DungeonEnvironmentData.h \
+    src/engine/common/component/FrustumCullingComponent.h \
+    src/engine/common/component/PrimitiveDrawableComponent.h \
+    src/engine/common/component/ChunkDrawableComponent.h
 
 FORMS += src/mainwindow.ui
 

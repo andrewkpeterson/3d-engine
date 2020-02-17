@@ -1,7 +1,7 @@
 #include "WarmupGameplayScreen.h"
 #include "src/engine/util/Input.h"
 #include "src/engine/common/component/TransformComponent.h"
-#include "src/engine/common/component/DrawableComponent.h"
+#include "src/engine/common/component/PrimitiveDrawableComponent.h"
 #include "src/engine/common/component/CameraComponent.h"
 #include "src/warmup/PlayerControlComponent.h"
 #include "src/engine/common/component/CylinderCollisionComponent.h"
@@ -35,7 +35,7 @@ void WarmupGameplayScreen::initializeGameWorld() {
     Material floor_mat;
     floor_mat.textureName = "grass";
     floor_mat.textureRepeat = glm::vec2(10,10);
-    floor->addComponent<DrawableComponent>(std::make_shared<DrawableComponent>("quad", "grassTexture", floor_mat));
+    floor->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("quad", "grassTexture", floor_mat));
     m_gameworld->addGameObject(floor);
 
     //make camera and player representation
@@ -46,7 +46,7 @@ void WarmupGameplayScreen::initializeGameWorld() {
     player->addComponent<TransformComponent>(std::make_shared<TransformComponent>(glm::vec3(0,0,0), 2.0));
     Material player_mat;
     player_mat.color = glm::vec3(.4,.3,.8);
-    player->addComponent<DrawableComponent>(std::make_shared<DrawableComponent>("cylinder", "playerMat", player_mat));
+    player->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cylinder", "playerMat", player_mat));
     m_gameworld->addGameObject(player);
     m_gameworld->getSystem<CameraSystem>()->setCurrentMainCameraComponent(player->getComponent<CameraComponent>().get());
 
@@ -57,7 +57,7 @@ void WarmupGameplayScreen::initializeGameWorld() {
     npc->addComponent<NPCChaseComponent>(std::make_shared<NPCChaseComponent>());
     Material npc_mat;
     npc_mat.color = glm::vec3(.8,0,.3);
-    npc->addComponent<DrawableComponent>(std::make_shared<DrawableComponent>("cylinder", "npcMat", npc_mat));
+    npc->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cylinder", "npcMat", npc_mat));
     m_gameworld->addGameObject(npc);
 
 }

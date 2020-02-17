@@ -120,6 +120,7 @@ void MapGenerator::addSegmentEntrance(std::shared_ptr<MapSegment> map) {
 }
 
 void MapGenerator::addSegmentExit(std::shared_ptr<MapSegment> map) {
+    /*
     for (int row = 1; row < MAP_WIDTH-1; row++) {
         for (int col = MAP_HEIGHT-2; col >= 1; col--) {
             if (map->data[row * MAP_WIDTH + col] == OPEN) {
@@ -132,7 +133,14 @@ void MapGenerator::addSegmentExit(std::shared_ptr<MapSegment> map) {
                 return;
             }
         }
+    }*/
+    int exit_row = std::rand() % (MAP_WIDTH - 2) + 1;
+    int col = MAP_WIDTH - 1;
+    while(map->data[exit_row * MAP_WIDTH + col] != OPEN) {
+            map->data[exit_row * MAP_WIDTH + col] = OPEN;
+            col--;
     }
+    map->info.exit_row = exit_row;
 }
 
 void MapGenerator::cleanUpMap(std::shared_ptr<MapSegment> map) {

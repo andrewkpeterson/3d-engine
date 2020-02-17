@@ -91,7 +91,7 @@ public:
 private:
     void build();
 
-private:
+protected:
     std::vector<float> m_positions;
     std::vector<float> m_normals;
     std::vector<float> m_texCoords;

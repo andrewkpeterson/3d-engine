@@ -2,14 +2,16 @@
 #define FRUSTUMCULLCOMPONENT_H
 
 #include "DrawableComponent.h"
+#include "ChunkDrawableComponent.h"
 
-class FrustumCullComponent : public DrawableComponent
+class FrustumCullingComponent : public ChunkDrawableComponent
 {
 public:
-    FrustumCullComponent();
-    ~FrustumCullComponent();
+    FrustumCullingComponent();
+    ~FrustumCullingComponent();
 
     void drawSelf() override;
+
 };
 
 #endif // FRUSTUMCULLCOMPONENT_H
