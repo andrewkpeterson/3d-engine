@@ -9,15 +9,15 @@
 class ChunkDrawableComponent : public DrawableComponent
 {
 public:
-    ChunkDrawableComponent();
+    ChunkDrawableComponent(std::shared_ptr<Chunk> chunk, std::string texture_atlas_name);
     ~ChunkDrawableComponent();
-    void addChunk(std::shared_ptr<Chunk> chunk);
-    void removeChunk(std::shared_ptr<Chunk> chunk);
     void drawSelf();
 
 
 protected:
-    std::unordered_set<std::shared_ptr<Chunk>> m_chunks;
+    std::shared_ptr<Chunk> m_chunk;
+    std::string m_atlas_name;
+    Material m_atlas;
 };
 
 #endif // CHUNKCONTAINERCOMPONENT_H

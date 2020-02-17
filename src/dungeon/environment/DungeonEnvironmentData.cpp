@@ -59,10 +59,24 @@ void DungeonEnvironmentData::fillVectorWithWallData(std::vector<float> &vertex_d
 
 void DungeonEnvironmentData::fillVectorWithFloorData(std::vector<float> &vertex_data, float topleft_x, float topleft_z,
                                                 float ustart, float uend, float vstart, float vend) {
+    vertex_data.insert(vertex_data.end(),
+    {-0.5f + topleft_x, 0.0f,  0.5f + topleft_z, 0, 1, 0, ustart, vstart,
+     0.5f + topleft_x, 0.0f,  0.5f + topleft_z, 0, 1, 0, uend, vstart,
+     0.5f + topleft_x, 0.0f, -0.5f + topleft_z, 0, 1, 0, uend, vend,
+    -0.5f + topleft_x, 0.0f,  0.5f + topleft_z, 0, 1, 0, ustart, vstart,
+     0.5f + topleft_x, 0.0f, -0.5f + topleft_z, 0, 1, 0, uend, vend,
+    -0.5f + topleft_x, 0.0f, -0.5f + topleft_z, 0, 1, 0, ustart, vend,});
 
 }
 
 void DungeonEnvironmentData::fillVectorWithCeilingData(std::vector<float> &vertex_data, float topleft_x, float topleft_z,
                                                float ustart, float uend, float vstart, float vend) {
 
+    vertex_data.insert(vertex_data.end(),
+    {-0.5f + topleft_x, 1.0f, -0.5f + topleft_z, 0, -1, 0, ustart, vstart,
+     0.5f + topleft_x, 1.0f, -0.5f + topleft_z, 0, -1, 0, uend, vstart,
+     0.5f + topleft_x, 1.0f,  0.5f + topleft_z, 0, -1, 0, uend, vend,
+    -0.5f + topleft_x, 1.0f, -0.5f + topleft_z, 0, -1, 0, ustart, vstart,
+     0.5f + topleft_x, 1.0f,  0.5f + topleft_z, 0, -1, 0, uend, vend,
+    -0.5f + topleft_x, 1.0f,  0.5f + topleft_z, 0, -1, 0, ustart, vend});
 }

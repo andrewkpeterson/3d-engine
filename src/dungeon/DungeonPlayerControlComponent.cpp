@@ -2,7 +2,7 @@
 #include "src/engine/common/system/TickSystem.h"
 #include "src/engine/common/system/ControlCallbackSystem.h"
 #include "src/engine/common/component/CameraComponent.h"
-#include "src/engine/common/component/DrawableComponent.h"
+#include "src/engine/common/component/PrimitiveDrawableComponent.h"
 #include "src/engine/common/component/TransformComponent.h"
 #include "src/engine/common/component/CylinderCollisionComponent.h"
 #include "src/engine/common/ui/UI.h"
@@ -126,7 +126,7 @@ void DungeonPlayerControlComponent::onKeyPressed(QKeyEvent *event) {
     if (event->key() == Qt::Key_R) m_gameobject->getGameWorld()->getScreen()->setAppReadyToRestart();
     if (event->key() == Qt::Key_T) {
         use_third_person = !use_third_person;
-        m_gameobject->getComponent<DrawableComponent>()->setDraw(use_third_person);
+        m_gameobject->getComponent<PrimitiveDrawableComponent>()->setDraw(use_third_person);
     }
 }
 

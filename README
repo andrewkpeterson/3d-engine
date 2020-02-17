@@ -1,9 +1,10 @@
 README
 
-Use spacebar to jump. Player does not fall through ground and is affected by gravity.
+The map segments are generated using seeds specified on lines 28, 29, and 30 of
+src/dungeon/DungeonGameplayScreen.cpp. These seeds can be changed. The abstract
+map representation is created in src/engine/common/map/MapGenerator.cpp. Chunks
+of the map are created using the abtract map segment in
+src/dungeon/DungeonEnvironmentComponent.cpp.
 
-NPC is red cylinder. This NPC chases after the player. The game ends when the
-NPC touches the player. After the game ends, the controls are still active and
-the player can interact and collide with the NPC cylinder.
-
-Reset the game with R.
+The optional requirements for this week, infinite dungeon and frustum culling,
+are not fully implemented yet.

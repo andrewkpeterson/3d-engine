@@ -8,6 +8,7 @@
 #include "engine/graphics/Constants.h"
 #include "engine/graphics/Material.h"
 #include "engine/graphics/Light.h"
+#include "engine/graphics/Texture.h"
 
 #include <map>
 #include <string>
@@ -331,7 +332,7 @@ public:
      * Adds a texture to storage. Can be specified by image file, or by
      * Texture2D object
      */
-    void addTexture(const std::string &name, const std::string &file);
+    void addTexture(const std::string &name, const std::string &file, Texture::FILTER_METHOD filter = Texture::FILTER_METHOD::LINEAR);
     void addTexture(const std::string &name, const std::shared_ptr<Texture2D> &tex);
     void addTexture(const std::string &name, Texture2D &&tex);
 

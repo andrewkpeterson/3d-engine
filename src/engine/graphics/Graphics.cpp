@@ -555,7 +555,7 @@ void Graphics::setDefaultMaterial() {
     setMaterial("default");
 }
 
-void Graphics::addTexture(const string &name, const string &file)
+void Graphics::addTexture(const string &name, const string &file, Texture::FILTER_METHOD filter)
 {
     // Load image
     QImage image(QString::fromStdString(file));
@@ -564,6 +564,7 @@ void Graphics::addTexture(const string &name, const string &file)
     // Create texture
     std::shared_ptr<Texture2D> tex = std::make_shared<Texture2D>(
                 image.bits(), image.width(), image.height());
+    tex->setFilterMethod(filter);
 
     // Store texture
     m_textures[name] = tex;

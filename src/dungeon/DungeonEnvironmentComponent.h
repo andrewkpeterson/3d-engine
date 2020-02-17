@@ -11,7 +11,7 @@
 class DungeonEnvironmentComponent : public TickComponent
 {
 public:
-    DungeonEnvironmentComponent();
+    DungeonEnvironmentComponent(float size, std::string atlas);
     ~DungeonEnvironmentComponent();
 
     virtual void addComponentToSystemsAndConnectComponents() override;
@@ -22,6 +22,8 @@ public:
 
 private:
     const int DUNGEON_CHUNK_SIZE = 5;
+    float m_size;
+    std::string atlas_name;
 };
 
 #endif // DUNGEONENVIRONMENTCOMPONENT_H

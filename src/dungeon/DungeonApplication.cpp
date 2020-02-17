@@ -16,6 +16,6 @@ DungeonApplication::~DungeonApplication()
 
 void DungeonApplication::restart() {
     Application::restart();
-    m_current_screen = m_screenmap["gamplay"];
+    m_current_screen = m_screenmap["gameplay"];
     resize(app_width, app_height);
 }

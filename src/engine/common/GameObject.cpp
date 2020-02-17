@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "src/engine/common/component/TransformComponent.h"
 
 int GameObject::nextID = 0;
 
@@ -10,6 +11,7 @@ GameObject::GameObject(std::string id)
     } else {
         m_id = id;
     }
+    addComponent<TransformComponent>(std::make_shared<TransformComponent>(glm::vec3(0,0,0), 1.0));
 }
 
 GameObject::~GameObject()

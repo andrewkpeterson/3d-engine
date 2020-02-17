@@ -81,7 +81,6 @@ SOURCES += \
     src/dungeon/DungeonEnvironmentComponent.cpp \
     src/engine/graphics/Chunk.cpp \
     src/dungeon/environment/DungeonEnvironmentData.cpp \
-    src/engine/common/component/FrustumCullingComponent.cpp \
     src/engine/common/component/PrimitiveDrawableComponent.cpp \
     src/engine/common/component/ChunkDrawableComponent.cpp
 
@@ -153,9 +152,7 @@ HEADERS += \
     src/dungeon/DungeonPlayerControlComponent.h \
     src/dungeon/DungeonEnvironmentComponent.h \
     src/engine/graphics/Chunk.h \
-    src/dungeon/environment/WallData.h \
     src/dungeon/environment/DungeonEnvironmentData.h \
-    src/engine/common/component/FrustumCullingComponent.h \
     src/engine/common/component/PrimitiveDrawableComponent.h \
     src/engine/common/component/ChunkDrawableComponent.h
 

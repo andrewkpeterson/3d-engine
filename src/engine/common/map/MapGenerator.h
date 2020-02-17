@@ -34,6 +34,7 @@ public:
 
     static std::shared_ptr<MapSegment> createMap(int seed);
     static void printMap(std::shared_ptr<MapSegment> map);
+    static void restartGenerator();
 
     static const int MAP_WIDTH = 30;
     static const int MAP_HEIGHT = 30;

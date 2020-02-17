@@ -13,7 +13,8 @@
  */
 class Texture2D : public Texture {
 public:
-    Texture2D(unsigned char *data, int width, int height, Texture::DATA_TYPE type = Texture::DATA_TYPE::UNSIGNED_BYTE, int numComponents = 4);
+    Texture2D(unsigned char *data, int width, int height, Texture::DATA_TYPE type = Texture::DATA_TYPE::UNSIGNED_BYTE,
+              int numComponents = 4);
 
     virtual void bind() const override;
     virtual void unbind() const override;

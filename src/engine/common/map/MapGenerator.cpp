@@ -11,6 +11,11 @@ MapGenerator::~MapGenerator() {
 
 }
 
+void MapGenerator::restartGenerator() {
+    next_segment_num = 0;
+    segment_info.clear();
+}
+
 std::shared_ptr<MapSegment> MapGenerator::createMap(int seed) {
     std::srand(seed);
     std::shared_ptr<MapSegment> map = std::make_shared<MapSegment>();

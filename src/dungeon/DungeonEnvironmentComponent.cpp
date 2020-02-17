@@ -1,7 +1,9 @@
 #include "DungeonEnvironmentComponent.h"
 #include "src/engine/common/system/TickSystem.h"
 
-DungeonEnvironmentComponent::DungeonEnvironmentComponent()
+DungeonEnvironmentComponent::DungeonEnvironmentComponent(float size, std::string atlas) :
+    m_size(size),
+    atlas_name(atlas)
 {
 
 }
@@ -36,15 +38,26 @@ void DungeonEnvironmentComponent::makeChunk(std::shared_ptr<MapSegment> seg, int
             if (seg->data[row * MapGenerator::MAP_WIDTH + col] == WALL) {
                 // make a cube with the appropriate texture
                 DungeonEnvironmentData::fillVectorWithWallData(vert_data, row, col + seg->info.segment_num*MapGenerator::MAP_WIDTH,
-                                                               0, 1, 0, 1);
+                                                               4*.0625, 5*.0625, 13*.0625, 14*.0625);
             } else if (seg->data[row * MapGenerator::MAP_WIDTH + col] == OPEN) {
-                //make a ceiling a floor with appropriate textures
+                //make a ceiling and floor with appropriate textures
+                DungeonEnvironmentData::fillVectorWithCeilingData(vert_data, row, col + seg->info.segment_num*MapGenerator::MAP_WIDTH,
+                                                               0, .0625, 1-.0625, 1);
+                DungeonEnvironmentData::fillVectorWithFloorData(vert_data, row, col + seg->info.segment_num*MapGenerator::MAP_WIDTH,
+                                                               4*.0625, 5*.0625, 1-.0625, 1);
             }
         }
     }
+    for (int i = 0; i < vert_data.size(); i+=8) {
+        vert_data[i] *= m_size;
+        vert_data[i+1] *= m_size;
+        vert_data[i+2] *= m_size;
+    }
     if (vert_data.size() > 0) {
         std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(vert_data);
-        m_gameobject->getComponent<ChunkDrawableComponent>()->addChunk(chunk);
+        std::shared_ptr<GameObject> new_chunk_object = std::make_shared<GameObject>();
+        new_chunk_object->addComponent<ChunkDrawableComponent>(std::make_shared<ChunkDrawableComponent>(chunk, atlas_name));
+        m_gameobject->getGameWorld()->addGameObject(new_chunk_object);
     }
 }
 
