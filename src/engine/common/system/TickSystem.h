@@ -4,7 +4,7 @@
 #include "System.h"
 #include "src/engine/common/component/TickComponent.h"
 
-class TickSystem : public System
+class TickSystem : public System<TickComponent*>
 {
 public:
     TickSystem(GameWorld *gameworld);
@@ -15,8 +15,6 @@ public:
 
     void tick(float seconds);
 
-private:
-    std::unordered_set<TickComponent*> m_components;
 };
 
 #endif // TICKSYSTEM_H

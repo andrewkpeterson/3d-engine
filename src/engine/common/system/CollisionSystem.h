@@ -6,7 +6,7 @@
 class CollisionComponent;
 class CylinderCollisionComponent;
 
-class CollisionSystem : public System
+class CollisionSystem : public System<CollisionComponent*>
 {
 public:
     CollisionSystem(GameWorld *gameworld);
@@ -16,9 +16,6 @@ public:
     void removeComponent(CollisionComponent *component);
 
     void checkForCollisions(float seconds);
-
-private:
-    std::unordered_set<CollisionComponent*> m_components;
 
 };
 

@@ -17,6 +17,7 @@
 #include "src/engine/util/CommonIncludes.h"
 
 class Graphics;
+template <class ComponentType>
 class System;
 class Screen;
 class UI;
@@ -33,17 +34,17 @@ public:
     ~GameWorld();
 
     //TYPE MAP METHODS
-    template <typename Sys>
+    template<class Sys>
     void addSystem(std::shared_ptr<Sys> &&c) {
       m_systems.put<Sys>(std::forward<std::shared_ptr<Sys>>(c));
     }
 
-    template <typename Sys>
+    template<typename Sys>
     void removeSystem() {
         m_systems.remove<Sys>();
     }
 
-    template <typename Sys>
+    template<typename Sys>
     std::shared_ptr<Sys> getSystem() {
         auto it = m_systems.find<Sys>();
         assert(it != m_systems.end());

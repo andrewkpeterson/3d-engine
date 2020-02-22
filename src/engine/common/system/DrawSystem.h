@@ -7,7 +7,7 @@
 #include "src/engine/common/system/CameraSystem.h"
 #include "src/engine/common/component/CameraComponent.h"
 
-class DrawSystem : public System
+class DrawSystem : public System<DrawableComponent>
 {
 public:
     DrawSystem(GameWorld *gameworld);
@@ -20,7 +20,6 @@ public:
 
 private:
     Graphics *g;
-    std::unordered_set<DrawableComponent*> m_components;
 };
 
 #endif // DRAWSYSTEM_H
