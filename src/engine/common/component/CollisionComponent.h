@@ -7,20 +7,29 @@
 #include "src/engine/common/GameWorld.h"
 
 class CylinderCollisionComponent;
+class SphereCollisionComponent;
+class AABCollisionComponent;
 struct Collision;
 
 class CollisionComponent : public Component
 {
 public:
-    CollisionComponent();
+    CollisionComponent(bool can_move);
     ~CollisionComponent() override;
+    void addComponentToSystemsAndConnectComponents() override;
+    void removeComponentFromSystems() override;
     
     virtual void checkCollision(CollisionComponent *comp) = 0;
     virtual void checkCollisionWithCylinder(CylinderCollisionComponent *comp) = 0;
+    virtual void checkCollisionWithAAB(AABCollisionComponent *comp) = 0;
+    virtual void checkCollisionWithSphere(SphereCollisionComponent *comp) = 0;
     void setCollisionCallback(std::function<void(Collision)> func);
+    void callCollisionCallback(Collision c);
+    bool hasCallback();
 
 protected:
     std::function<void(Collision)> m_callback;
+    bool m_can_move;
 };
 
 struct Collision {

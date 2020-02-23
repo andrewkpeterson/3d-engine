@@ -36,6 +36,11 @@ void TransformComponent::setPos(glm::vec3 position)
     m_pos = position;
 }
 
+void TransformComponent::setScale(float size)
+{
+    m_scale = size;
+}
+
 glm::vec3 TransformComponent::getPos()
 {
     return m_pos;

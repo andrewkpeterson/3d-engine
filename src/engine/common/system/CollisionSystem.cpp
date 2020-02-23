@@ -22,6 +22,7 @@ void CollisionSystem::removeComponent(CollisionComponent *component) {
 
 void CollisionSystem::checkForCollisions(float seconds) {
     auto i = m_components.begin();
+    std::cout << "check" << std::endl;
     while(i != m_components.end()) {
         CollisionComponent *comp1 = *i;
         auto j = i;

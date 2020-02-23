@@ -1,8 +1,8 @@
 #include "CylinderCollisionComponent.h"
 #include "TransformComponent.h"
 
-CylinderCollisionComponent::CylinderCollisionComponent(float radius, float height) :
-    CollisionComponent(),
+CylinderCollisionComponent::CylinderCollisionComponent(bool can_move, float radius, float height) :
+    CollisionComponent(can_move),
     m_radius(radius),
     m_height(height)
 {
@@ -12,14 +12,6 @@ CylinderCollisionComponent::CylinderCollisionComponent(float radius, float heigh
 CylinderCollisionComponent::~CylinderCollisionComponent()
 {
 
-}
-
-void CylinderCollisionComponent::addComponentToSystemsAndConnectComponents() {
-    m_gameobject->getGameWorld()->getSystem<CollisionSystem>()->addComponent(this);
-}
-
-void CylinderCollisionComponent::removeComponentFromSystems() {
-    m_gameobject->getGameWorld()->getSystem<CollisionSystem>()->removeComponent(this);
 }
 
 void CylinderCollisionComponent::checkCollision(CollisionComponent *comp) {
@@ -51,4 +43,20 @@ void CylinderCollisionComponent::checkCollisionWithCylinder(CylinderCollisionCom
             if (that->m_callback != nullptr) that->m_callback(Collision({this, .5f*vertical_mtv}));
         }
     }
+}
+
+void CylinderCollisionComponent::checkCollisionWithAAB(AABCollisionComponent *comp) {
+
+}
+
+void CylinderCollisionComponent::checkCollisionWithSphere(SphereCollisionComponent *comp) {
+
+}
+
+float CylinderCollisionComponent::getHeight() {
+    return m_height;
+}
+
+float CylinderCollisionComponent::getRadius() {
+    return m_radius;
 }

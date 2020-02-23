@@ -33,8 +33,9 @@ void DungeonGameplayScreen::initializeGameWorld() {
     std::shared_ptr<GameObject> player = std::make_shared<GameObject>("player");
     player->addComponent<CameraComponent>(std::make_shared<CameraComponent>(glm::vec3(0,0,0), glm::vec3(0,0,1)));
     player->addComponent<DungeonPlayerControlComponent>(std::make_shared<DungeonPlayerControlComponent>());
-    player->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(1.0f, 2.0f));
-    player->addComponent<TransformComponent>(std::make_shared<TransformComponent>(glm::vec3(30,0,20), 2.0));
+    player->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(true, 1.0f, 2.0f));
+    player->getComponent<TransformComponent>()->setPos(glm::vec3(30,0,20));
+    player->getComponent<TransformComponent>()->setScale(2.0f);
     Material player_mat;
     player_mat.color = glm::vec3(.4,.3,.8);
     player->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cylinder", "playerMat", player_mat));
@@ -43,7 +44,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
 
     // create environment
     std::shared_ptr<GameObject> environment = std::make_shared<GameObject>("environment");
-    environment->addComponent<TransformComponent>(std::make_shared<TransformComponent>(glm::vec3(0,0,0), 1.0));
+    //environment->addComponent<TransformComponent>(std::make_shared<TransformComponent>(glm::vec3(0,0,0), 1.0));
     environment->addComponent<DungeonEnvironmentComponent>(std::make_shared<DungeonEnvironmentComponent>(7.0, ":/images/terrain.png"));
     m_gameworld->addGameObject(environment);
     // we must add the environment to the gameworld before the environment adds chunks to the gameworld

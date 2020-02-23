@@ -47,6 +47,7 @@ void DungeonPlayerControlComponent::tick(float seconds) {
 }
 
 void DungeonPlayerControlComponent::handleCollisionResolutionAndResponse(Collision collision) {
+    /*
     m_gameobject->getGameWorld()->getActiveUI()->setShouldDisplay(true);
     std::shared_ptr<CylinderCollisionComponent> comp = m_gameobject->getComponent<CylinderCollisionComponent>();
     std::shared_ptr<TransformComponent> t = m_gameobject->getComponent<TransformComponent>();
@@ -57,6 +58,7 @@ void DungeonPlayerControlComponent::handleCollisionResolutionAndResponse(Collisi
     } else {
         t->translate(2.0f*collision.half_mtv);
     }
+    */
 }
 
 void DungeonPlayerControlComponent::update(float seconds) {

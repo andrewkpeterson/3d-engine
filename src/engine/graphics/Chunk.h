@@ -3,15 +3,6 @@
 
 #include "Shape.h"
 
-struct AABB {
-    float x_neg;
-    float x_pos;
-    float y_neg;
-    float y_pos;
-    float z_neg;
-    float z_pos;
-};
-
 class Chunk : public Shape
 {
 public:
@@ -19,9 +10,11 @@ public:
     Chunk(const std::vector<float> &vertices, const std::vector<int> &faces);
     ~Chunk();
 
+    const std::vector<glm::vec4> &getBounds();
+
 private:
     void setUpBoundingBox();
-    AABB bounds;
+    std::vector<glm::vec4> bounds;
 };
 
 #endif // CHUNK_H
