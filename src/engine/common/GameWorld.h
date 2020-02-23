@@ -17,7 +17,6 @@
 #include "src/engine/util/CommonIncludes.h"
 
 class Graphics;
-template <class ComponentType>
 class System;
 class Screen;
 class UI;

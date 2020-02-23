@@ -12,19 +12,14 @@ class GameObject;
 class GameWorld;
 class Component;
 
-template <class ComponentType>
 class System
 {
 public:
     System(GameWorld *gameworld);
     virtual ~System();
-Z
-    void addComponent(ComponentType *component);
-    void removeComponent(ComponentType *component);
 
 protected:
     GameWorld *m_gameworld;
-    std::unordered_set<ComponentType*> m_components;
 };
 
 #endif // SYSTEM_H

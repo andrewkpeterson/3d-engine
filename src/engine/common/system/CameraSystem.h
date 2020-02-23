@@ -8,7 +8,7 @@
  * The CameraSystem contains all the objects with cameras in the GameWorld.
  * The DrawSystem renders using the current camera of the camera system.
  */
-class CameraSystem : public System<CameraComponent*>
+class CameraSystem : public System
 {
 public:
     CameraSystem(GameWorld *gameworld);
@@ -23,6 +23,7 @@ public:
 
 private:
     CameraComponent *m_main;
+    std::unordered_set<CameraComponent*> m_components;
 };
 
 #endif // CAMERASYSTEM_H

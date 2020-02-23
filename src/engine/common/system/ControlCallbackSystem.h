@@ -8,7 +8,7 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 
-class ControlCallbackSystem : public System<ControlCallbackComponent*>
+class ControlCallbackSystem : public System
 {
 public:
     ControlCallbackSystem(GameWorld *gameworld);
@@ -25,6 +25,8 @@ public:
     void onMouseDragged(int deltaX, int deltaY);
     void onWheelEvent(QWheelEvent *event);
 
+private:
+    std::unordered_set<ControlCallbackComponent*> m_components;
 };
 
 #endif // CONTROLCALLBACKSYSTEM_H
