@@ -93,6 +93,7 @@ public:
      */
     virtual glm::mat4 getView();
     virtual glm::mat4 getProjection();
+    const std::vector<glm::vec4> &getRVectors();
     virtual glm::mat4 getUIView();
     virtual glm::mat4 getUIProjection();
 
@@ -107,6 +108,9 @@ protected:
 
     bool m_ui;
     bool m_inverted;
+
+    std::vector<glm::vec4> r_vectors;
+    void recomputeRVectors();
 };
 
 #endif // CAMERA_H

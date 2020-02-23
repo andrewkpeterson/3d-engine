@@ -18,6 +18,8 @@ protected:
     std::shared_ptr<Chunk> m_chunk;
     std::string m_atlas_name;
     Material m_atlas;
+    const int NUM_R_VECTORS = 6;
+    const int NUM_BOUNDING_CORNERS = 8;
 };
 
 #endif // CHUNKCONTAINERCOMPONENT_H

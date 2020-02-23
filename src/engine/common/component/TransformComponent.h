@@ -17,6 +17,7 @@ public:
     void setObjectTransform();
     void translate(glm::vec3 translation);
     void setPos(glm::vec3 position);
+    void setScale(float size);
     glm::vec3 getPos();
 private:
     glm::vec3 m_pos;
