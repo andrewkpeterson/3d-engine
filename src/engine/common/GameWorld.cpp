@@ -5,6 +5,7 @@
 #include "system/ControlCallbackSystem.h"
 #include "component/DrawableComponent.h"
 #include "component/TransformComponent.h"
+#include "system/ChunkStreamingSystem.h"
 #include "src/engine/common/ui/UI.h"
 
 GameWorld::GameWorld(Screen *screen) :
@@ -16,6 +17,7 @@ GameWorld::GameWorld(Screen *screen) :
     addSystem<ControlCallbackSystem>(std::make_shared<ControlCallbackSystem>(this));
     addSystem<CollisionSystem>(std::make_shared<CollisionSystem>(this));
     addSystem<CameraSystem>(std::make_shared<CameraSystem>(this));
+    addSystem<ChunkStreamingSystem>(std::make_shared<ChunkStreamingSystem>(this));
 }
 
 GameWorld::~GameWorld()
@@ -26,6 +28,8 @@ GameWorld::~GameWorld()
 void GameWorld::tick(float seconds) {
     getSystem<TickSystem>()->tick(seconds);
     getSystem<CollisionSystem>()->checkForCollisions(seconds);
+    getSystem<ChunkStreamingSystem>()->buildEnqueuedChunk();
+    getSystem<ChunkStreamingSystem>()->destroyBuiltChunk();
 }
 
 void GameWorld::draw(Graphics *g) {

@@ -85,7 +85,9 @@ SOURCES += \
     src/engine/common/component/ChunkDrawableComponent.cpp \
     src/engine/common/component/SphereCollisionComponent.cpp \
     src/engine/common/component/StaticAABCollisionComponent.cpp \
-    src/engine/common/component/DynamicAABCollisionComponent.cpp
+    src/engine/common/component/DynamicAABCollisionComponent.cpp \
+    src/engine/common/component/ChunkComponent.cpp \
+    src/engine/common/system/ChunkStreamingSystem.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -160,7 +162,9 @@ HEADERS += \
     src/engine/common/component/ChunkDrawableComponent.h \
     src/engine/common/component/SphereCollisionComponent.h \
     src/engine/common/component/StaticAABCollisionComponent.h \
-    src/engine/common/component/DynamicAABCollisionComponent.h
+    src/engine/common/component/DynamicAABCollisionComponent.h \
+    src/engine/common/component/ChunkComponent.h \
+    src/engine/common/system/ChunkStreamingSystem.h
 
 FORMS += src/mainwindow.ui
 

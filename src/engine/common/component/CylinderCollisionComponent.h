@@ -9,7 +9,7 @@
 class CylinderCollisionComponent : public CollisionComponent
 {
 public:
-    CylinderCollisionComponent(bool can_move, float radius, float height);
+    CylinderCollisionComponent(bool can_move, bool active, float radius, float height);
     ~CylinderCollisionComponent() override;
 
     void checkCollision(CollisionComponent *comp) override;

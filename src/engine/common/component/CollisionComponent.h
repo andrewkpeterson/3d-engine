@@ -15,7 +15,7 @@ struct Collision;
 class CollisionComponent : public Component
 {
 public:
-    CollisionComponent(bool can_move);
+    CollisionComponent(bool can_move, bool active);
     ~CollisionComponent() override;
     void addComponentToSystemsAndConnectComponents() override;
     void removeComponentFromSystems() override;
@@ -29,10 +29,13 @@ public:
     void callCollisionCallback(Collision c);
     bool hasCallback();
     bool canMove();
+    bool isActive();
+    void setActive(bool b);
 
 protected:
     std::function<void(Collision)> m_callback;
     bool m_can_move;
+    bool m_active;
 };
 
 struct Collision {

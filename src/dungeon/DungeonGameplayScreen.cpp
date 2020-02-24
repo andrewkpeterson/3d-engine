@@ -12,6 +12,7 @@
 #include "src/engine/common/ui/UILabel.h"
 #include "src/dungeon/DungeonPlayerControlComponent.h"
 #include "src/engine/common/component/DynamicAABCollisionComponent.h"
+#include "src/engine/common/system/ChunkStreamingSystem.h"
 
 DungeonGameplayScreen::DungeonGameplayScreen(Application *parent) :
     Screen(parent)
@@ -34,8 +35,9 @@ void DungeonGameplayScreen::initializeGameWorld() {
     std::shared_ptr<GameObject> player = std::make_shared<GameObject>("player");
     player->addComponent<CameraComponent>(std::make_shared<CameraComponent>(glm::vec3(0,0,0), glm::vec3(0,0,1)));
     player->addComponent<DungeonPlayerControlComponent>(std::make_shared<DungeonPlayerControlComponent>());
-    //player->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(true, 1.0, 2.0));
-    player->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(true, glm::vec3(1,1,1)));
+    //player->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(true, true, 1.0, 2.0));
+    player->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(true, true, glm::vec3(1,1,1)));
+    //player->addComponent<SphereCollisionComponent>(std::make_shared<SphereCollisionComponent>(true, true, 2.0));
     player->getComponent<TransformComponent>()->setPos(glm::vec3(30,1,20));
     player->getComponent<TransformComponent>()->setScale(2.0f);
     Material player_mat;
@@ -46,8 +48,8 @@ void DungeonGameplayScreen::initializeGameWorld() {
 
     // create sphere npc
     std::shared_ptr<GameObject> sphere = std::make_shared<GameObject>("sphere_npc");
-    sphere->addComponent<SphereCollisionComponent>(std::make_shared<SphereCollisionComponent>(false, 1.0));
-    sphere->getComponent<TransformComponent>()->setPos(glm::vec3(32,0,20));
+    sphere->addComponent<SphereCollisionComponent>(std::make_shared<SphereCollisionComponent>(false, true, 1.0));
+    sphere->getComponent<TransformComponent>()->setPos(glm::vec3(28,0,20));
     sphere->getComponent<TransformComponent>()->setScale(2.0f);
     Material sphere_mat;
     sphere_mat.color = glm::vec3(.4,.8,.3);
@@ -56,7 +58,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
 
     // create cube npc
     std::shared_ptr<GameObject> cube = std::make_shared<GameObject>("cube_npc");
-    cube->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(false, glm::vec3(1,1,1)));
+    cube->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(false, true, glm::vec3(1,1,1)));
     cube->getComponent<TransformComponent>()->setPos(glm::vec3(35,0,22));
     cube->getComponent<TransformComponent>()->setScale(2.0f);
     Material cube_mat;
@@ -70,7 +72,8 @@ void DungeonGameplayScreen::initializeGameWorld() {
     environment->addComponent<DungeonEnvironmentComponent>(std::make_shared<DungeonEnvironmentComponent>(7.0, ":/images/terrain.png"));
     m_gameworld->addGameObject(environment);
     // we must add the environment to the gameworld before the environment adds chunks to the gameworld
-    environment->getComponent<DungeonEnvironmentComponent>()->makeDungeonChunksFromMapSegment(map_seg1);
-    environment->getComponent<DungeonEnvironmentComponent>()->makeDungeonChunksFromMapSegment(map_seg2);
-    environment->getComponent<DungeonEnvironmentComponent>()->makeDungeonChunksFromMapSegment(map_seg3);
+    environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(map_seg1);
+    //environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(map_seg2);
+    //environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(map_seg3);
+    m_gameworld->getSystem<ChunkStreamingSystem>()->buildAllEnqueuedChunks();
 }

@@ -1,6 +1,7 @@
 #include "DungeonEnvironmentComponent.h"
 #include "src/engine/common/system/TickSystem.h"
 #include "src/engine/common/component/StaticAABCollisionComponent.h"
+#include "src/engine/common/component/ChunkComponent.h"
 
 DungeonEnvironmentComponent::DungeonEnvironmentComponent(float size, std::string atlas) :
     m_size(size),
@@ -14,11 +15,18 @@ DungeonEnvironmentComponent::~DungeonEnvironmentComponent()
 
 }
 
-void DungeonEnvironmentComponent::makeDungeonChunksFromMapSegment(std::shared_ptr<MapSegment> seg) {
+void DungeonEnvironmentComponent::enqueueDungeonChunksFromMapSegment(std::shared_ptr<MapSegment> seg) {
     // split up the segment into 10 by 10 chunks
     for (int row = 0; row < MapGenerator::MAP_HEIGHT; row+=DUNGEON_CHUNK_SIZE) {
         for (int col = 0; col < MapGenerator::MAP_WIDTH; col+=DUNGEON_CHUNK_SIZE) {
-            makeChunk(seg, row, col);
+            std::shared_ptr<GameObject> new_chunk_object = std::make_shared<GameObject>();
+            new_chunk_object->addComponent<ChunkComponent>(
+                        std::make_shared<ChunkComponent>(std::bind(&DungeonEnvironmentComponent::buildChunk, this,
+                                                                   seg, row, col, std::placeholders::_1)));
+            new_chunk_object->addComponent<ChunkDrawableComponent>(std::make_shared<ChunkDrawableComponent>(atlas_name));
+            new_chunk_object->addComponent<StaticAABCollisionComponent>(
+                        std::make_shared<StaticAABCollisionComponent>(false, false, std::vector<AAB>({})));
+            m_gameobject->getGameWorld()->addGameObject(new_chunk_object);
         }
     }
 }
@@ -32,7 +40,8 @@ void DungeonEnvironmentComponent::removeComponentFromSystems() {
     m_gameobject->getGameWorld()->getSystem<TickSystem>()->removeComponent(this);
 }
 
-void DungeonEnvironmentComponent::makeChunk(std::shared_ptr<MapSegment> seg, int startrow, int startcol) {
+bool DungeonEnvironmentComponent::buildChunk(std::shared_ptr<MapSegment> seg, int startrow,
+                                                               int startcol, ChunkComponent* chunk_comp) {
     std::vector<float> vert_data;
     std::vector<AAB> bounding_boxes;
     for (int row = startrow; row < startrow + DUNGEON_CHUNK_SIZE; row++) {
@@ -65,16 +74,17 @@ void DungeonEnvironmentComponent::makeChunk(std::shared_ptr<MapSegment> seg, int
         bounding_boxes[i].pos *= m_size;
     }
 
-
     if (vert_data.size() > 0) {
         std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(vert_data);
-        std::shared_ptr<GameObject> new_chunk_object = std::make_shared<GameObject>();
-        new_chunk_object->addComponent<ChunkDrawableComponent>(std::make_shared<ChunkDrawableComponent>(chunk, atlas_name));
-        new_chunk_object->addComponent<StaticAABCollisionComponent>(std::make_shared<StaticAABCollisionComponent>(false, bounding_boxes));
-        m_gameobject->getGameWorld()->addGameObject(new_chunk_object);
+        chunk_comp->setChunk(chunk);
+        chunk_comp->getGameObject()->getComponent<StaticAABCollisionComponent>()->setBounds(bounding_boxes);
+        chunk_comp->getGameObject()->getComponent<StaticAABCollisionComponent>()->setActive(true);
+        return true;
+    } else {
+        return false;
     }
 }
 
 void DungeonEnvironmentComponent::tick(float seconds) {
-
+    // create maps and enqueue chunks for streaming system
 }

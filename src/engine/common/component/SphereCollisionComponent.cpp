@@ -1,9 +1,10 @@
 #include "SphereCollisionComponent.h"
 #include "TransformComponent.h"
 #include "DynamicAABCollisionComponent.h"
+#include "StaticAABCollisionComponent.h"
 
-SphereCollisionComponent::SphereCollisionComponent(bool can_move, float radius) :
-    CollisionComponent (can_move),
+SphereCollisionComponent::SphereCollisionComponent(bool can_move, bool active, float radius) :
+    CollisionComponent (can_move, active),
     m_radius(radius)
 {
 
@@ -18,12 +19,12 @@ void SphereCollisionComponent::checkCollision(CollisionComponent *comp) {
     comp->checkCollisionWithSphere(this);
 }
 
-void SphereCollisionComponent::checkCollisionWithDynamicAAB(DynamicAABCollisionComponent *taht) {
-
+void SphereCollisionComponent::checkCollisionWithDynamicAAB(DynamicAABCollisionComponent *that) {
+    that->checkCollisionWithSphere(this);
 }
 
 void SphereCollisionComponent::checkCollisionWithStaticAAB(StaticAABCollisionComponent *that) {
-
+    that->checkCollisionWithSphere(this);
 }
 
 void SphereCollisionComponent::checkCollisionWithSphere(SphereCollisionComponent *that) {
@@ -61,4 +62,8 @@ void SphereCollisionComponent::checkCollisionWithCylinder(CylinderCollisionCompo
             if (that->hasCallback()) that->callCollisionCallback(Collision({this, .5f*vertical_mtv}));
         }
     }
+}
+
+float SphereCollisionComponent::getRadius() {
+    return m_radius;
 }

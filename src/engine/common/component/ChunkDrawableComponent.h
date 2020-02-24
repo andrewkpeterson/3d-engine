@@ -6,16 +6,18 @@
 #include "src/engine/common/component/DrawableComponent.h"
 #include "src/engine/graphics/Chunk.h"
 
+/**
+ * Special drawable component for chunks for the purposes of frustum culling
+ */
 class ChunkDrawableComponent : public DrawableComponent
 {
 public:
-    ChunkDrawableComponent(std::shared_ptr<Chunk> chunk, std::string texture_atlas_name);
+    ChunkDrawableComponent(std::string texture_atlas_name);
     ~ChunkDrawableComponent();
     void drawSelf();
 
 
 protected:
-    std::shared_ptr<Chunk> m_chunk;
     std::string m_atlas_name;
     Material m_atlas;
     const int NUM_R_VECTORS = 6;

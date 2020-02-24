@@ -1,9 +1,10 @@
 #include "CollisionComponent.h"
 #include "src/engine/common/system/CollisionSystem.h"
 
-CollisionComponent::CollisionComponent(bool can_move) :
+CollisionComponent::CollisionComponent(bool can_move, bool active) :
     m_callback(nullptr),
-    m_can_move(can_move)
+    m_can_move(can_move),
+    m_active(active)
 {
 
 }
@@ -35,4 +36,12 @@ bool CollisionComponent::hasCallback() {
 
 bool CollisionComponent::canMove() {
     return m_can_move;
+}
+
+bool CollisionComponent::isActive() {
+    return m_active;
+}
+
+void CollisionComponent::setActive(bool b) {
+    m_active = b;
 }

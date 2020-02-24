@@ -9,14 +9,14 @@ class StaticAABCollisionComponent;
 class DynamicAABCollisionComponent : public CollisionComponent
 {
 public:
-    DynamicAABCollisionComponent(bool can_move, glm::vec3 sides);
+    DynamicAABCollisionComponent(bool can_move, bool active, glm::vec3 sides);
     ~DynamicAABCollisionComponent();
 
     void checkCollision(CollisionComponent *comp) override;
     void checkCollisionWithCylinder(CylinderCollisionComponent *that) override;
     void checkCollisionWithSphere(SphereCollisionComponent *comp) override;
     void checkCollisionWithDynamicAAB(DynamicAABCollisionComponent *comp) override;
-    void checkCollisionWithStaticAAB(StaticAABCollisionComponent *comp) override;
+    void checkCollisionWithStaticAAB(StaticAABCollisionComponent *that) override;
 
 private:
     glm::vec3 m_sides;
