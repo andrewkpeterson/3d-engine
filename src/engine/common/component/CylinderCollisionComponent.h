@@ -15,7 +15,8 @@ public:
     void checkCollision(CollisionComponent *comp) override;
     void checkCollisionWithCylinder(CylinderCollisionComponent *comp) override;
     void checkCollisionWithSphere(SphereCollisionComponent *comp) override;
-    void checkCollisionWithAAB(AABCollisionComponent *comp) override;
+    void checkCollisionWithStaticAAB(StaticAABCollisionComponent *comp) override;
+    void checkCollisionWithDynamicAAB(DynamicAABCollisionComponent *comp) override;
 
     float getHeight();
     float getRadius();

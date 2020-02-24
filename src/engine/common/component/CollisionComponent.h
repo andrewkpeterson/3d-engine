@@ -8,7 +8,8 @@
 
 class CylinderCollisionComponent;
 class SphereCollisionComponent;
-class AABCollisionComponent;
+class StaticAABCollisionComponent;
+class DynamicAABCollisionComponent;
 struct Collision;
 
 class CollisionComponent : public Component
@@ -21,11 +22,13 @@ public:
     
     virtual void checkCollision(CollisionComponent *comp) = 0;
     virtual void checkCollisionWithCylinder(CylinderCollisionComponent *comp) = 0;
-    virtual void checkCollisionWithAAB(AABCollisionComponent *comp) = 0;
+    virtual void checkCollisionWithStaticAAB(StaticAABCollisionComponent *comp) = 0;
+    virtual void checkCollisionWithDynamicAAB(DynamicAABCollisionComponent *comp) = 0;
     virtual void checkCollisionWithSphere(SphereCollisionComponent *comp) = 0;
     void setCollisionCallback(std::function<void(Collision)> func);
     void callCollisionCallback(Collision c);
     bool hasCallback();
+    bool canMove();
 
 protected:
     std::function<void(Collision)> m_callback;

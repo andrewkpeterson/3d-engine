@@ -1,6 +1,6 @@
 #include "DungeonEnvironmentComponent.h"
 #include "src/engine/common/system/TickSystem.h"
-#include "src/engine/common/component/AABCollisionComponent.h"
+#include "src/engine/common/component/StaticAABCollisionComponent.h"
 
 DungeonEnvironmentComponent::DungeonEnvironmentComponent(float size, std::string atlas) :
     m_size(size),
@@ -59,7 +59,7 @@ void DungeonEnvironmentComponent::makeChunk(std::shared_ptr<MapSegment> seg, int
         vert_data[i+2] *= m_size;
     }
 
-    // scale all of the bounding boxes
+    // scale all of the bounding boxes and add small buffer to their bounding boxes
     for (int i = 0; i < bounding_boxes.size(); i++) {
         bounding_boxes[i].neg *= m_size;
         bounding_boxes[i].pos *= m_size;
@@ -70,7 +70,7 @@ void DungeonEnvironmentComponent::makeChunk(std::shared_ptr<MapSegment> seg, int
         std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(vert_data);
         std::shared_ptr<GameObject> new_chunk_object = std::make_shared<GameObject>();
         new_chunk_object->addComponent<ChunkDrawableComponent>(std::make_shared<ChunkDrawableComponent>(chunk, atlas_name));
-        new_chunk_object->addComponent<AABCollisionComponent>(std::make_shared<AABCollisionComponent>(false, bounding_boxes));
+        new_chunk_object->addComponent<StaticAABCollisionComponent>(std::make_shared<StaticAABCollisionComponent>(false, bounding_boxes));
         m_gameobject->getGameWorld()->addGameObject(new_chunk_object);
     }
 }

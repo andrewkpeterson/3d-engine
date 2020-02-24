@@ -32,3 +32,7 @@ void CollisionComponent::callCollisionCallback(Collision c) {
 bool CollisionComponent::hasCallback() {
     return m_callback != nullptr;
 }
+
+bool CollisionComponent::canMove() {
+    return m_can_move;
+}

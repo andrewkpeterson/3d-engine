@@ -83,8 +83,9 @@ SOURCES += \
     src/dungeon/environment/DungeonEnvironmentData.cpp \
     src/engine/common/component/PrimitiveDrawableComponent.cpp \
     src/engine/common/component/ChunkDrawableComponent.cpp \
-    src/engine/common/component/AABCollisionComponent.cpp \
-    src/engine/common/component/SphereCollisionComponent.cpp
+    src/engine/common/component/SphereCollisionComponent.cpp \
+    src/engine/common/component/StaticAABCollisionComponent.cpp \
+    src/engine/common/component/DynamicAABCollisionComponent.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -157,8 +158,9 @@ HEADERS += \
     src/dungeon/environment/DungeonEnvironmentData.h \
     src/engine/common/component/PrimitiveDrawableComponent.h \
     src/engine/common/component/ChunkDrawableComponent.h \
-    src/engine/common/component/AABCollisionComponent.h \
-    src/engine/common/component/SphereCollisionComponent.h
+    src/engine/common/component/SphereCollisionComponent.h \
+    src/engine/common/component/StaticAABCollisionComponent.h \
+    src/engine/common/component/DynamicAABCollisionComponent.h
 
 FORMS += src/mainwindow.ui
 

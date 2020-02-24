@@ -5,6 +5,7 @@
 #include "src/engine/common/component/PrimitiveDrawableComponent.h"
 #include "src/engine/common/component/TransformComponent.h"
 #include "src/engine/common/component/CylinderCollisionComponent.h"
+#include "src/engine/common/component/DynamicAABCollisionComponent.h"
 #include "src/engine/common/ui/UI.h"
 #include "src/engine/util/Input.h"
 
@@ -32,7 +33,7 @@ void DungeonPlayerControlComponent::addComponentToSystemsAndConnectComponents()
     m_gameobject->getGameWorld()->getSystem<TickSystem>()->addComponent(this);
     m_gameobject->getGameWorld()->getSystem<ControlCallbackSystem>()->addComponent(this);
 
-    m_gameobject->getComponent<CylinderCollisionComponent>()->
+    m_gameobject->getComponent<DynamicAABCollisionComponent>()->
             setCollisionCallback(std::bind(&DungeonPlayerControlComponent::handleCollisionResolutionAndResponse, this, std::placeholders::_1));
 }
 
@@ -47,15 +48,25 @@ void DungeonPlayerControlComponent::tick(float seconds) {
 }
 
 void DungeonPlayerControlComponent::handleCollisionResolutionAndResponse(Collision collision) {
-    std::shared_ptr<CylinderCollisionComponent> comp = m_gameobject->getComponent<CylinderCollisionComponent>();
+    std::shared_ptr<Camera> camera = m_gameobject->getComponent<CameraComponent>()->getCamera();
+    std::shared_ptr<DynamicAABCollisionComponent> comp = m_gameobject->getComponent<DynamicAABCollisionComponent>();
     std::shared_ptr<TransformComponent> t = m_gameobject->getComponent<TransformComponent>();
-    t->translate(collision.half_mtv);
-    if (collision.half_mtv.x == 0 && collision.half_mtv.z == 0 && collision.half_mtv.y > 0 && y_vel < 0) {
-        can_jump = true;
-        t->translate(glm::vec3(0,distance_last_fallen,0));
-    } else {
-        t->translate(2.0f*collision.half_mtv);
-    }
+    glm::vec3 look = camera->getLook();
+    //if (collision.half_mtv.x == 0 && collision.half_mtv.z == 0 && collision.half_mtv.y > 0 && y_vel < 0) {
+        //can_jump = true;
+        //t->translate(glm::vec3(0,distance_last_fallen,0));
+    //} else {
+        if (collision.collider->canMove()) {
+            t->translate(collision.half_mtv);
+        } else {
+            t->translate(2.0f*collision.half_mtv);
+        }
+        if (use_third_person) {
+            camera->setEye(t->getPos() + glm::vec3(0,1,0) - third_person_cam_pos*look);
+        } else {
+            camera->setEye(t->getPos() + glm::vec3(0,1,0));
+        }
+    //}
 }
 
 void DungeonPlayerControlComponent::update(float seconds) {

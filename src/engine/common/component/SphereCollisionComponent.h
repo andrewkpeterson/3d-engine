@@ -3,18 +3,20 @@
 
 #include "CollisionComponent.h"
 class CylinderCollisionComponent;
-class AABCollisionComponent;
+class StaticAABCollisionComponent;
+class DynamicAABCollisionComponent;
 
-class SphereCollisionComponent : CollisionComponent
+class SphereCollisionComponent : public CollisionComponent
 {
 public:
     SphereCollisionComponent(bool can_move, float radius);
     ~SphereCollisionComponent() override;
 
     void checkCollision(CollisionComponent *comp) override;
-    void checkCollisionWithCylinder(CylinderCollisionComponent *comp) override;
+    void checkCollisionWithCylinder(CylinderCollisionComponent *that) override;
     void checkCollisionWithSphere(SphereCollisionComponent *that) override;
-    void checkCollisionWithAAB(AABCollisionComponent *comp) override;
+    void checkCollisionWithDynamicAAB(DynamicAABCollisionComponent *taht) override;
+    void checkCollisionWithStaticAAB(StaticAABCollisionComponent *that) override;
 
 private:
     float m_radius;

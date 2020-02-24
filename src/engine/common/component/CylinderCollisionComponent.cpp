@@ -1,6 +1,7 @@
 #include "CylinderCollisionComponent.h"
 #include "TransformComponent.h"
-#include "AABCollisionComponent.h"
+#include "StaticAABCollisionComponent.h"
+#include "DynamicAABCollisionComponent.h"
 
 CylinderCollisionComponent::CylinderCollisionComponent(bool can_move, float radius, float height) :
     CollisionComponent(can_move),
@@ -46,12 +47,17 @@ void CylinderCollisionComponent::checkCollisionWithCylinder(CylinderCollisionCom
     }
 }
 
-void CylinderCollisionComponent::checkCollisionWithAAB(AABCollisionComponent *comp) {
+void CylinderCollisionComponent::checkCollisionWithStaticAAB(StaticAABCollisionComponent *comp) {
     comp->checkCollisionWithCylinder(this);
 }
 
-void CylinderCollisionComponent::checkCollisionWithSphere(SphereCollisionComponent *comp) {
+void CylinderCollisionComponent::checkCollisionWithDynamicAAB(DynamicAABCollisionComponent *comp) {
+    comp->checkCollisionWithCylinder(this);
+}
 
+
+void CylinderCollisionComponent::checkCollisionWithSphere(SphereCollisionComponent *comp) {
+    comp->checkCollisionWithCylinder(this);
 }
 
 float CylinderCollisionComponent::getHeight() {

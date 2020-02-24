@@ -28,7 +28,10 @@ void CollisionSystem::checkForCollisions(float seconds) {
         j++;
         while (j != m_components.end()) {
             CollisionComponent *comp2 = *j;
-            comp1->checkCollision(comp2);
+            // only check for a collision if one at least of these objects can move
+            if (comp1->canMove() || comp2->canMove()) {
+                comp1->checkCollision(comp2);
+            }
             j++;
         }
 

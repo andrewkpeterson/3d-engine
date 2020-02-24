@@ -2,7 +2,7 @@
 #define DUNGEONENVIRONMENTDATA_H
 
 #include <vector>
-#include "src/engine/common/component/AABCollisionComponent.h"
+#include "src/engine/common/component/StaticAABCollisionComponent.h"
 
 class DungeonEnvironmentData
 {

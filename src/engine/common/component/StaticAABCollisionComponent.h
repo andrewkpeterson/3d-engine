@@ -10,21 +10,24 @@ struct AAB {
     glm::vec3 neg;
 };
 
-class AABCollisionComponent : public CollisionComponent
+class StaticAABCollisionComponent : public CollisionComponent
 {
 public:
-    AABCollisionComponent(bool can_move, std::vector<AAB> bounds);
-    ~AABCollisionComponent() override;
+    StaticAABCollisionComponent(bool can_move, std::vector<AAB> bounds);
+    ~StaticAABCollisionComponent() override;
 
     void checkCollision(CollisionComponent *comp) override;
     void checkCollisionWithCylinder(CylinderCollisionComponent *that) override;
     void checkCollisionWithSphere(SphereCollisionComponent *comp) override;
-    void checkCollisionWithAAB(AABCollisionComponent *comp) override;
+    void checkCollisionWithDynamicAAB(DynamicAABCollisionComponent *comp) override;
+    void checkCollisionWithStaticAAB(StaticAABCollisionComponent *comp) override;
 
-    // a AAB must be translated whenever its translate component changes
+    // an AAB must be translated whenever its translate component changes
     void translate(glm::vec3 t);
 
 private:
+    // an AAB collision component can have multiple bounding boxes, because it might be a chunk with
+    // multiple walls
     std::vector<AAB> m_bounds;
 };
 

@@ -11,6 +11,7 @@
 #include "src/engine/common/ui/UI.h"
 #include "src/engine/common/ui/UILabel.h"
 #include "src/dungeon/DungeonPlayerControlComponent.h"
+#include "src/engine/common/component/DynamicAABCollisionComponent.h"
 
 DungeonGameplayScreen::DungeonGameplayScreen(Application *parent) :
     Screen(parent)
@@ -33,14 +34,35 @@ void DungeonGameplayScreen::initializeGameWorld() {
     std::shared_ptr<GameObject> player = std::make_shared<GameObject>("player");
     player->addComponent<CameraComponent>(std::make_shared<CameraComponent>(glm::vec3(0,0,0), glm::vec3(0,0,1)));
     player->addComponent<DungeonPlayerControlComponent>(std::make_shared<DungeonPlayerControlComponent>());
-    player->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(true, 1.0f, 2.0f));
-    player->getComponent<TransformComponent>()->setPos(glm::vec3(30,0,20));
+    //player->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(true, 1.0, 2.0));
+    player->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(true, glm::vec3(1,1,1)));
+    player->getComponent<TransformComponent>()->setPos(glm::vec3(30,1,20));
     player->getComponent<TransformComponent>()->setScale(2.0f);
     Material player_mat;
     player_mat.color = glm::vec3(.4,.3,.8);
-    player->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cylinder", "playerMat", player_mat));
+    player->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cube", "playerMat", player_mat));
     m_gameworld->addGameObject(player);
     m_gameworld->getSystem<CameraSystem>()->setCurrentMainCameraComponent(player->getComponent<CameraComponent>().get());
+
+    // create sphere npc
+    std::shared_ptr<GameObject> sphere = std::make_shared<GameObject>("sphere_npc");
+    sphere->addComponent<SphereCollisionComponent>(std::make_shared<SphereCollisionComponent>(false, 1.0));
+    sphere->getComponent<TransformComponent>()->setPos(glm::vec3(32,0,20));
+    sphere->getComponent<TransformComponent>()->setScale(2.0f);
+    Material sphere_mat;
+    sphere_mat.color = glm::vec3(.4,.8,.3);
+    sphere->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("sphere", "sphere_mat", sphere_mat));
+    m_gameworld->addGameObject(sphere);
+
+    // create cube npc
+    std::shared_ptr<GameObject> cube = std::make_shared<GameObject>("cube_npc");
+    cube->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(false, glm::vec3(1,1,1)));
+    cube->getComponent<TransformComponent>()->setPos(glm::vec3(35,0,22));
+    cube->getComponent<TransformComponent>()->setScale(2.0f);
+    Material cube_mat;
+    cube_mat.color = glm::vec3(.8,.4,.3);
+    cube->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cube", "cube_mat", cube_mat));
+    m_gameworld->addGameObject(cube);
 
     // create environment
     std::shared_ptr<GameObject> environment = std::make_shared<GameObject>("environment");
