@@ -30,6 +30,7 @@ void GameWorld::tick(float seconds) {
     getSystem<CollisionSystem>()->checkForCollisions(seconds);
     getSystem<ChunkStreamingSystem>()->buildEnqueuedChunk();
     getSystem<ChunkStreamingSystem>()->destroyBuiltChunk();
+    removeGameObjectsMarkedForDeletion();
 }
 
 void GameWorld::draw(Graphics *g) {
@@ -61,8 +62,25 @@ void GameWorld::removeGameObject(std::shared_ptr<GameObject> object) {
     m_gameobjects.erase(object->getID());
 }
 
+void GameWorld::removeGameObject(std::string id) {
+    assert(m_gameobjects.find(id) != m_gameobjects.end());
+    m_gameobjects[id]->removeSelfFromSystems();
+    m_gameobjects.erase(m_gameobjects[id]->getID());
+}
+
 void GameWorld::onKeyPressed(QKeyEvent *event) {
     getSystem<ControlCallbackSystem>()->onKeyPressed(event);
+}
+
+void GameWorld::markGameObjectForDeletion(std::string id) {
+    ids_to_delete.push_back(id);
+}
+
+void GameWorld::removeGameObjectsMarkedForDeletion() {
+    for (int i = 0; i < ids_to_delete.size(); i++) {
+        removeGameObject(ids_to_delete[i]);
+    }
+    ids_to_delete.clear();
 }
 
 void GameWorld::onKeyReleased(QKeyEvent *event) {

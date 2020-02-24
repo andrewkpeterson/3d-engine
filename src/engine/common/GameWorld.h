@@ -55,6 +55,7 @@ public:
     void resize(int width, int height);
     void addGameObject(std::shared_ptr<GameObject> object); // adds a game object to the gameworld, and calls addToSystems on all of its components
     void removeGameObject(std::shared_ptr<GameObject> object);
+    void removeGameObject(std::string id);
 
     void onKeyPressed(QKeyEvent *event);
     void onKeyReleased(QKeyEvent *event);
@@ -70,6 +71,8 @@ public:
 
     Screen *getScreen();
     std::shared_ptr<GameObject> getGameObjectByID(std::string id);
+    void markGameObjectForDeletion(std::string id);
+    void removeGameObjectsMarkedForDeletion();
 
 private:
     Screen* m_screen;
@@ -77,6 +80,7 @@ private:
     TypeMap<std::shared_ptr<System>> m_systems;
     std::map<std::string, std::shared_ptr<UI>> m_uis;
     std::shared_ptr<UI> m_activeui;
+    std::vector<std::string> ids_to_delete;
 };
 
 #endif // GAMEWORLD_H

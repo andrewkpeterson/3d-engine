@@ -30,6 +30,11 @@ void ChunkComponent::buildChunk() {
     // passing in the chunk component allows the build function to make modifications to the
     // other components of the chunk's game object
     built = m_build_function(this);
+    // the building function should return a boolean so that if there is some reason that the chunk was
+    // not made, the gameobject can be discarded
+    if (!built) {
+        m_gameobject->getGameWorld()->markGameObjectForDeletion(m_gameobject->getID());
+    }
 }
 
 std::shared_ptr<Chunk> ChunkComponent::getChunk() {
