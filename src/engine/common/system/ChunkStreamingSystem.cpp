@@ -1,4 +1,7 @@
 #include "ChunkStreamingSystem.h"
+#include "CameraSystem.h"
+#include "src/engine/common/GameWorld.h"
+#include "src/engine/common/component/TransformComponent.h"
 
 ChunkStreamingSystem::ChunkStreamingSystem(GameWorld *gameworld) :
     System(gameworld)
@@ -16,6 +19,7 @@ void ChunkStreamingSystem::buildEnqueuedChunk() {
         ChunkComponent* chunk = *chunks_to_build.begin();
         chunks_to_build.erase(chunk);
         chunk->buildChunk();
+        built_chunks.insert(chunk);
     }
 }
 
@@ -24,15 +28,25 @@ void ChunkStreamingSystem::buildAllEnqueuedChunks() {
     while (it != chunks_to_build.end()) {
         ChunkComponent* chunk = *it;
         chunk->buildChunk();
+        built_chunks.insert(chunk);
         it++;
     }
     chunks_to_build.clear();
 }
 
-void ChunkStreamingSystem::destroyBuiltChunk() {
+void ChunkStreamingSystem::destroyOldChunksOutsideRadius() { // the game side tells the engine when to get rid of chunks
     // go through chunks
-    // figure out which ones can be destroyed using the current camera
-    // destroy a chunk that can be destroyed (i.e. remove the gameobject of that chunk from the gameworld)
+    auto it = built_chunks.begin();
+    glm::vec3 eye = m_gameworld->getSystem<CameraSystem>()->getCurrentMainCameraComponent()->getCamera()->getEye();
+    while(it != built_chunks.end()) {
+        // figure out which ones can be destroyed using the current camera
+        ChunkComponent *chunk_comp = *it;
+        if (glm::length(eye - chunk_comp->getGameObject()->getComponent<TransformComponent>()->getPos()) > CHUNK_RADIUS) {
+            std::cout << "chunk deleted" << std::endl;
+            m_gameworld->markGameObjectForDeletion(chunk_comp->getGameObject()->getID());
+        }
+        it++;
+    }
 }
 
 void ChunkStreamingSystem::addComponent(ChunkComponent *component) {

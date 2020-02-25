@@ -2,10 +2,17 @@
 #include "src/engine/common/system/TickSystem.h"
 #include "src/engine/common/component/StaticAABCollisionComponent.h"
 #include "src/engine/common/component/ChunkComponent.h"
+#include "src/engine/common/component/TransformComponent.h"
+#include "src/engine/common/system/CameraSystem.h"
+#include "src/engine/common/system/ChunkStreamingSystem.h"
 
 DungeonEnvironmentComponent::DungeonEnvironmentComponent(float size, std::string atlas) :
     m_size(size),
-    atlas_name(atlas)
+    atlas_name(atlas),
+    map_seed(100),
+    farthest_ahead_active_seg(3),
+    farthest_behind_active_seg(1)
+
 {
 
 }
@@ -44,6 +51,7 @@ bool DungeonEnvironmentComponent::buildChunk(std::shared_ptr<MapSegment> seg, in
                                                                int startcol, ChunkComponent* chunk_comp) {
     std::vector<float> vert_data;
     std::vector<AAB> bounding_boxes;
+    glm::vec3 pos = glm::vec3(startrow, 0, startcol + seg->info.segment_num*MapGenerator::MAP_WIDTH) * m_size;
     for (int row = startrow; row < startrow + DUNGEON_CHUNK_SIZE; row++) {
         for (int col = startcol; col < startcol + DUNGEON_CHUNK_SIZE; col++) {
             if (seg->data[row * MapGenerator::MAP_WIDTH + col] == WALL) {
@@ -79,6 +87,7 @@ bool DungeonEnvironmentComponent::buildChunk(std::shared_ptr<MapSegment> seg, in
         chunk_comp->setChunk(chunk);
         chunk_comp->getGameObject()->getComponent<StaticAABCollisionComponent>()->setBounds(bounding_boxes);
         chunk_comp->getGameObject()->getComponent<StaticAABCollisionComponent>()->setActive(true);
+        chunk_comp->getGameObject()->getComponent<TransformComponent>()->setPos(pos);
         return true;
     } else {
         return false;
@@ -87,4 +96,34 @@ bool DungeonEnvironmentComponent::buildChunk(std::shared_ptr<MapSegment> seg, in
 
 void DungeonEnvironmentComponent::tick(float seconds) {
     // create maps and enqueue chunks for streaming system
+    std::cout << "farthest ahead" << std::endl;
+    std::cout << farthest_ahead_active_seg << std::endl;
+    std::cout << "farthest behind" << std::endl;
+    std::cout << farthest_behind_active_seg << std::endl;
+    glm::vec3 eye = m_gameobject->getGameWorld()->getSystem<CameraSystem>()->getCurrentMainCameraComponent()->getCamera()->getEye();
+    if (eye.z > (farthest_ahead_active_seg - 1) * SEGMENT_LENGTH && farthest_ahead_active_seg > 3) {
+        std::shared_ptr<MapSegment> newseg = MapGenerator::createMap(map_seed);
+        enqueueDungeonChunksFromMapSegment(newseg);
+        std::cout << "added new segment" << std::endl;
+        map_seed++;
+        map_segments.push_back(newseg);
+        farthest_ahead_active_seg++;
+    }
+    if (eye.z > (farthest_behind_active_seg + 2) * SEGMENT_LENGTH) {
+        // get rid of segment
+        //m_gameobject->getGameWorld()->getSystem<ChunkStreamingSystem>()->destroyOldChunksOutsideRadius();
+        farthest_behind_active_seg++;
+    }
+    if (eye.z < (farthest_behind_active_seg + 1) * SEGMENT_LENGTH && farthest_behind_active_seg > 1) {
+        // add back segment
+        std::shared_ptr<MapSegment> newseg = MapGenerator::createMap(farthest_behind_active_seg);
+        std::cout << "added back old segment" << std::endl;
+        enqueueDungeonChunksFromMapSegment(newseg);
+        farthest_behind_active_seg--;
+    }
+    if (eye.z < (farthest_ahead_active_seg - 2) * SEGMENT_LENGTH) {
+        // get rid of segment
+        //m_gameobject->getGameWorld()->getSystem<ChunkStreamingSystem>()->destroyOldChunksOutsideRadius();
+        //farthest_ahead_active_seg--;
+    }
 }

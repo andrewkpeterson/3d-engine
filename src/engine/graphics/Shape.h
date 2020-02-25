@@ -111,6 +111,8 @@ protected:
     glm::vec3 m_pos;
     glm::vec3 m_scale;
     glm::quat m_rotation;
+
+    bool built;
 };
 
 #endif // SHAPE_H

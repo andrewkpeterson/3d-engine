@@ -36,8 +36,8 @@ public:
     static void printMap(std::shared_ptr<MapSegment> map);
     static void restartGenerator();
 
-    static const int MAP_WIDTH = 30;
-    static const int MAP_HEIGHT = 30;
+    static const int MAP_WIDTH = 40;
+    static const int MAP_HEIGHT = 40;
 
 private:
     static void cleanUpMap(std::shared_ptr<MapSegment> map);

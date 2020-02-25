@@ -1,10 +1,8 @@
 README
 
-The map segments are generated using seeds specified on lines 28, 29, and 30 of
-src/dungeon/DungeonGameplayScreen.cpp. These seeds can be changed. The abstract
-map representation is created in src/engine/common/map/MapGenerator.cpp. Chunks
-of the map are created using the abtract map segment in
-src/dungeon/DungeonEnvironmentComponent.cpp.
+Frustum culling is implemented in the ChunkDrawableComponent class. A chunk
+checks itself against the active camera to see if it should be drawn.
 
-The optional requirements for this week, infinite dungeon and frustum culling,
-are not fully implemented yet.
+Collisions are implemented in their component classes.
+
+Chunk streaming and infinite dungeon are not quite done yet.

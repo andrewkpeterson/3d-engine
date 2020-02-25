@@ -29,7 +29,7 @@ void GameWorld::tick(float seconds) {
     getSystem<TickSystem>()->tick(seconds);
     getSystem<CollisionSystem>()->checkForCollisions(seconds);
     getSystem<ChunkStreamingSystem>()->buildEnqueuedChunk();
-    getSystem<ChunkStreamingSystem>()->destroyBuiltChunk();
+    //getSystem<ChunkStreamingSystem>()->destroyOldChunks();
     removeGameObjectsMarkedForDeletion();
 }
 

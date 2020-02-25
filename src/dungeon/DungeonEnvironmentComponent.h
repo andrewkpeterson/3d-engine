@@ -24,8 +24,12 @@ public:
 private:
     const int DUNGEON_CHUNK_SIZE = 5;
     float m_size;
+    const float SEGMENT_LENGTH = 275.0f;
+    int farthest_ahead_active_seg;
+    int farthest_behind_active_seg;
+    int map_seed;
     std::string atlas_name;
-    std::vector<std::shared_ptr<AAB>> map_segments;
+    std::vector<std::shared_ptr<MapSegment>> map_segments;
 };
 
 #endif // DUNGEONENVIRONMENTCOMPONENT_H

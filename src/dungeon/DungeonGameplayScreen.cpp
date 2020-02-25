@@ -27,9 +27,9 @@ DungeonGameplayScreen::~DungeonGameplayScreen()
 
 void DungeonGameplayScreen::initializeGameWorld() {
     MapGenerator::restartGenerator();
-    std::shared_ptr<MapSegment> map_seg1 = MapGenerator::createMap(455);
-    std::shared_ptr<MapSegment> map_seg2 = MapGenerator::createMap(455);
-    std::shared_ptr<MapSegment> map_seg3 = MapGenerator::createMap(800);
+    std::shared_ptr<MapSegment> map_seg1 = MapGenerator::createMap(1);
+    std::shared_ptr<MapSegment> map_seg2 = MapGenerator::createMap(2);
+    std::shared_ptr<MapSegment> map_seg3 = MapGenerator::createMap(3);
 
     // create player
     std::shared_ptr<GameObject> player = std::make_shared<GameObject>("player");
@@ -48,8 +48,8 @@ void DungeonGameplayScreen::initializeGameWorld() {
 
     // create sphere npc
     std::shared_ptr<GameObject> sphere = std::make_shared<GameObject>("sphere_npc");
-    sphere->addComponent<SphereCollisionComponent>(std::make_shared<SphereCollisionComponent>(false, true, 1.0));
-    sphere->getComponent<TransformComponent>()->setPos(glm::vec3(28,0,20));
+    sphere->addComponent<SphereCollisionComponent>(std::make_shared<SphereCollisionComponent>(false, true, 1.5));
+    sphere->getComponent<TransformComponent>()->setPos(glm::vec3(28,1,20));
     sphere->getComponent<TransformComponent>()->setScale(2.0f);
     Material sphere_mat;
     sphere_mat.color = glm::vec3(.4,.8,.3);
@@ -59,7 +59,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
     // create cube npc
     std::shared_ptr<GameObject> cube = std::make_shared<GameObject>("cube_npc");
     cube->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(false, true, glm::vec3(1,1,1)));
-    cube->getComponent<TransformComponent>()->setPos(glm::vec3(35,0,22));
+    cube->getComponent<TransformComponent>()->setPos(glm::vec3(35,1,22));
     cube->getComponent<TransformComponent>()->setScale(2.0f);
     Material cube_mat;
     cube_mat.color = glm::vec3(.8,.4,.3);
@@ -73,7 +73,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
     m_gameworld->addGameObject(environment);
     // we must add the environment to the gameworld before the environment adds chunks to the gameworld
     environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(map_seg1);
-    //environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(map_seg2);
-    //environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(map_seg3);
+    environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(map_seg2);
+    environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(map_seg3);
     m_gameworld->getSystem<ChunkStreamingSystem>()->buildAllEnqueuedChunks();
 }

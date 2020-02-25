@@ -15,13 +15,14 @@ public:
 
     void buildEnqueuedChunk();
     void buildAllEnqueuedChunks();
-    void destroyBuiltChunk();
+    void destroyOldChunksOutsideRadius();
     void addComponent(ChunkComponent *component);
     void removeComponent(ChunkComponent *component);
 
 private:
     std::set<ChunkComponent*> chunks_to_build;
     std::unordered_set<ChunkComponent*> built_chunks;
+    const float CHUNK_RADIUS = 300;
 };
 
 #endif // CHUNKSTREAMINGSYSTEM_H

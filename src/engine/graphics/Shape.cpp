@@ -16,7 +16,8 @@ Shape::Shape(VBO::GEOMETRY_LAYOUT layout) :
     m_shapeName(""),
     m_pos(0),
     m_scale(1),
-    m_rotation()
+    m_rotation(),
+    built(false)
 {
 }
 
@@ -29,7 +30,8 @@ Shape::Shape(const std::vector<float> &vertices,
     m_shapeName(""),
     m_pos(0),
     m_scale(1),
-    m_rotation()
+    m_rotation(),
+    built(false)
 {
     addVertices(vertices);
 }
@@ -44,7 +46,8 @@ Shape::Shape(const std::vector<float> &vertices,
     m_shapeName(""),
     m_pos(0),
     m_scale(1),
-    m_rotation()
+    m_rotation(),
+    built(false)
 {
     addVertices(vertices);
     addFaces(faces);
@@ -61,7 +64,8 @@ Shape::Shape(const std::vector<float> &positions,
     m_shapeName(""),
     m_pos(0),
     m_scale(1),
-    m_rotation()
+    m_rotation(),
+    built(false)
 {
     addPositions(positions);
     addNormals(normals);
@@ -80,7 +84,8 @@ Shape::Shape(const std::vector<float> &positions,
     m_shapeName(""),
     m_pos(0),
     m_scale(1),
-    m_rotation()
+    m_rotation(),
+    built(false)
 {
     addPositions(positions);
     addNormals(normals);
@@ -93,12 +98,15 @@ Shape::Shape(std::string shape) :
     m_shapeName(shape),
     m_pos(0),
     m_scale(1),
-    m_rotation()
+    m_rotation(),
+    built(false)
 {
 }
 
 Shape::~Shape() {
-    glDeleteVertexArrays(1, &m_handle);
+    if (built) {
+        glDeleteVertexArrays(1, &m_handle);
+    }
 }
 
 Shape::Shape(Shape &&that)  :
@@ -228,6 +236,7 @@ void Shape::addFaces(const std::vector<int> &faces) {
 }
 
 void Shape::build() {
+    built = true;
     // VBOs
     std::vector<VBOAttribMarker> posMarkers;
     posMarkers.push_back(VBOAttribMarker(ShaderAttrib::POSITION, 3, 0));

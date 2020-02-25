@@ -89,6 +89,7 @@ void DungeonPlayerControlComponent::update(float seconds) {
         t->translate(-perp * WALK_SPEED);
     }
 
+    /*
     // handle jumping
     if (Input::getPressed("SPACE") && can_jump) {
         off_ground = true;
@@ -113,6 +114,7 @@ void DungeonPlayerControlComponent::update(float seconds) {
         t->setPos(glm::vec3(t->getPos().x, t->getPos().y + y_vel * seconds, t->getPos().z));
         distance_last_fallen = y_vel * seconds;
     }
+    */
 
     //set the camera eye to the appropriate place given the position of the transformation component
     if (use_third_person) {
