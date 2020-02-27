@@ -34,7 +34,7 @@ std::shared_ptr<MapSegment> MapGenerator::createMap(int seed) {
     }
     cleanUpMap(map);
     MapGenerator::segment_info.push_back(map->info);
-    printMap(map);
+    //printMap(map);
     return map;
 }
 

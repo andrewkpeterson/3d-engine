@@ -16,6 +16,8 @@ public:
     void buildEnqueuedChunk();
     void buildAllEnqueuedChunks();
     void destroyOldChunksOutsideRadius();
+    void destroyChunksBehindZValue(float z);
+    void destroyChunksBeyondZValue(float z);
     void addComponent(ChunkComponent *component);
     void removeComponent(ChunkComponent *component);
 

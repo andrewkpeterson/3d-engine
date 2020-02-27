@@ -49,6 +49,30 @@ void ChunkStreamingSystem::destroyOldChunksOutsideRadius() { // the game side te
     }
 }
 
+void ChunkStreamingSystem::destroyChunksBehindZValue(float z) {
+    auto it = built_chunks.begin();
+    while(it != built_chunks.end()) {
+        ChunkComponent *chunk_comp = *it;
+        if (chunk_comp->getGameObject()->getComponent<TransformComponent>()->getPos().z - z < 0) {
+            //std::cout << "chunk deleted" << std::endl;
+            m_gameworld->markGameObjectForDeletion(chunk_comp->getGameObject()->getID());
+        }
+        it++;
+    }
+}
+
+void ChunkStreamingSystem::destroyChunksBeyondZValue(float z) {
+    auto it = built_chunks.begin();
+    while(it != built_chunks.end()) {
+        ChunkComponent *chunk_comp = *it;
+        if (chunk_comp->getGameObject()->getComponent<TransformComponent>()->getPos().z - z > 0) {
+            //std::cout << "chunk deleted" << std::endl;
+            m_gameworld->markGameObjectForDeletion(chunk_comp->getGameObject()->getID());
+        }
+        it++;
+    }
+}
+
 void ChunkStreamingSystem::addComponent(ChunkComponent *component) {
     chunks_to_build.insert(component);
 }
