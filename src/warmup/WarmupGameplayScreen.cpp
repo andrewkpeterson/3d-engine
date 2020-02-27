@@ -23,7 +23,7 @@ void WarmupGameplayScreen::initializeGameWorld() {
     //set up UI
     std::shared_ptr<UI> ui = std::make_shared<UI>();
     std::shared_ptr<UILabel> label = std::make_shared<UILabel>("Got you! Press \"r\" to restart!", 80.0f, glm::vec3(1,1,1), glm::vec2(20.0f,20.0f), "white");
-    ui->addElement(label);
+    ui->addElement("label", label);
     ui->setShouldDisplay(false);
     m_gameworld->addUI(ui, "HUD");
     m_gameworld->setActiveUI("HUD");

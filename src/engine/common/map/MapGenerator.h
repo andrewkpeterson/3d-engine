@@ -32,6 +32,10 @@ public:
     MapGenerator();
     ~MapGenerator();
 
+    /**
+     * Consective maps created by the generator will be connected to each other. After the
+     * map is made, it is up to the game to keep that map.
+     */
     static std::shared_ptr<MapSegment> createMap(int seed);
     static void printMap(std::shared_ptr<MapSegment> map);
     static void restartGenerator();

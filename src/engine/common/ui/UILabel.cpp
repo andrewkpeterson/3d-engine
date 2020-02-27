@@ -24,3 +24,7 @@ void UILabel::drawSelf() {
     g->translate(glm::vec3(m_pos.x, m_pos.y, 0.0f));
     g->drawText(m_text, m_size);
 }
+
+void UILabel::setText(std::string str) {
+    m_text = str;
+}

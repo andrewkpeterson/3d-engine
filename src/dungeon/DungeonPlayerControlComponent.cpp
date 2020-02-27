@@ -7,7 +7,9 @@
 #include "src/engine/common/component/CylinderCollisionComponent.h"
 #include "src/engine/common/component/DynamicAABCollisionComponent.h"
 #include "src/engine/common/ui/UI.h"
+#include "src/engine/common/ui/UILabel.h"
 #include "src/engine/util/Input.h"
+#include <sstream>
 
 DungeonPlayerControlComponent::DungeonPlayerControlComponent() :
     ControlCallbackComponent(),
@@ -124,6 +126,13 @@ void DungeonPlayerControlComponent::update(float seconds) {
     }
 
     //camera->rotate(-m_deltaX / 100.0f * MOUSE_SENSITIVITY * seconds, -m_deltaY / 100.0f * MOUSE_SENSITIVITY * seconds);
+    std::ostringstream x_string;
+    x_string << "x: " << std::to_string(t->getPos().x);
+    std::ostringstream z_string;
+    z_string << "z: " << std::to_string(t->getPos().z);
+
+    m_gameobject->getGameWorld()->getActiveUI()->getLabel("xlabel")->setText(x_string.str());
+    m_gameobject->getGameWorld()->getActiveUI()->getLabel("zlabel")->setText(z_string.str());
 }
 
 
