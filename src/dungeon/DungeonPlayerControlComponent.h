@@ -29,7 +29,7 @@ public:
 
 private:
     const float MOUSE_SENSITIVITY = .1f;
-    const float WALK_SPEED = 2.0f;
+    const float WALK_SPEED = .4f;
     const float GRAVITY = -5.0f;
     const float JUMP_SPEED = 3.0f;
     const float GROUND_LEVEL = 0.0f;

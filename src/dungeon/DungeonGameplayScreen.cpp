@@ -61,6 +61,16 @@ void DungeonGameplayScreen::initializeGameWorld() {
     sphere->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("sphere", "sphere_mat", sphere_mat));
     m_gameworld->addGameObject(sphere);
 
+    // create cylinder npc
+    std::shared_ptr<GameObject> cylinder = std::make_shared<GameObject>("cylinder_npc");
+    cylinder->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(false, true, 1.5,2.0));
+    cylinder->getComponent<TransformComponent>()->setPos(glm::vec3(20,0,20));
+    cylinder->getComponent<TransformComponent>()->setScale(2.0f);
+    Material cylinder_mat;
+    cylinder_mat.color = glm::vec3(.4,.8,.8);
+    cylinder->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cylinder", "cylinder_mat", cylinder_mat));
+    m_gameworld->addGameObject(cylinder);
+
     // create cube npc
     std::shared_ptr<GameObject> cube = std::make_shared<GameObject>("cube_npc");
     cube->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(false, true, glm::vec3(1,1,1)));
@@ -75,7 +85,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
     MapGenerator::restartGenerator();
     std::shared_ptr<MapSegment> map_seg0 = MapGenerator::createMap(1);
     std::shared_ptr<MapSegment> map_seg1 = MapGenerator::createMap(2);
-    //std::shared_ptr<MapSegment> map_seg2 = MapGenerator::createMap(3);
+    std::shared_ptr<MapSegment> map_seg2 = MapGenerator::createMap(3);
 
     std::shared_ptr<GameObject> environment = std::make_shared<GameObject>("environment");
     //environment->addComponent<TransformComponent>(std::make_shared<TransformComponent>(glm::vec3(0,0,0), 1.0));
@@ -84,9 +94,6 @@ void DungeonGameplayScreen::initializeGameWorld() {
     // we must add the environment to the gameworld before the environment adds chunks to the gameworld
     environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(0, map_seg0);
     environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(1, map_seg1);
-    //environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(map_seg2);
-    environment->getComponent<DungeonEnvironmentComponent>()->addSegment(map_seg0);
-    environment->getComponent<DungeonEnvironmentComponent>()->addSegment(map_seg1);
-    //environment->getComponent<DungeonEnvironmentComponent>()->addSegment(map_seg2);
+    environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(2, map_seg2);
     m_gameworld->getSystem<ChunkStreamingSystem>()->buildAllEnqueuedChunks();
 }

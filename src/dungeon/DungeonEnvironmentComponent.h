@@ -27,6 +27,8 @@ private:
     float m_size;
     const float SEGMENT_LENGTH = 275.0f;
     int curr_segment;
+    int farthest_back_segment;
+    int farthest_ahead_segment;
     std::string atlas_name;
     std::vector<std::shared_ptr<MapSegment>> map_segments;
     std::map<int, std::unordered_set<std::shared_ptr<ChunkComponent>>> chunk_map;

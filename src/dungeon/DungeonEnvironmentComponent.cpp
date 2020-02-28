@@ -9,7 +9,9 @@
 DungeonEnvironmentComponent::DungeonEnvironmentComponent(float size, std::string atlas) :
     m_size(size),
     curr_segment(0),
-    atlas_name(atlas)
+    atlas_name(atlas),
+    farthest_ahead_segment(2),
+    farthest_back_segment(0)
 {
 
 }
@@ -35,11 +37,11 @@ void DungeonEnvironmentComponent::enqueueDungeonChunksFromMapSegment(int seg_idx
             new_chunk_object->addComponent<StaticAABCollisionComponent>(
                         std::make_shared<StaticAABCollisionComponent>(false, false, std::vector<AAB>({})));
             m_gameobject->getGameWorld()->addGameObject(new_chunk_object);
-            if (chunk_map.find(seg->info.segment_num) == chunk_map.end()) {
-                chunk_map[seg->info.segment_num] = std::unordered_set<std::shared_ptr<ChunkComponent>>();
+            if (chunk_map.find(seg_idx) == chunk_map.end()) {
+                chunk_map[seg_idx] = std::unordered_set<std::shared_ptr<ChunkComponent>>();
             }
 
-            chunk_map[seg->info.segment_num].insert(new_chunk_object->getComponent<ChunkComponent>());
+            chunk_map[seg_idx].insert(new_chunk_object->getComponent<ChunkComponent>());
         }
     }
 }
@@ -106,35 +108,53 @@ void DungeonEnvironmentComponent::addSegment(std::shared_ptr<MapSegment> seg) {
 
 void DungeonEnvironmentComponent::tick(float seconds) {
     glm::vec3 eye = m_gameobject->getGameWorld()->getSystem<CameraSystem>()->getCurrentMainCameraComponent()->getCamera()->getEye();
-    curr_segment = int(std::floor(float(eye.z) / float(m_size* MapGenerator::MAP_WIDTH)));
-    auto it = chunk_map.begin();
-    int max_seg = 0;
-    int min_seg = INT_MAX;
-    while (it != chunk_map.end()) {
-        if (it->first > curr_segment + 2) { // segment is too far ahead
-            std::cout << "removed segment" << std::endl;
-            std::cout << it->first << std::endl;
-            auto chunk_it = chunk_map[it->first].begin();
-            while (chunk_it != chunk_map[it->first].end()) {
+    int new_segment = int(std::floor(float(eye.z) / float(m_size* MapGenerator::MAP_WIDTH)));
+    if (new_segment > curr_segment) {
+        // add new segment ahead and remove segment behind
+        int segment_ahead = curr_segment + 2;
+        if (segment_ahead >= map_segments.size()) {
+            std::cout << "add segment ahead" << std::endl;
+            std::cout << segment_ahead << std::endl;
+            std::shared_ptr<MapSegment> seg = MapGenerator::createMap(segment_ahead);
+            enqueueDungeonChunksFromMapSegment(segment_ahead, seg);
+        } else {
+            enqueueDungeonChunksFromMapSegment(segment_ahead, map_segments[segment_ahead]);
+        }
+
+        int segment_behind = curr_segment - 2;
+        if (segment_behind >= 0) {
+            std::cout << "remove segment behind" << std::endl;
+            std::cout << segment_behind << std::endl;
+            auto chunk_it = chunk_map[segment_behind].begin();
+            while (chunk_it != chunk_map[segment_behind].end()) {
                 m_gameobject->getGameWorld()->markGameObjectForDeletion(chunk_it->get()->getGameObject()->getID());
                 chunk_it++;
             }
-        } else if (it->first < curr_segment - 2) { // segment is too far behind
-            std::cout << "removed segment" << std::endl;
-            std::cout << it->first << std::endl;
-            auto chunk_it = chunk_map[it->first].begin();
-            while (chunk_it != chunk_map[it->first].end()) {
-                std::string id = chunk_it->get()->getGameObject()->getID();
-                m_gameobject->getGameWorld()->markGameObjectForDeletion(id);
+            chunk_map.erase(segment_behind);
+        }
+
+    } else if (new_segment < curr_segment) {
+        // add new segment behind and remove segment ahead
+        int segment_ahead = curr_segment + 1;
+        std::cout << "remove segment ahead" << std::endl;
+        std::cout << segment_ahead << std::endl;
+        if (segment_ahead > 2) {
+            auto chunk_it = chunk_map[segment_ahead].begin();
+            while (chunk_it != chunk_map[segment_ahead].end()) {
+                m_gameobject->getGameWorld()->markGameObjectForDeletion(chunk_it->get()->getGameObject()->getID());
                 chunk_it++;
             }
+            chunk_map.erase(segment_ahead);
         }
-        if (it->first > max_seg) {
-            max_seg = it->first;
+
+
+        int segment_behind = curr_segment - 3;
+        if (segment_behind >= 0) {
+            std::cout << "add segment behind" << std::endl;
+            std::cout << segment_behind << std::endl;
+            enqueueDungeonChunksFromMapSegment(segment_behind, map_segments[segment_behind]);
         }
-        if (it->first < min_seg) {
-            min_seg = it->first;
-        }
-        it++;
     }
+
+    curr_segment = new_segment;
 }
