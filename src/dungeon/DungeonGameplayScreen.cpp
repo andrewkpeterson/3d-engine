@@ -64,7 +64,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
     // create cylinder npc
     std::shared_ptr<GameObject> cylinder = std::make_shared<GameObject>("cylinder_npc");
     cylinder->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(false, true, 1.5,2.0));
-    cylinder->getComponent<TransformComponent>()->setPos(glm::vec3(20,0,20));
+    cylinder->getComponent<TransformComponent>()->setPos(glm::vec3(40,0,20));
     cylinder->getComponent<TransformComponent>()->setScale(2.0f);
     Material cylinder_mat;
     cylinder_mat.color = glm::vec3(.4,.8,.8);

@@ -87,7 +87,15 @@ SOURCES += \
     src/engine/common/component/StaticAABCollisionComponent.cpp \
     src/engine/common/component/DynamicAABCollisionComponent.cpp \
     src/engine/common/component/ChunkComponent.cpp \
-    src/engine/common/system/ChunkStreamingSystem.cpp
+    src/engine/common/system/ChunkStreamingSystem.cpp \
+    src/dungeon/DungeonEnemyAIComponent.cpp \
+    src/engine/common/ai/AStar.cpp \
+    src/engine/common/ai/BTNode.cpp \
+    src/engine/common/ai/Composite.cpp \
+    src/engine/common/ai/Selector.cpp \
+    src/engine/common/ai/Sequence.cpp \
+    src/engine/common/ai/Action.cpp \
+    src/engine/common/ai/Condition.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -164,7 +172,15 @@ HEADERS += \
     src/engine/common/component/StaticAABCollisionComponent.h \
     src/engine/common/component/DynamicAABCollisionComponent.h \
     src/engine/common/component/ChunkComponent.h \
-    src/engine/common/system/ChunkStreamingSystem.h
+    src/engine/common/system/ChunkStreamingSystem.h \
+    src/dungeon/DungeonEnemyAIComponent.h \
+    src/engine/common/ai/AStar.h \
+    src/engine/common/ai/BTNode.h \
+    src/engine/common/ai/Composite.h \
+    src/engine/common/ai/Selector.h \
+    src/engine/common/ai/Sequence.h \
+    src/engine/common/ai/Action.h \
+    src/engine/common/ai/Condition.h
 
 FORMS += src/mainwindow.ui
 

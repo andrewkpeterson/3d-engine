@@ -5,4 +5,6 @@ checks itself against the active camera to see if it should be drawn.
 
 Collisions are implemented in their component classes.
 
-Chunk streaming and infinite dungeon are not quite done yet.
+Chunk streaming is implemented in the Chunk Streaming System class.
+
+Infinite dungeon is implemented in DungeonEnvironmentComponent.
