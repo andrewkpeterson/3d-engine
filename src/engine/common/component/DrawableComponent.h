@@ -9,7 +9,7 @@ class DrawableComponent : public Component
 {
 public:
     DrawableComponent();
-    ~DrawableComponent() override;
+    virtual ~DrawableComponent() override;
     virtual void addComponentToSystemsAndConnectComponents() override;
     virtual void removeComponentFromSystems() override;
     virtual void drawSelf() = 0;

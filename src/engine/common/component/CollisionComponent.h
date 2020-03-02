@@ -16,7 +16,7 @@ class CollisionComponent : public Component
 {
 public:
     CollisionComponent(bool can_move, bool active);
-    ~CollisionComponent() override;
+    virtual ~CollisionComponent() override;
     void addComponentToSystemsAndConnectComponents() override;
     void removeComponentFromSystems() override;
     

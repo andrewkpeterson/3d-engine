@@ -53,6 +53,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
     m_gameworld->getSystem<CameraSystem>()->setCurrentMainCameraComponent(player->getComponent<CameraComponent>().get());
 
     // create sphere npc
+    /*
     std::shared_ptr<GameObject> sphere = std::make_shared<GameObject>("sphere_npc");
     sphere->addComponent<SphereCollisionComponent>(std::make_shared<SphereCollisionComponent>(false, true, 1.5));
     sphere->getComponent<TransformComponent>()->setPos(glm::vec3(28,1,20));
@@ -71,6 +72,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
     cylinder_mat.color = glm::vec3(.4,.8,.8);
     cylinder->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cylinder", "cylinder_mat", cylinder_mat));
     m_gameworld->addGameObject(cylinder);
+    */
 
     // create environment
     MapGenerator::restartGenerator();

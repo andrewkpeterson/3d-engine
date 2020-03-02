@@ -86,7 +86,7 @@ void View::initializeGL()
     // the fullscreen window and will not automatically receive mouse move
     // events. This occurs if there are two monitors and the mouse is on the
     // secondary monitor.
-    QCursor::setPos(mapToGlobal(QPoint(width() / 2, height() / 2)));
+    //QCursor::setPos(mapToGlobal(QPoint(width() / 2, height() / 2)));
 
     /** SUPPORT CODE END **/
 

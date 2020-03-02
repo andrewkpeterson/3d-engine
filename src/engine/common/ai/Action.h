@@ -7,7 +7,7 @@ class Action : public BTNode
 {
 public:
     Action(Component *component);
-    ~Action();
+    virtual ~Action();
 };
 
 #endif // ACTION_H

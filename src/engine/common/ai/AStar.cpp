@@ -14,8 +14,19 @@ AStar::~AStar()
 std::vector<std::pair<int, int>> AStar::aStarAlgorithm(std::shared_ptr<AStarState> start, std::shared_ptr<AStarState> goal) {
     std::set<std::shared_ptr<AStarState>, StateComparator> open_set;
     std::map<std::pair<int, int>, std::shared_ptr<AStarState>> pair2state;
+    if (m_segment->data[(goal->x) * MapGenerator::MAP_WIDTH + goal->z] == MapElement::WALL ||
+        m_segment->data[(goal->x) * MapGenerator::MAP_WIDTH + goal->z] == MapElement::BLANK) {
+        std::cout << "enemy thinks player is inside wall" << std::endl;
+    }
+    std::cout << goal->x << std::endl;
+    std::cout << goal->z << std::endl;
+    if (m_segment->data[(start->x) * MapGenerator::MAP_WIDTH + start->z] == MapElement::WALL ||
+        m_segment->data[(start->x) * MapGenerator::MAP_WIDTH + start->z] == MapElement::BLANK) {
+        std::cout << "enemy thinks it is inside wall" << std::endl;
+    }
     start->gcost = 0.0f;
     start->fcost = float(std::sqrt(std::pow(start->x - goal->x, 2) + std::pow(start->z - goal->z, 2)));
+
     open_set.insert(start);
     pair2state[std::pair<int, int>(start->x, start->z)] = start;
     std::map<std::pair<int, int>, std::pair<int, int>> came_from;
@@ -25,15 +36,23 @@ std::vector<std::pair<int, int>> AStar::aStarAlgorithm(std::shared_ptr<AStarStat
         if (current->x == goal->x && current->z == goal->z) {
             return reconstructPath(std::pair<int, int>(current->x, current->z), came_from, start);
         }
-
+        if (current->x == goal->x - 1 && current->z == goal->z) {
+            std::cout << "hello" << std::endl;
+        } else if (current->x == goal->x + 1 && current->z == goal->z) {
+            std::cout << "hello" << std::endl;
+        } else if (current->x == goal->x && current->z == goal->z - 1) {
+            std::cout << "hello" << std::endl;
+        } else if (current->x == goal->x && current->z == goal->z + 1) {
+            std::cout << "hello" << std::endl;
+        }
         open_set.erase(current);
         std::vector<std::pair<int, int>> neighbors = getNeighbors(current);
         for (int i = 0; i < neighbors.size(); i++) {
             std::pair<int, int> n_pair = neighbors[i];
             float tentative_gcost = current->gcost + 1;
-            bool visited = pair2state.find(n_pair) != pair2state.end();
+            bool found_previously = pair2state.find(n_pair) != pair2state.end();
             std::shared_ptr<AStarState> n_ptr;
-            if (visited) {
+            if (found_previously) {
                 n_ptr = pair2state[n_pair];
             } else {
                 n_ptr = std::make_shared<AStarState>();
@@ -41,11 +60,18 @@ std::vector<std::pair<int, int>> AStar::aStarAlgorithm(std::shared_ptr<AStarStat
                 n_ptr->z = n_pair.second;
                 pair2state[n_pair] = n_ptr;
             }
-            if (!visited || tentative_gcost < n_ptr->gcost) {
+            if (!found_previously || tentative_gcost < n_ptr->gcost) {
                 came_from[std::pair<int, int>(n_ptr->x, n_ptr->z)] = std::pair<int, int>(current->x, current->z);
                 n_ptr->gcost = tentative_gcost;
                 n_ptr->fcost = tentative_gcost + float(std::sqrt(std::pow(n_ptr->x - goal->x, 2) + std::pow(n_ptr->z - goal->z, 2)));
-                open_set.insert(n_ptr);
+                auto check = open_set.find(n_ptr);
+                auto end = open_set.end();
+                if (check != end) {
+                    open_set.erase(n_ptr);
+                    open_set.insert(n_ptr);
+                } else {
+                    open_set.insert(n_ptr);
+                }
             }
         }
     }

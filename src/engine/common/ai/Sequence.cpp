@@ -1,7 +1,8 @@
 #include "Sequence.h"
 
 Sequence::Sequence(Component *component, std::vector<std::shared_ptr<BTNode> > children) :
-    Composite (component, children)
+    Composite (component, children),
+    last_running_idx(0)
 {
 
 }

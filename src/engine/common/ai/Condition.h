@@ -7,7 +7,7 @@ class Condition : public BTNode
 {
 public:
     Condition(Component *component);
-    ~Condition();
+    virtual ~Condition();
 };
 
 #endif // CONDITION_H

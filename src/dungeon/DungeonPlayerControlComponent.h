@@ -42,7 +42,7 @@ private:
     int m_deltaX;
     int m_deltaY;
     const float MIN_CAM_TRANSLATION = 5.0f;
-    const float MAX_CAM_TRANSLATION = 10.0f;
+    const float MAX_CAM_TRANSLATION = 40.0f;
 
 };
 

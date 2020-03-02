@@ -9,7 +9,7 @@ class Composite : public BTNode
 {
 public:
     Composite(Component *component, std::vector<std::shared_ptr<BTNode>> children);
-    ~Composite();
+    virtual ~Composite();
 
 protected:
     std::vector<std::shared_ptr<BTNode>> m_children;

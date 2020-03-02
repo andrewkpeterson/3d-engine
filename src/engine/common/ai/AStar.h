@@ -14,7 +14,14 @@ struct AStarState {
 
 struct StateComparator {
     bool operator()(const std::shared_ptr<AStarState> s1, const std::shared_ptr<AStarState> s2) {
-        return s1->fcost < s2->fcost;
+        if (s1->fcost < s2->fcost) {
+            return true;
+        }
+        if (s1->fcost > s2->fcost) {
+            return false;
+        }
+
+        return s1.get() < s2.get();
     }
 };
 

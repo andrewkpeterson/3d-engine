@@ -8,7 +8,7 @@ class AIComponent : public TickComponent
 {
 public:
     AIComponent();
-    ~AIComponent() override;
+    virtual ~AIComponent() override;
     void addComponentToSystemsAndConnectComponents() override;
     void removeComponentFromSystems() override;
     void tick(float seconds) override;
