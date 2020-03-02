@@ -23,9 +23,9 @@ class AStar
 public:
     AStar(std::shared_ptr<MapSegment> segment);
     ~AStar();
-    std::vector<std::pair<int, int>> AStarAlgorithm(std::shared_ptr<AStarState> start, std::shared_ptr<AStarState> goal);
+    std::vector<std::pair<int, int>> aStarAlgorithm(std::shared_ptr<AStarState> start, std::shared_ptr<AStarState> goal);
     std::vector<std::pair<int, int>> reconstructPath(std::pair<int, int> current,
-            std::map<std::pair<int, int>, std::pair<int, int>> &came_from);
+            std::map<std::pair<int, int>, std::pair<int, int>> &came_from, std::shared_ptr<AStarState> start);
     std::vector<std::pair<int, int>> getNeighbors(std::shared_ptr<AStarState> node);
 
 private:

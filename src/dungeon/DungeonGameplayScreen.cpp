@@ -13,6 +13,7 @@
 #include "src/dungeon/DungeonPlayerControlComponent.h"
 #include "src/engine/common/component/DynamicAABCollisionComponent.h"
 #include "src/engine/common/system/ChunkStreamingSystem.h"
+#include "src/dungeon/DungeonEnemyAIComponent.h"
 
 DungeonGameplayScreen::DungeonGameplayScreen(Application *parent) :
     Screen(parent)
@@ -71,16 +72,6 @@ void DungeonGameplayScreen::initializeGameWorld() {
     cylinder->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cylinder", "cylinder_mat", cylinder_mat));
     m_gameworld->addGameObject(cylinder);
 
-    // create cube npc
-    std::shared_ptr<GameObject> cube = std::make_shared<GameObject>("cube_npc");
-    cube->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(false, true, glm::vec3(1,1,1)));
-    cube->getComponent<TransformComponent>()->setPos(glm::vec3(35,1,22));
-    cube->getComponent<TransformComponent>()->setScale(2.0f);
-    Material cube_mat;
-    cube_mat.color = glm::vec3(.8,.4,.3);
-    cube->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cube", "cube_mat", cube_mat));
-    m_gameworld->addGameObject(cube);
-
     // create environment
     MapGenerator::restartGenerator();
     std::shared_ptr<MapSegment> map_seg0 = MapGenerator::createMap(1);
@@ -96,4 +87,15 @@ void DungeonGameplayScreen::initializeGameWorld() {
     environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(1, map_seg1);
     environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(2, map_seg2);
     m_gameworld->getSystem<ChunkStreamingSystem>()->buildAllEnqueuedChunks();
+
+    // create cube enemy
+    std::shared_ptr<GameObject> cube = std::make_shared<GameObject>("cube_npc");
+    cube->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(false, true, glm::vec3(1,1,1)));
+    cube->addComponent<DungeonEnemyAIComponent>(std::make_shared<DungeonEnemyAIComponent>(map_seg0));
+    cube->getComponent<TransformComponent>()->setPos(glm::vec3(35,1,22));
+    cube->getComponent<TransformComponent>()->setScale(2.0f);
+    Material cube_mat;
+    cube_mat.color = glm::vec3(.8,.4,.3);
+    cube->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cube", "cube_mat", cube_mat));
+    m_gameworld->addGameObject(cube);
 }

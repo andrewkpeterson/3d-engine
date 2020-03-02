@@ -9,6 +9,8 @@ class AIComponent : public TickComponent
 public:
     AIComponent();
     ~AIComponent() override;
+    void addComponentToSystemsAndConnectComponents() override;
+    void removeComponentFromSystems() override;
     void tick(float seconds) override;
     virtual void setUpBehaviorTree() = 0;
 

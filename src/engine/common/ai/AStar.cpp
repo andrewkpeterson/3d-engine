@@ -11,7 +11,7 @@ AStar::~AStar()
 
 }
 
-std::vector<std::pair<int, int>> AStar::AStarAlgorithm(std::shared_ptr<AStarState> start, std::shared_ptr<AStarState> goal) {
+std::vector<std::pair<int, int>> AStar::aStarAlgorithm(std::shared_ptr<AStarState> start, std::shared_ptr<AStarState> goal) {
     std::set<std::shared_ptr<AStarState>, StateComparator> open_set;
     std::map<std::pair<int, int>, std::shared_ptr<AStarState>> pair2state;
     start->gcost = 0.0f;
@@ -23,7 +23,7 @@ std::vector<std::pair<int, int>> AStar::AStarAlgorithm(std::shared_ptr<AStarStat
     while (open_set.size() > 0) {
         std::shared_ptr<AStarState> current = *open_set.begin();
         if (current->x == goal->x && current->z == goal->z) {
-            return reconstructPath(std::pair<int, int>(current->x, current->z), came_from);
+            return reconstructPath(std::pair<int, int>(current->x, current->z), came_from, start);
         }
 
         open_set.erase(current);
@@ -39,6 +39,7 @@ std::vector<std::pair<int, int>> AStar::AStarAlgorithm(std::shared_ptr<AStarStat
                 n_ptr = std::make_shared<AStarState>();
                 n_ptr->x = n_pair.first;
                 n_ptr->z = n_pair.second;
+                pair2state[n_pair] = n_ptr;
             }
             if (!visited || tentative_gcost < n_ptr->gcost) {
                 came_from[std::pair<int, int>(n_ptr->x, n_ptr->z)] = std::pair<int, int>(current->x, current->z);
@@ -73,15 +74,16 @@ std::vector<std::pair<int, int>> AStar::getNeighbors(std::shared_ptr<AStarState>
 }
 
 std::vector<std::pair<int, int>> AStar::reconstructPath(std::pair<int, int> current,
-                                                        std::map<std::pair<int, int>, std::pair<int, int>> &came_from) {
+                                                        std::map<std::pair<int, int>, std::pair<int, int>> &came_from,
+                                                        std::shared_ptr<AStarState> start) {
     std::vector<std::pair<int, int>> path;
-    path.insert(path.begin(), current);
     auto it = came_from.begin();
-    while (it != came_from.end()) {
-        current = came_from[current];
+    while (it != came_from.end() && !(start->x == current.first && start->z == current.second)) {
         path.insert(path.begin(), current);
+        current = came_from[current];
         it++;
     }
+    path.insert(path.begin(), current);
 
     return path;
 }

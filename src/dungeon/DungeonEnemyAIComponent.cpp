@@ -24,6 +24,6 @@ void DungeonEnemyAIComponent::setUpBehaviorTree() {
 
     std::vector<std::shared_ptr<BTNode>> main_children;
     main_children.push_back(offense);
-    main_children.push_back(std::make_shared<DungeonApproachAction>(this, m_seg));
+    main_children.push_back(std::make_shared<DungeonApproachAction>(this, m_seg, 7.0));
     bt_root = std::make_shared<Selector>(this, main_children);
 }
