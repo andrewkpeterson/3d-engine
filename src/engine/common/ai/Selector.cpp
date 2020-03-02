@@ -1,6 +1,7 @@
 #include "Selector.h"
 
-Selector::Selector()
+Selector::Selector(Component *component, std::vector<std::shared_ptr<BTNode> > children) :
+    Composite (component, children)
 {
 
 }

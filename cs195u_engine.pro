@@ -95,7 +95,12 @@ SOURCES += \
     src/engine/common/ai/Selector.cpp \
     src/engine/common/ai/Sequence.cpp \
     src/engine/common/ai/Action.cpp \
-    src/engine/common/ai/Condition.cpp
+    src/engine/common/ai/Condition.cpp \
+    src/dungeon/bt/DungeonApproachAction.cpp \
+    src/dungeon/bt/DungeonAttackAction.cpp \
+    src/dungeon/bt/DungeonPlayerNearCondition.cpp \
+    src/engine/common/ai/Blackboard.cpp \
+    src/engine/common/component/AIComponent.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -180,7 +185,12 @@ HEADERS += \
     src/engine/common/ai/Selector.h \
     src/engine/common/ai/Sequence.h \
     src/engine/common/ai/Action.h \
-    src/engine/common/ai/Condition.h
+    src/engine/common/ai/Condition.h \
+    src/dungeon/bt/DungeonApproachAction.h \
+    src/dungeon/bt/DungeonAttackAction.h \
+    src/dungeon/bt/DungeonPlayerNearCondition.h \
+    src/engine/common/ai/Blackboard.h \
+    src/engine/common/component/AIComponent.h
 
 FORMS += src/mainwindow.ui
 

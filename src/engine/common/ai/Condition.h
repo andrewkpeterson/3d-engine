@@ -6,7 +6,7 @@
 class Condition : public BTNode
 {
 public:
-    Condition();
+    Condition(Component *component);
     ~Condition();
 };
 

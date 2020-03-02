@@ -1,6 +1,7 @@
 #include "Condition.h"
 
-Condition::Condition()
+Condition::Condition(Component *component) :
+    BTNode (component)
 {
 
 }

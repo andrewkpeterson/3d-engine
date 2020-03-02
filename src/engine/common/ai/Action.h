@@ -6,7 +6,7 @@
 class Action : public BTNode
 {
 public:
-    Action();
+    Action(Component *component);
     ~Action();
 };
 

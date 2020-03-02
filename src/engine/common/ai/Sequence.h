@@ -6,7 +6,7 @@
 class Sequence : public Composite
 {
 public:
-    Sequence();
+    Sequence(Component *component, std::vector<std::shared_ptr<BTNode>> children);
     ~Sequence();
     void reset() override;
     Status update(float seconds) override;

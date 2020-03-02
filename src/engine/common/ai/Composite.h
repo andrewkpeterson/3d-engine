@@ -8,7 +8,7 @@
 class Composite : public BTNode
 {
 public:
-    Composite();
+    Composite(Component *component, std::vector<std::shared_ptr<BTNode>> children);
     ~Composite();
 
 protected:

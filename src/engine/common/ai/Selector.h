@@ -6,7 +6,7 @@
 class Selector : public Composite
 {
 public:
-    Selector();
+    Selector(Component *component, std::vector<std::shared_ptr<BTNode>> children);
     ~Selector() override;
     void reset() override;
     Status update(float seconds) override;

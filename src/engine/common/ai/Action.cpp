@@ -1,6 +1,7 @@
 #include "Action.h"
 
-Action::Action()
+Action::Action(Component *component) :
+    BTNode (component)
 {
 
 }
