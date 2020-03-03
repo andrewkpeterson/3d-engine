@@ -1,10 +1,13 @@
 #include "DungeonEnvironmentComponent.h"
 #include "src/engine/common/system/TickSystem.h"
 #include "src/engine/common/component/StaticAABCollisionComponent.h"
+#include "src/engine/common/component/DynamicAABCollisionComponent.h"
 #include "src/engine/common/component/ChunkComponent.h"
+#include "src/engine/common/component/PrimitiveDrawableComponent.h"
 #include "src/engine/common/component/TransformComponent.h"
 #include "src/engine/common/system/CameraSystem.h"
 #include "src/engine/common/system/ChunkStreamingSystem.h"
+#include "src/dungeon/DungeonEnemyAIComponent.h"
 
 DungeonEnvironmentComponent::DungeonEnvironmentComponent(float size, std::string atlas) :
     m_size(size),
@@ -106,7 +109,52 @@ void DungeonEnvironmentComponent::addSegment(std::shared_ptr<MapSegment> seg) {
 
 }
 
+
+
 void DungeonEnvironmentComponent::tick(float seconds) {
+    updateEnvironment(seconds);
+}
+
+void DungeonEnvironmentComponent::addEnemies(int segnum) {
+    enemy_map[segnum] = std::unordered_set<std::shared_ptr<GameObject>>();
+    for (int i = 0; i < ENEMIES_PER_SEG; i++) {
+        std::shared_ptr<GameObject> cube = std::make_shared<GameObject>();
+        enemy_map[segnum].insert(cube);
+        cube->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(false, true, glm::vec3(1,1,1)));
+        cube->addComponent<DungeonEnemyAIComponent>(std::make_shared<DungeonEnemyAIComponent>(map_segments[segnum]));
+
+        bool found = false;
+        while (!found) {
+            int col = std::rand() % MapGenerator::MAP_WIDTH;
+            int row = std::rand() % MapGenerator::MAP_HEIGHT;
+            if (map_segments[segnum]->data[row * MapGenerator::MAP_WIDTH + col] == OPEN) {
+                found = true;
+                float x = row * m_size;
+                float z = (col + segnum * MapGenerator::MAP_WIDTH) * m_size;
+                cube->getComponent<TransformComponent>()->setPos(glm::vec3(x, 1.0, z));
+                cube->getComponent<TransformComponent>()->setScale(2.0f);
+            }
+        }
+
+        cube->getComponent<TransformComponent>()->setScale(2.0f);
+        Material cube_mat;
+        cube_mat.color = glm::vec3(.8,.4,.3);
+        cube->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cube", "cube_mat", cube_mat));
+        m_gameobject->getGameWorld() ->addGameObject(cube);
+    }
+}
+
+void DungeonEnvironmentComponent::removeEnemies(int segnum) {
+    auto it = enemy_map[segnum].begin();
+    while (it != enemy_map[segnum].end()) {
+        std::shared_ptr<GameObject> g = *it;
+        m_gameobject->getGameWorld()->markGameObjectForDeletion(g->getID());
+        it++;
+    }
+    enemy_map.erase(segnum);
+}
+
+void DungeonEnvironmentComponent::updateEnvironment(float seconds) {
     glm::vec3 eye = m_gameobject->getGameWorld()->getSystem<CameraSystem>()->getCurrentMainCameraComponent()->getCamera()->getEye();
     int new_segment = int(std::floor(float(eye.z) / float(m_size* MapGenerator::MAP_WIDTH)));
     if (new_segment > curr_segment) {
@@ -117,8 +165,10 @@ void DungeonEnvironmentComponent::tick(float seconds) {
             std::cout << segment_ahead << std::endl;
             std::shared_ptr<MapSegment> seg = MapGenerator::createMap(segment_ahead);
             enqueueDungeonChunksFromMapSegment(segment_ahead, seg);
+            addEnemies(segment_ahead);
         } else {
             enqueueDungeonChunksFromMapSegment(segment_ahead, map_segments[segment_ahead]);
+            addEnemies(segment_ahead);
         }
 
         int segment_behind = curr_segment - 2;
@@ -131,6 +181,7 @@ void DungeonEnvironmentComponent::tick(float seconds) {
                 chunk_it++;
             }
             chunk_map.erase(segment_behind);
+            removeEnemies(segment_behind);
         }
 
     } else if (new_segment < curr_segment) {
@@ -145,14 +196,15 @@ void DungeonEnvironmentComponent::tick(float seconds) {
                 chunk_it++;
             }
             chunk_map.erase(segment_ahead);
+            removeEnemies(segment_ahead);
         }
-
 
         int segment_behind = curr_segment - 3;
         if (segment_behind >= 0) {
             std::cout << "add segment behind" << std::endl;
             std::cout << segment_behind << std::endl;
             enqueueDungeonChunksFromMapSegment(segment_behind, map_segments[segment_behind]);
+            addEnemies(segment_behind);
         }
     }
 

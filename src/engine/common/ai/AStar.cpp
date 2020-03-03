@@ -18,8 +18,6 @@ std::vector<std::pair<int, int>> AStar::aStarAlgorithm(std::shared_ptr<AStarStat
         m_segment->data[(goal->x) * MapGenerator::MAP_WIDTH + goal->z] == MapElement::BLANK) {
         std::cout << "enemy thinks player is inside wall" << std::endl;
     }
-    std::cout << goal->x << std::endl;
-    std::cout << goal->z << std::endl;
     if (m_segment->data[(start->x) * MapGenerator::MAP_WIDTH + start->z] == MapElement::WALL ||
         m_segment->data[(start->x) * MapGenerator::MAP_WIDTH + start->z] == MapElement::BLANK) {
         std::cout << "enemy thinks it is inside wall" << std::endl;
@@ -36,16 +34,13 @@ std::vector<std::pair<int, int>> AStar::aStarAlgorithm(std::shared_ptr<AStarStat
         if (current->x == goal->x && current->z == goal->z) {
             return reconstructPath(std::pair<int, int>(current->x, current->z), came_from, start);
         }
-        if (current->x == goal->x - 1 && current->z == goal->z) {
-            std::cout << "hello" << std::endl;
-        } else if (current->x == goal->x + 1 && current->z == goal->z) {
-            std::cout << "hello" << std::endl;
-        } else if (current->x == goal->x && current->z == goal->z - 1) {
-            std::cout << "hello" << std::endl;
-        } else if (current->x == goal->x && current->z == goal->z + 1) {
-            std::cout << "hello" << std::endl;
-        }
+
+        int prev_size = open_set.size();
         open_set.erase(current);
+        if (prev_size == open_set.size()) {
+            std::cout << "something bad happened" << std::endl;
+            return std::vector<std::pair<int, int>>({});
+        }
         std::vector<std::pair<int, int>> neighbors = getNeighbors(current);
         for (int i = 0; i < neighbors.size(); i++) {
             std::pair<int, int> n_pair = neighbors[i];

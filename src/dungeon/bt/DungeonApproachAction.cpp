@@ -40,6 +40,9 @@ Status DungeonApproachAction::update(float seconds) {
         std::shared_ptr<AStarState> goal = std::make_shared<AStarState>();
         goal->x = goal_x;
         goal->z = goal_z;
+        if (start_x < 0 || start_z < 0) {
+            std::cout << "stop" << std::endl;
+        }
 
         curr_path = m_astar->aStarAlgorithm(start, goal);
         curr_step = 0;
@@ -49,10 +52,13 @@ Status DungeonApproachAction::update(float seconds) {
     if (curr_step + 1 < curr_path.size()) {
         float x_next = curr_path[curr_step + 1].first * m_size;
         float z_next = (curr_path[curr_step + 1].second + m_seg->info.segment_num * MapGenerator::MAP_WIDTH) * m_size;
-        current_direction = glm::normalize(glm::vec3(x_next - enemy_pos.x, 0, z_next - enemy_pos.z));
+        if (std::abs(x_next - enemy_pos.x) > 0 || std::abs(z_next - enemy_pos.z) > 0) {
+            current_direction = glm::normalize(glm::vec3(x_next - enemy_pos.x, 0, z_next - enemy_pos.z));
+        }
         m_component->getGameObject()->getComponent<TransformComponent>()->translate(ENEMY_SPEED * current_direction);
-        std::cout << current_direction.x << std::endl;
-        std::cout << current_direction.z << std::endl;
+        if (glm::any(glm::isnan(m_component->getGameObject()->getComponent<TransformComponent>()->getPos()))) {
+            std::cout << "stop" << std::endl;
+        }
         if (glm::length(glm::vec3(x_next - enemy_pos.x, 0, z_next - enemy_pos.z)) < EPSILON) {
             curr_step++;
             std::cout << "moved step" << std::endl;

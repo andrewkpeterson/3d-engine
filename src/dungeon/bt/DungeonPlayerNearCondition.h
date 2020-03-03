@@ -12,7 +12,7 @@ public:
     void reset();
 
 private:
-    const float NEAR_THRESH = 3;
+    const float NEAR_THRESH = 5;
 };
 
 #endif // DUNGEONPLAYERNEARCONDITION_H

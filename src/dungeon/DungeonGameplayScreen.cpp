@@ -88,8 +88,12 @@ void DungeonGameplayScreen::initializeGameWorld() {
     environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(0, map_seg0);
     environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(1, map_seg1);
     environment->getComponent<DungeonEnvironmentComponent>()->enqueueDungeonChunksFromMapSegment(2, map_seg2);
+    environment->getComponent<DungeonEnvironmentComponent>()->addEnemies(0);
+    environment->getComponent<DungeonEnvironmentComponent>()->addEnemies(1);
+    environment->getComponent<DungeonEnvironmentComponent>()->addEnemies(2);
     m_gameworld->getSystem<ChunkStreamingSystem>()->buildAllEnqueuedChunks();
 
+    /*
     // create cube enemy
     std::shared_ptr<GameObject> cube = std::make_shared<GameObject>("cube_npc");
     cube->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(false, true, glm::vec3(1,1,1)));
@@ -100,4 +104,5 @@ void DungeonGameplayScreen::initializeGameWorld() {
     cube_mat.color = glm::vec3(.8,.4,.3);
     cube->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cube", "cube_mat", cube_mat));
     m_gameworld->addGameObject(cube);
+    */
 }

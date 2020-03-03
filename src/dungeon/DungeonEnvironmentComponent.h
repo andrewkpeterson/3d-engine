@@ -21,9 +21,13 @@ public:
     void addSegment(std::shared_ptr<MapSegment> seg);
     bool buildChunk(int seg_idx, int startrow, int startcol, ChunkComponent* chunk);
     void tick(float seconds) override;
+    void updateEnvironment(float seconds);
+    void addEnemies(int segnum);
+    void removeEnemies(int segnum);
 
 private:
     const int DUNGEON_CHUNK_SIZE = 5;
+    const int ENEMIES_PER_SEG = 4;
     float m_size;
     const float SEGMENT_LENGTH = 275.0f;
     int curr_segment;
@@ -32,6 +36,7 @@ private:
     std::string atlas_name;
     std::vector<std::shared_ptr<MapSegment>> map_segments;
     std::map<int, std::unordered_set<std::shared_ptr<ChunkComponent>>> chunk_map;
+    std::map<int, std::unordered_set<std::shared_ptr<GameObject>>> enemy_map;
 };
 
 #endif // DUNGEONENVIRONMENTCOMPONENT_H

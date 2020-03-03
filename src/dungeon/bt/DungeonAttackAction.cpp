@@ -17,5 +17,5 @@ void DungeonAttackAction::reset() {
 
 Status DungeonAttackAction::update(float seconds) {
     std::cout << "Enemy attacked" << std::endl;
-    return FAIL;
+    return SUCCESS;
 }
