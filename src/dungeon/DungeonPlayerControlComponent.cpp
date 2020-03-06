@@ -142,6 +142,8 @@ void DungeonPlayerControlComponent::onMouseDragged(int deltaX, int deltaY) {
     m_deltaY = deltaY;
     std::shared_ptr<Camera> camera = m_gameobject->getComponent<CameraComponent>()->getCamera();
     camera->rotate(-m_deltaX / 100.0f * MOUSE_SENSITIVITY, -m_deltaY / 100.0f * MOUSE_SENSITIVITY);
+    std::shared_ptr<TransformComponent> t = m_gameobject->getComponent<TransformComponent>();
+    t->changeYaw(-m_deltaX / 100.0f * MOUSE_SENSITIVITY);
 }
 
 void DungeonPlayerControlComponent::onKeyPressed(QKeyEvent *event) {

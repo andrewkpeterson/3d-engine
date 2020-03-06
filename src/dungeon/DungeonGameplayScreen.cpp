@@ -15,6 +15,7 @@
 #include "src/engine/common/component/DynamicAABCollisionComponent.h"
 #include "src/engine/common/system/ChunkStreamingSystem.h"
 #include "src/dungeon/DungeonEnemyAIComponent.h"
+#include "src/dungeon/SwordComponent.h"
 #include "src/engine/graphics/ResourceLoader.h"
 
 DungeonGameplayScreen::DungeonGameplayScreen(Application *parent) :
@@ -53,8 +54,9 @@ void DungeonGameplayScreen::initializeGameWorld() {
     // create sword
     std::shared_ptr<GameObject> sword = std::make_shared<GameObject>("sword");
     sword->getComponent<TransformComponent>()->setPos(glm::vec3(31,1,20));
-    sword->getComponent<TransformComponent>()->setScale(2.0f);
+    sword->getComponent<TransformComponent>()->setScale(.1f);
     sword->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("sword", "sword_mat"));
+    sword->addComponent<SwordComponent>(std::make_shared<SwordComponent>());
     m_gameworld->addGameObject(sword);
 
     // create player

@@ -7,8 +7,10 @@ class TickComponent : public Component
 {
 public:
     TickComponent();
-    ~TickComponent();
+    virtual ~TickComponent();
     virtual void tick(float seconds) = 0;
+    void addComponentToSystemsAndConnectComponents() override;
+    void removeComponentFromSystems() override;
 };
 
 #endif // TICKCOMPONENT_H

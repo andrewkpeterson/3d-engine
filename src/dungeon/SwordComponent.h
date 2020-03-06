@@ -8,7 +8,7 @@ class SwordComponent : public TickComponent
 {
 public:
     SwordComponent();
-    ~SwordComponent();
+    ~SwordComponent() override;
     void tick(float seconds) override;
     void swing();
 };

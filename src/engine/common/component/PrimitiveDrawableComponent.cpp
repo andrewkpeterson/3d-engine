@@ -28,7 +28,8 @@ PrimitiveDrawableComponent::~PrimitiveDrawableComponent()
 void PrimitiveDrawableComponent::drawSelf() {
     if (shouldDraw) {
         g->clearTransform();
-        m_gameobject->getComponent<TransformComponent>()->setObjectTransform();
+        m_gameobject->getComponent<TransformComponent>()->setObjectToWorldTransform();
+        m_gameobject->getComponent<TransformComponent>()->setObjectSpaceOrientation();
         g->setMaterial(m_matname);
         g->drawShape(m_geometry);
     }

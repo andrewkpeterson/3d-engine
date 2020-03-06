@@ -101,7 +101,6 @@ SOURCES += \
     src/dungeon/bt/DungeonPlayerNearCondition.cpp \
     src/engine/common/ai/Blackboard.cpp \
     src/engine/common/component/AIComponent.cpp \
-    src/engine/common/component/MultiShapeDrawableComponent.cpp \
     src/dungeon/SwordComponent.cpp
 
 HEADERS += \
@@ -193,7 +192,6 @@ HEADERS += \
     src/dungeon/bt/DungeonPlayerNearCondition.h \
     src/engine/common/ai/Blackboard.h \
     src/engine/common/component/AIComponent.h \
-    src/engine/common/component/MultiShapeDrawableComponent.h \
     src/dungeon/SwordComponent.h
 
 FORMS += src/mainwindow.ui
