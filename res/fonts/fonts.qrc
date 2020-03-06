@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/fonts">
         <file>OpenSans-Regular.ttf</file>
+        <file>PressStart2P-Regular.ttf</file>
     </qresource>
 </RCC>

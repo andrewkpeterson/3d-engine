@@ -120,7 +120,8 @@ void DungeonEnvironmentComponent::addEnemies(int segnum) {
     for (int i = 0; i < ENEMIES_PER_SEG; i++) {
         std::shared_ptr<GameObject> cube = std::make_shared<GameObject>();
         enemy_map[segnum].insert(cube);
-        cube->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(false, true, glm::vec3(1,1,1)));
+        cube->addComponent<DynamicAABCollisionComponent>(
+                    std::make_shared<DynamicAABCollisionComponent>(true, true, glm::vec3(1,1,1)));
         cube->addComponent<DungeonEnemyAIComponent>(std::make_shared<DungeonEnemyAIComponent>(map_segments[segnum]));
 
         bool found = false;
@@ -131,15 +132,15 @@ void DungeonEnvironmentComponent::addEnemies(int segnum) {
                 found = true;
                 float x = row * m_size;
                 float z = (col + segnum * MapGenerator::MAP_WIDTH) * m_size;
-                cube->getComponent<TransformComponent>()->setPos(glm::vec3(x, 1.0, z));
+                cube->getComponent<TransformComponent>()->setPos(glm::vec3(x, .5, z));
                 cube->getComponent<TransformComponent>()->setScale(2.0f);
             }
         }
 
-        cube->getComponent<TransformComponent>()->setScale(2.0f);
+        cube->getComponent<TransformComponent>()->setScale(1.0f);
         Material cube_mat;
         cube_mat.color = glm::vec3(.8,.4,.3);
-        cube->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cube", "cube_mat", cube_mat));
+        cube->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("enemy", "enemy_mat"));
         m_gameobject->getGameWorld() ->addGameObject(cube);
     }
 }

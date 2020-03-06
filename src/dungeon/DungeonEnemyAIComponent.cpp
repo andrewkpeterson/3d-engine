@@ -2,6 +2,13 @@
 #include "src/dungeon/bt/DungeonPlayerNearCondition.h"
 #include "src/dungeon/bt/DungeonApproachAction.h"
 #include "src/dungeon/bt/DungeonAttackAction.h"
+#include "src/engine/common/GameObject.h"
+#include "src/engine/common/GameWorld.h"
+#include "src/engine/common/system/TickSystem.h"
+#include "src/engine/common/system/CollisionSystem.h"
+#include "src/engine/common/component/CollisionComponent.h"
+#include "src/engine/common/component/DynamicAABCollisionComponent.h"
+#include "src/engine/common/component/TransformComponent.h"
 
 DungeonEnemyAIComponent::DungeonEnemyAIComponent(std::shared_ptr<MapSegment> seg) :
     AIComponent(),
@@ -14,6 +21,27 @@ DungeonEnemyAIComponent::DungeonEnemyAIComponent(std::shared_ptr<MapSegment> seg
 DungeonEnemyAIComponent::~DungeonEnemyAIComponent()
 {
 
+}
+
+void DungeonEnemyAIComponent::addComponentToSystemsAndConnectComponents()
+{
+    m_gameobject->getGameWorld()->getSystem<TickSystem>()->addComponent(this);
+    m_gameobject->getComponent<DynamicAABCollisionComponent>()->
+            setCollisionCallback(std::bind(&DungeonEnemyAIComponent::handleCollisionResolutionAndResponse,
+                                           this, std::placeholders::_1));
+}
+
+void DungeonEnemyAIComponent::removeComponentFromSystems() {
+    m_gameobject->getGameWorld()->getSystem<TickSystem>()->removeComponent(this);
+}
+
+void DungeonEnemyAIComponent::handleCollisionResolutionAndResponse(Collision collision) {
+    std::shared_ptr<TransformComponent> t = m_gameobject->getComponent<TransformComponent>();
+    if (collision.collider->canMove()) {
+        t->translate(collision.half_mtv);
+    } else {
+        t->translate(2.0f*collision.half_mtv);
+    }
 }
 
 void DungeonEnemyAIComponent::setUpBehaviorTree() {

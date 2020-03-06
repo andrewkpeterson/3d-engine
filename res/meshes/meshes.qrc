@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/meshes">
+        <file>creeper.obj</file>
+        <file>sword.obj</file>
+    </qresource>
+</RCC>

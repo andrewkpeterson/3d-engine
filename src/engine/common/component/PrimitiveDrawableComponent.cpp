@@ -5,12 +5,19 @@
 
 PrimitiveDrawableComponent::PrimitiveDrawableComponent(std::string geometry, std::string matname, Material material) :
     DrawableComponent(),
-    m_material(material),
     m_matname(matname),
     m_geometry(geometry)
 {
     g = Graphics::getGlobalInstance();
-    g->addMaterial(m_matname, m_material);
+    g->addMaterial(m_matname, material);
+}
+
+PrimitiveDrawableComponent::PrimitiveDrawableComponent(std::string geometry, std::string matname) :
+    DrawableComponent(),
+    m_matname(matname),
+    m_geometry(geometry)
+{
+    g = Graphics::getGlobalInstance();
 }
 
 PrimitiveDrawableComponent::~PrimitiveDrawableComponent()

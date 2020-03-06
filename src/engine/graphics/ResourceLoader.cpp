@@ -165,7 +165,7 @@ bool ResourceLoader::readObj(const QString &path, std::shared_ptr<Shape> &shape)
 
     // Read file
     QTextStream f(&file);
-    QString line;
+    QString line = "not null";
     QRegExp spaces("\\s+");
 
     while(!line.isNull())
@@ -228,7 +228,11 @@ bool ResourceLoader::readObj(const QString &path, std::shared_ptr<Shape> &shape)
         // texcoord
         if(!texCoords.empty())
         {
-            texc = texCoords.at(i[1]-1);
+            if (i[1] <= 0) {
+                texc = texCoords.at(0);
+            } else {
+                texc = texCoords.at(i[1]-1);
+            }
         }
 
         // normal

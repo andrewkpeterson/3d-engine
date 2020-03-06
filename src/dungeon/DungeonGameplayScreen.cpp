@@ -14,6 +14,7 @@
 #include "src/engine/common/component/DynamicAABCollisionComponent.h"
 #include "src/engine/common/system/ChunkStreamingSystem.h"
 #include "src/dungeon/DungeonEnemyAIComponent.h"
+#include "src/engine/graphics/ResourceLoader.h"
 
 DungeonGameplayScreen::DungeonGameplayScreen(Application *parent) :
     Screen(parent)
@@ -27,6 +28,8 @@ DungeonGameplayScreen::~DungeonGameplayScreen()
 }
 
 void DungeonGameplayScreen::initializeGameWorld() {
+    Graphics *g = Graphics::getGlobalInstance();
+
     std::shared_ptr<UI> ui = std::make_shared<UI>();
     std::shared_ptr<UILabel> x_label = std::make_shared<UILabel>("x", 20.0f, glm::vec3(1,1,1), glm::vec2(20.0f,40.0f), "white");
     ui->addElement("xlabel", x_label);
@@ -92,6 +95,15 @@ void DungeonGameplayScreen::initializeGameWorld() {
     environment->getComponent<DungeonEnvironmentComponent>()->addEnemies(1);
     environment->getComponent<DungeonEnvironmentComponent>()->addEnemies(2);
     m_gameworld->getSystem<ChunkStreamingSystem>()->buildAllEnqueuedChunks();
+
+    // load in visual data for enemy
+    std::shared_ptr<Shape> enemy_shape = std::make_shared<Shape>("enemy");
+    ResourceLoader::readObj(":/meshes/creeper.obj", enemy_shape);
+    Material enemy_mat;
+    enemy_mat.textureName = "enemy_texture";
+    g->addMaterial("enemy_mat", enemy_mat);
+    g->addShape("enemy", enemy_shape);
+    g->addTexture("enemy_texture", ":/images/creeper.jpg", Texture::FILTER_METHOD::NEAREST);
 
     /*
     // create cube enemy

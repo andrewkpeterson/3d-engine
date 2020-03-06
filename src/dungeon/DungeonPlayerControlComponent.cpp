@@ -36,7 +36,8 @@ void DungeonPlayerControlComponent::addComponentToSystemsAndConnectComponents()
     m_gameobject->getGameWorld()->getSystem<ControlCallbackSystem>()->addComponent(this);
 
     m_gameobject->getComponent<DynamicAABCollisionComponent>()->
-            setCollisionCallback(std::bind(&DungeonPlayerControlComponent::handleCollisionResolutionAndResponse, this, std::placeholders::_1));
+            setCollisionCallback(std::bind(&DungeonPlayerControlComponent::handleCollisionResolutionAndResponse,
+                                           this, std::placeholders::_1));
 }
 
 void DungeonPlayerControlComponent::removeComponentFromSystems() {

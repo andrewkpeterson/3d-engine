@@ -197,7 +197,8 @@ FORMS += src/mainwindow.ui
 RESOURCES += \
     res/shaders/shaders.qrc \
     res/fonts/fonts.qrc \
-    res/images/images.qrc
+    res/images/images.qrc \
+    res/meshes/meshes.qrc
 
 OTHER_FILES += \
     res/images/grass.png \

@@ -2,5 +2,7 @@
     <qresource prefix="/images">
         <file>grass.png</file>
         <file>terrain.png</file>
+        <file>creeper.jpg</file>
+        <file>sword.png</file>
     </qresource>
 </RCC>
