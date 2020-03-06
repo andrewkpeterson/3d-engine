@@ -56,6 +56,8 @@ Status DungeonApproachAction::update(float seconds) {
             current_direction = glm::normalize(glm::vec3(x_next - enemy_pos.x, 0, z_next - enemy_pos.z));
         }
         m_component->getGameObject()->getComponent<TransformComponent>()->translate(ENEMY_SPEED * current_direction);
+        m_component->getGameObject()->getComponent<TransformComponent>()->
+                setYaw(std::atan2(current_direction.x, current_direction.z) - M_PI / 2.0f);
         if (glm::any(glm::isnan(m_component->getGameObject()->getComponent<TransformComponent>()->getPos()))) {
             std::cout << "stop" << std::endl;
         }

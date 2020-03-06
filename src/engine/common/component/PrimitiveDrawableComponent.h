@@ -12,11 +12,12 @@ public:
     PrimitiveDrawableComponent(std::string geometry, std::string matname, Material material);
     PrimitiveDrawableComponent(std::string geometry, std::string matname);
     ~PrimitiveDrawableComponent() override;
-    virtual void drawSelf();
+    virtual void drawSelf() override;
 
 private:
     std::string m_matname;
     std::string m_geometry;
+
 };
 
 #endif // PRIMITIVEDRAWABLECOMPONENT_H

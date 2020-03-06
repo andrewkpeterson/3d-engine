@@ -238,7 +238,11 @@ bool ResourceLoader::readObj(const QString &path, std::shared_ptr<Shape> &shape)
         // normal
         if(!normals.empty())
         {
-            norm = normals.at(i[2]-1);
+            if (i[2] >= normals.size()) {
+                norm = normals.at(normals.size() - 1);
+            } else {
+                norm = normals.at(i[2]-1);
+            }
         }
 
         float vert[8] =

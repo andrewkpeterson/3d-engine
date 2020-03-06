@@ -100,7 +100,9 @@ SOURCES += \
     src/dungeon/bt/DungeonAttackAction.cpp \
     src/dungeon/bt/DungeonPlayerNearCondition.cpp \
     src/engine/common/ai/Blackboard.cpp \
-    src/engine/common/component/AIComponent.cpp
+    src/engine/common/component/AIComponent.cpp \
+    src/engine/common/component/MultiShapeDrawableComponent.cpp \
+    src/dungeon/SwordComponent.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -190,7 +192,9 @@ HEADERS += \
     src/dungeon/bt/DungeonAttackAction.h \
     src/dungeon/bt/DungeonPlayerNearCondition.h \
     src/engine/common/ai/Blackboard.h \
-    src/engine/common/component/AIComponent.h
+    src/engine/common/component/AIComponent.h \
+    src/engine/common/component/MultiShapeDrawableComponent.h \
+    src/dungeon/SwordComponent.h
 
 FORMS += src/mainwindow.ui
 
