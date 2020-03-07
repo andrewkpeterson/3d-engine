@@ -8,6 +8,7 @@
 #include "src/engine/common/component/DynamicAABCollisionComponent.h"
 #include "src/engine/common/ui/UI.h"
 #include "src/engine/common/ui/UILabel.h"
+#include "src/dungeon/SwordComponent.h"
 #include "src/engine/util/Input.h"
 #include <sstream>
 
@@ -17,7 +18,7 @@ DungeonPlayerControlComponent::DungeonPlayerControlComponent() :
     can_jump(true),
     y_vel(0.0),
     distance_last_fallen(0),
-    use_third_person(true),
+    use_third_person(false),
     third_person_cam_pos(5.0),
     m_deltaX(0),
     m_deltaY(0)
@@ -38,6 +39,7 @@ void DungeonPlayerControlComponent::addComponentToSystemsAndConnectComponents()
     m_gameobject->getComponent<DynamicAABCollisionComponent>()->
             setCollisionCallback(std::bind(&DungeonPlayerControlComponent::handleCollisionResolutionAndResponse,
                                            this, std::placeholders::_1));
+    m_gameobject->getComponent<PrimitiveDrawableComponent>()->setDraw(use_third_person);
 }
 
 void DungeonPlayerControlComponent::removeComponentFromSystems() {
@@ -65,9 +67,9 @@ void DungeonPlayerControlComponent::handleCollisionResolutionAndResponse(Collisi
             t->translate(2.0f*collision.half_mtv);
         }
         if (use_third_person) {
-            camera->setEye(t->getPos() + glm::vec3(0,1,0) - third_person_cam_pos*look);
+            camera->setEye(t->getPos() + glm::vec3(0,2,0) - third_person_cam_pos*look);
         } else {
-            camera->setEye(t->getPos() + glm::vec3(0,1,0));
+            camera->setEye(t->getPos() + glm::vec3(0,2,0));
         }
     //}
 }
@@ -121,9 +123,9 @@ void DungeonPlayerControlComponent::update(float seconds) {
 
     //set the camera eye to the appropriate place given the position of the transformation component
     if (use_third_person) {
-        camera->setEye(t->getPos() + glm::vec3(0,1,0) - third_person_cam_pos*look);
+        camera->setEye(t->getPos() + glm::vec3(0,2,0) - third_person_cam_pos*look);
     } else {
-        camera->setEye(t->getPos() + glm::vec3(0,1,0));
+        camera->setEye(t->getPos() + glm::vec3(0,2,0));
     }
 
     //camera->rotate(-m_deltaX / 100.0f * MOUSE_SENSITIVITY * seconds, -m_deltaY / 100.0f * MOUSE_SENSITIVITY * seconds);
@@ -161,6 +163,7 @@ void DungeonPlayerControlComponent::onKeyRepeated(QKeyEvent *event) {
 }
 
 void DungeonPlayerControlComponent::onMousePressed(QMouseEvent *event) {
+    m_gameobject->getGameWorld()->getGameObjectByID("sword")->getComponent<SwordComponent>()->swing();
 }
 
 void DungeonPlayerControlComponent::onMouseReleased(QMouseEvent *event) {

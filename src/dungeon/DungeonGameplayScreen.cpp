@@ -3,7 +3,6 @@
 #include "src/engine/util/Input.h"
 #include "src/engine/common/component/TransformComponent.h"
 #include "src/engine/common/component/PrimitiveDrawableComponent.h"
-#include "src/engine/common/component/MultiShapeDrawableComponent.h"
 #include "src/engine/common/component/ChunkDrawableComponent.h"
 #include "src/engine/common/component/CameraComponent.h"
 #include "src/dungeon/DungeonEnvironmentComponent.h"
@@ -121,6 +120,11 @@ void DungeonGameplayScreen::initializeGameWorld() {
     g->addMaterial("enemy_mat", enemy_mat);
     g->addShape("enemy", enemy_shape);
     g->addTexture("enemy_texture", ":/images/creeper.jpg", Texture::FILTER_METHOD::NEAREST);
+
+    Material damaged_mat;
+    damaged_mat.textureName = "damaged_mat";
+    damaged_mat.color = glm::vec3(1,0,0);
+    g->addMaterial("damaged_mat", damaged_mat);
 
     /*
     // create cube enemy

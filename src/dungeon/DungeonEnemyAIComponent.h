@@ -18,6 +18,7 @@ public:
     void addComponentToSystemsAndConnectComponents() override;
     void removeComponentFromSystems() override;
     void handleCollisionResolutionAndResponse(Collision collision);
+    void getAttacked();
 
 private:
     std::shared_ptr<MapSegment> m_seg;

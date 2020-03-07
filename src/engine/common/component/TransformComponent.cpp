@@ -10,7 +10,8 @@ TransformComponent::TransformComponent(glm::vec3 pos, float scale) :
     object_pos(glm::vec3(0,0,0)),
     object_yaw(0),
     object_pitch(0),
-    object_roll(0)
+    object_roll(0),
+    object_pivot_point(glm::vec3(0,0,0))
 {
     g = Graphics::getGlobalInstance();
 }
@@ -32,6 +33,8 @@ void TransformComponent::setObjectSpaceOrientation() {
     g->translate(object_pos);
     g->rotate(object_yaw, glm::vec3(0,1,0));
     g->rotate(object_pitch, glm::vec3(1,0,0));
+    g->rotate(object_roll, glm::vec3(0,0,1));
+    g->translate(object_pivot_point);
 }
 
 void TransformComponent::setObjectToWorldTransform() {
@@ -39,6 +42,7 @@ void TransformComponent::setObjectToWorldTransform() {
     g->scale(m_scale);
     g->rotate(yaw, glm::vec3(0,1,0));
     g->rotate(pitch, glm::vec3(1,0,0));
+    g->rotate(roll, glm::vec3(0,0,1));
 }
 
 void TransformComponent::translate(glm::vec3 translation) {
@@ -134,4 +138,8 @@ float TransformComponent::getObjectRoll() {
 
 float TransformComponent::getObjectPitch() {
     return object_pitch;
+}
+
+void TransformComponent::setObjectPivotPoint(glm::vec3 pivot) {
+    object_pivot_point = pivot;
 }

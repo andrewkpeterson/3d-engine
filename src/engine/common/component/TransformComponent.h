@@ -41,6 +41,7 @@ public:
     float getObjectPitch();
     float getObjectRoll();
     float getObjectYaw();
+    void setObjectPivotPoint(glm::vec3 pivot);
 
 private:
     glm::vec3 m_pos;
@@ -54,6 +55,7 @@ private:
     float object_roll;
     float object_pitch;
     float object_yaw;
+    glm::vec3 object_pivot_point;
 };
 
 #endif // TRANSFORMCOMPONENT_H

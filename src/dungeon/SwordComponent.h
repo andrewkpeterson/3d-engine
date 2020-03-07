@@ -11,6 +11,11 @@ public:
     ~SwordComponent() override;
     void tick(float seconds) override;
     void swing();
+
+private:
+    bool swinging;
+    bool forward;
+    const float TIME_OF_SWING = 1;
 };
 
 #endif // SWORDCOMPONENT_H

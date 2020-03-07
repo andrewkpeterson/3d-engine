@@ -9,8 +9,8 @@ public:
     TickComponent();
     virtual ~TickComponent();
     virtual void tick(float seconds) = 0;
-    void addComponentToSystemsAndConnectComponents() override;
-    void removeComponentFromSystems() override;
+    virtual void addComponentToSystemsAndConnectComponents() override;
+    virtual void removeComponentFromSystems() override;
 };
 
 #endif // TICKCOMPONENT_H

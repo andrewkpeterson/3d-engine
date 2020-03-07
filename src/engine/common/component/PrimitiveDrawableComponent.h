@@ -13,6 +13,7 @@ public:
     PrimitiveDrawableComponent(std::string geometry, std::string matname);
     ~PrimitiveDrawableComponent() override;
     virtual void drawSelf() override;
+    void setMaterial(std::string matname);
 
 private:
     std::string m_matname;

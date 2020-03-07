@@ -35,3 +35,7 @@ void PrimitiveDrawableComponent::drawSelf() {
     }
 }
 
+void PrimitiveDrawableComponent::setMaterial(std::string matname) {
+    m_matname = matname;
+}
+
