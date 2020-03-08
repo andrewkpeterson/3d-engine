@@ -103,7 +103,9 @@ SOURCES += \
     src/engine/common/component/AIComponent.cpp \
     src/dungeon/SwordComponent.cpp \
     src/engine/common/component/OrthographicUIComponent.cpp \
-    src/engine/common/system/OrthographicUISystem.cpp
+    src/engine/common/system/OrthographicUISystem.cpp \
+    src/engine/common/component/OrthographicUIShapeComponent.cpp \
+    src/engine/common/component/OrthographicUITextComponent.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -196,7 +198,9 @@ HEADERS += \
     src/engine/common/component/AIComponent.h \
     src/dungeon/SwordComponent.h \
     src/engine/common/component/OrthographicUIComponent.h \
-    src/engine/common/system/OrthographicUISystem.h
+    src/engine/common/system/OrthographicUISystem.h \
+    src/engine/common/component/OrthographicUIShapeComponent.h \
+    src/engine/common/component/OrthographicUITextComponent.h
 
 FORMS += src/mainwindow.ui
 

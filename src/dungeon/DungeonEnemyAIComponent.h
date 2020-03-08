@@ -26,6 +26,7 @@ private:
     const float DAMAGE_TIME = .1;
     float damage_count;
     bool damaged;
+    float m_health;
 };
 
 #endif // DUNGEONENEMYAICOMPONENT_H

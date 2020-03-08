@@ -8,7 +8,7 @@
 #include "src/engine/common/system/CameraSystem.h"
 #include "src/engine/common/system/ChunkStreamingSystem.h"
 #include "src/dungeon/DungeonEnemyAIComponent.h"
-#include "src/engine/common/component/OrthographicUIComponent.h"
+#include "src/engine/common/component/OrthographicUIShapeComponent.h"
 
 DungeonEnvironmentComponent::DungeonEnvironmentComponent(float size, std::string atlas) :
     m_size(size),
@@ -144,7 +144,8 @@ void DungeonEnvironmentComponent::addEnemies(int segnum) {
         Material cube_mat;
         cube_mat.color = glm::vec3(0,1,0);
         cube->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("enemy", "enemy_mat"));
-        cube->addComponent<OrthographicUIComponent>(std::make_shared<OrthographicUIComponent>("uiquad", "health_bar_mat"));
+        cube->addComponent<OrthographicUIShapeComponent>(
+                    std::make_shared<OrthographicUIShapeComponent>("uiquad","health_bar_mat",glm::vec3(0,4.0,0),glm::vec3(50,10,1)));
         m_gameobject->getGameWorld() ->addGameObject(cube);
     }
 }

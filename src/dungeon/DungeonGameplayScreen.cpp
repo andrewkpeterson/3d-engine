@@ -16,6 +16,7 @@
 #include "src/dungeon/DungeonEnemyAIComponent.h"
 #include "src/dungeon/SwordComponent.h"
 #include "src/engine/graphics/ResourceLoader.h"
+#include "src/engine/common/component/OrthographicUITextComponent.h"
 
 DungeonGameplayScreen::DungeonGameplayScreen(Application *parent) :
     Screen(parent)
@@ -73,9 +74,11 @@ void DungeonGameplayScreen::initializeGameWorld() {
     m_gameworld->getSystem<CameraSystem>()->setCurrentMainCameraComponent(player->getComponent<CameraComponent>().get());
 
     // create sphere npc
-    /*
     std::shared_ptr<GameObject> sphere = std::make_shared<GameObject>("sphere_npc");
     sphere->addComponent<SphereCollisionComponent>(std::make_shared<SphereCollisionComponent>(false, true, 1.5));
+    sphere->addComponent<OrthographicUITextComponent>(
+                std::make_shared<OrthographicUITextComponent>("You must go into the dungeon and defeat the creepers",
+                                                              "white",glm::vec3(-3,1.5,0),20.0f));
     sphere->getComponent<TransformComponent>()->setPos(glm::vec3(28,1,20));
     sphere->getComponent<TransformComponent>()->setScale(2.0f);
     Material sphere_mat;
@@ -83,6 +86,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
     sphere->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("sphere", "sphere_mat", sphere_mat));
     m_gameworld->addGameObject(sphere);
 
+    /*
     // create cylinder npc
     std::shared_ptr<GameObject> cylinder = std::make_shared<GameObject>("cylinder_npc");
     cylinder->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(false, true, 1.5,2.0));

@@ -54,10 +54,12 @@ void GameWorld::resize(int width, int height) {
 }
 
 void GameWorld::addGameObject(std::shared_ptr<GameObject> object) {
-    assert(m_gameobjects.find(object->getID()) == m_gameobjects.end());
-    m_gameobjects.insert({object->getID(), object});
-    object->setGameWorld(this);
-    object->addSelfToSystems();
+    //assert(m_gameobjects.find(object->getID()) == m_gameobjects.end());
+    if (m_gameobjects.find(object->getID()) == m_gameobjects.end()) {
+        m_gameobjects.insert({object->getID(), object});
+        object->setGameWorld(this);
+        object->addSelfToSystems();
+    }
 }
 
 void GameWorld::removeGameObject(std::shared_ptr<GameObject> object) {

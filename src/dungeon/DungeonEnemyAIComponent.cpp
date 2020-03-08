@@ -10,12 +10,14 @@
 #include "src/engine/common/component/DynamicAABCollisionComponent.h"
 #include "src/engine/common/component/TransformComponent.h"
 #include "src/engine/common/component/PrimitiveDrawableComponent.h"
+#include "src/engine/common/component/OrthographicUIShapeComponent.h"
 
 DungeonEnemyAIComponent::DungeonEnemyAIComponent(std::shared_ptr<MapSegment> seg) :
     AIComponent(),
     m_seg(seg),
     damage_count(0),
-    damaged(false)
+    damaged(false),
+    m_health(20.0)
 {
     setUpBehaviorTree();
 }
@@ -72,4 +74,9 @@ void DungeonEnemyAIComponent::setUpBehaviorTree() {
 void DungeonEnemyAIComponent::getAttacked() {
     m_gameobject->getComponent<PrimitiveDrawableComponent>()->setMaterial("damaged_mat");
     damaged = true;
+    m_health -= 1.0;
+    if (m_health <= 0) {
+        m_gameobject->getGameWorld()->markGameObjectForDeletion(m_gameobject->getID());
+    }
+    m_gameobject->getComponent<OrthographicUIShapeComponent>()->setSize(glm::vec3(m_health * 1.5f, 10.0f, 1.0f));
 }
