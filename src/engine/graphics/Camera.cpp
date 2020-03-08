@@ -9,7 +9,8 @@ Camera::Camera(glm::vec2 screenSize, glm::vec3 eye, float yaw, float pitch, floa
     m_up(glm::vec3(0, 1, 0)),
     m_forward(glm::vec3(0, 0, 1)),
     m_ui(false),
-    m_inverted(false)
+    m_inverted(false),
+    orthographic_ui(false)
 {
     glm::mat4x4 mat = glm::perspective(m_fov, m_screenSize.x / m_screenSize.y, nearPlane, farPlane) *
                       glm::lookAt(m_eye, m_eye + getLook(), m_up);
@@ -125,6 +126,14 @@ glm::vec3 Camera::getUp() {
 void Camera::setUp(glm::vec3 up) {
     m_up = glm::normalize(up);
     recomputeRVectors();
+}
+
+void Camera::setOrthographicUI(bool b) {
+    orthographic_ui = b;
+}
+
+bool Camera::isOrthographicUI() {
+    return orthographic_ui;
 }
 
 glm::vec3 Camera::getForward() {

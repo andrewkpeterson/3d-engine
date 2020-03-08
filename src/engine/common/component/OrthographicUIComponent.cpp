@@ -45,7 +45,7 @@ void OrthographicUIComponent::drawSelf(std::shared_ptr<Camera> camera) {
         if (shouldDraw) {
             g->clearTransform();
             g->setMaterial("health_bar_mat");
-            g->translate(glm::vec3(screen_pos.x, screen_pos.y, .1));
+            g->translate(glm::vec3(screen_pos.x, screen_pos.y, screen_pos.z));
             g->scale(glm::vec3(50,10,1));
             g->drawShape(m_geometry);
         }
@@ -55,7 +55,7 @@ void OrthographicUIComponent::drawSelf(std::shared_ptr<Camera> camera) {
 glm::vec3 OrthographicUIComponent::convertToScreenSpace(glm::vec3 pos, std::shared_ptr<Camera> camera) {
     glm::vec4 pos_clip_space = camera->getProjection() * camera->getView() * glm::vec4(pos, 1.0f);
     glm::vec2 screen_size = camera->getScreenSize();
-    glm::vec3 pos_ndc = glm::vec3(pos_clip_space.x / pos_clip_space.w, pos_clip_space.y / pos_clip_space.w, pos_clip_space.z);
+    glm::vec3 pos_ndc = glm::vec3(pos_clip_space.x / pos_clip_space.w, pos_clip_space.y / pos_clip_space.w, pos_clip_space.z / pos_clip_space.w);
     return glm::vec3((pos_ndc.x + 1) * .5f * screen_size.x,
                      (pos_ndc.y + 1) * .5f * screen_size.y, pos_ndc.z);
 }

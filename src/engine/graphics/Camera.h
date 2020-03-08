@@ -6,6 +6,10 @@
 const static float nearPlane = 0.1;
 const static float farPlane = 200.0;
 
+enum CameraType {
+    CT_PERSPECTIVE, CT_UI, CT_ORTHOGRAPHIC_UI
+};
+
 /**
  * @brief The Camera class
  *
@@ -78,6 +82,8 @@ public:
      */
     bool isUI();
     void setUI(bool ui);
+    void setOrthographicUI(bool b);
+    bool isOrthographicUI();
 
     bool isInverted();
     void setInverted(bool inverted);
@@ -107,6 +113,7 @@ protected:
     glm::vec3 m_up, m_forward;
 
     bool m_ui;
+    bool orthographic_ui;
     bool m_inverted;
 
     std::vector<glm::vec4> r_vectors;

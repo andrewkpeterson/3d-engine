@@ -386,11 +386,18 @@ void Graphics::setProjection(const mat4 &projection) {
 
 void Graphics::setCamera(const std::shared_ptr<Camera> &camera) {
     if(camera->isUI()) {
-        disableDepthTest();
-
-        if(m_activeShader != nullptr) {
-            setView(camera->getUIView());
-            setProjection(camera->getUIProjection());
+        if (camera->isOrthographicUI()) {
+            enableDepthTest();
+            if(m_activeShader != nullptr) {
+                setView(camera->getUIView());
+                setProjection(camera->getUIProjection());
+            }
+        } else {
+            disableDepthTest();
+            if(m_activeShader != nullptr) {
+                setView(camera->getUIView());
+                setProjection(camera->getUIProjection());
+            }
         }
     }
     else {

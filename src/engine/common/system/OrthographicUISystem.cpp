@@ -6,6 +6,7 @@ OrthographicUISystem::OrthographicUISystem(GameWorld *gameworld) :
 {
     g = Graphics::getGlobalInstance();
     orthographic_camera->setUI(true);
+    orthographic_camera->setOrthographicUI(true);
 }
 
 OrthographicUISystem::~OrthographicUISystem()
