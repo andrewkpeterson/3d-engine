@@ -101,7 +101,9 @@ SOURCES += \
     src/dungeon/bt/DungeonPlayerNearCondition.cpp \
     src/engine/common/ai/Blackboard.cpp \
     src/engine/common/component/AIComponent.cpp \
-    src/dungeon/SwordComponent.cpp
+    src/dungeon/SwordComponent.cpp \
+    src/engine/common/component/OrthographicUIComponent.cpp \
+    src/engine/common/system/OrthographicUISystem.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -192,7 +194,9 @@ HEADERS += \
     src/dungeon/bt/DungeonPlayerNearCondition.h \
     src/engine/common/ai/Blackboard.h \
     src/engine/common/component/AIComponent.h \
-    src/dungeon/SwordComponent.h
+    src/dungeon/SwordComponent.h \
+    src/engine/common/component/OrthographicUIComponent.h \
+    src/engine/common/system/OrthographicUISystem.h
 
 FORMS += src/mainwindow.ui
 

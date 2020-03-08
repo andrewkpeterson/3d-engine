@@ -8,6 +8,7 @@
 #include "src/engine/common/system/CameraSystem.h"
 #include "src/engine/common/system/ChunkStreamingSystem.h"
 #include "src/dungeon/DungeonEnemyAIComponent.h"
+#include "src/engine/common/component/OrthographicUIComponent.h"
 
 DungeonEnvironmentComponent::DungeonEnvironmentComponent(float size, std::string atlas) :
     m_size(size),
@@ -118,7 +119,9 @@ void DungeonEnvironmentComponent::tick(float seconds) {
 void DungeonEnvironmentComponent::addEnemies(int segnum) {
     enemy_map[segnum] = std::unordered_set<std::shared_ptr<GameObject>>();
     for (int i = 0; i < ENEMIES_PER_SEG; i++) {
-        std::shared_ptr<GameObject> cube = std::make_shared<GameObject>();
+        char name[50];
+        std::sprintf(name, "enemy%d %d", segnum, i);
+        std::shared_ptr<GameObject> cube = std::make_shared<GameObject>(name);
         enemy_map[segnum].insert(cube);
         cube->addComponent<DynamicAABCollisionComponent>(
                     std::make_shared<DynamicAABCollisionComponent>(true, true, glm::vec3(1,1,1)));
@@ -139,8 +142,9 @@ void DungeonEnvironmentComponent::addEnemies(int segnum) {
 
         cube->getComponent<TransformComponent>()->setScale(1.0f);
         Material cube_mat;
-        cube_mat.color = glm::vec3(.8,.4,.3);
+        cube_mat.color = glm::vec3(0,1,0);
         cube->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("enemy", "enemy_mat"));
+        cube->addComponent<OrthographicUIComponent>(std::make_shared<OrthographicUIComponent>("uiquad", "health_bar_mat"));
         m_gameobject->getGameWorld() ->addGameObject(cube);
     }
 }

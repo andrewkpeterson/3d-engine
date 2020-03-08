@@ -57,20 +57,23 @@ void DungeonPlayerControlComponent::handleCollisionResolutionAndResponse(Collisi
     std::shared_ptr<DynamicAABCollisionComponent> comp = m_gameobject->getComponent<DynamicAABCollisionComponent>();
     std::shared_ptr<TransformComponent> t = m_gameobject->getComponent<TransformComponent>();
     glm::vec3 look = camera->getLook();
+    std::string id = collision.collider->getGameObject()->getID();
     //if (collision.half_mtv.x == 0 && collision.half_mtv.z == 0 && collision.half_mtv.y > 0 && y_vel < 0) {
         //can_jump = true;
         //t->translate(glm::vec3(0,distance_last_fallen,0));
     //} else {
+    if (id.find("sword") == std::string::npos) {
         if (collision.collider->canMove()) {
             t->translate(collision.half_mtv);
         } else {
             t->translate(2.0f*collision.half_mtv);
         }
         if (use_third_person) {
-            camera->setEye(t->getPos() + glm::vec3(0,2,0) - third_person_cam_pos*look);
+            camera->setEye(t->getPos() + glm::vec3(0,3,0) - third_person_cam_pos*look);
         } else {
-            camera->setEye(t->getPos() + glm::vec3(0,2,0));
+            camera->setEye(t->getPos() + glm::vec3(0,3,0));
         }
+    }
     //}
 }
 
@@ -123,9 +126,9 @@ void DungeonPlayerControlComponent::update(float seconds) {
 
     //set the camera eye to the appropriate place given the position of the transformation component
     if (use_third_person) {
-        camera->setEye(t->getPos() + glm::vec3(0,2,0) - third_person_cam_pos*look);
+        camera->setEye(t->getPos() + glm::vec3(0,3,0) - third_person_cam_pos*look);
     } else {
-        camera->setEye(t->getPos() + glm::vec3(0,2,0));
+        camera->setEye(t->getPos() + glm::vec3(0,3,0));
     }
 
     //camera->rotate(-m_deltaX / 100.0f * MOUSE_SENSITIVITY * seconds, -m_deltaY / 100.0f * MOUSE_SENSITIVITY * seconds);

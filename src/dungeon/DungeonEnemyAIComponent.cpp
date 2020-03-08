@@ -13,8 +13,9 @@
 
 DungeonEnemyAIComponent::DungeonEnemyAIComponent(std::shared_ptr<MapSegment> seg) :
     AIComponent(),
-    m_seg(seg)
-
+    m_seg(seg),
+    damage_count(0),
+    damaged(false)
 {
     setUpBehaviorTree();
 }
@@ -45,6 +46,17 @@ void DungeonEnemyAIComponent::handleCollisionResolutionAndResponse(Collision col
     }
 }
 
+void DungeonEnemyAIComponent::tick(float seconds) {
+    AIComponent::tick(seconds);
+    if (damaged) {
+        damage_count += seconds;
+        if (damage_count > DAMAGE_TIME) {
+            damaged = false;
+            m_gameobject->getComponent<PrimitiveDrawableComponent>()->setMaterial("enemy_mat");
+        }
+    }
+}
+
 void DungeonEnemyAIComponent::setUpBehaviorTree() {
     std::vector<std::shared_ptr<BTNode>> offense_children;
     offense_children.push_back(std::make_shared<DungeonPlayerNearCondition>(this));
@@ -59,4 +71,5 @@ void DungeonEnemyAIComponent::setUpBehaviorTree() {
 
 void DungeonEnemyAIComponent::getAttacked() {
     m_gameobject->getComponent<PrimitiveDrawableComponent>()->setMaterial("damaged_mat");
+    damaged = true;
 }

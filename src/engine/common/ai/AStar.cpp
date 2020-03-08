@@ -16,11 +16,9 @@ std::vector<std::pair<int, int>> AStar::aStarAlgorithm(std::shared_ptr<AStarStat
     std::map<std::pair<int, int>, std::shared_ptr<AStarState>> pair2state;
     if (m_segment->data[(goal->x) * MapGenerator::MAP_WIDTH + goal->z] == MapElement::WALL ||
         m_segment->data[(goal->x) * MapGenerator::MAP_WIDTH + goal->z] == MapElement::BLANK) {
-        std::cout << "enemy thinks player is inside wall" << std::endl;
     }
     if (m_segment->data[(start->x) * MapGenerator::MAP_WIDTH + start->z] == MapElement::WALL ||
         m_segment->data[(start->x) * MapGenerator::MAP_WIDTH + start->z] == MapElement::BLANK) {
-        std::cout << "enemy thinks it is inside wall" << std::endl;
     }
     start->gcost = 0.0f;
     start->fcost = float(std::sqrt(std::pow(start->x - goal->x, 2) + std::pow(start->z - goal->z, 2)));

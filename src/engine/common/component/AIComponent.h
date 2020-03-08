@@ -11,7 +11,7 @@ public:
     virtual ~AIComponent() override;
     void addComponentToSystemsAndConnectComponents() override;
     void removeComponentFromSystems() override;
-    void tick(float seconds) override;
+    virtual void tick(float seconds) override;
     virtual void setUpBehaviorTree() = 0;
 
 protected:

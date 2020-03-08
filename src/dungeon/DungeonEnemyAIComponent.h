@@ -19,9 +19,13 @@ public:
     void removeComponentFromSystems() override;
     void handleCollisionResolutionAndResponse(Collision collision);
     void getAttacked();
+    void tick(float seconds) override;
 
 private:
     std::shared_ptr<MapSegment> m_seg;
+    const float DAMAGE_TIME = .1;
+    float damage_count;
+    bool damaged;
 };
 
 #endif // DUNGEONENEMYAICOMPONENT_H

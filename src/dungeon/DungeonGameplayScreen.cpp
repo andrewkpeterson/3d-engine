@@ -55,6 +55,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
     sword->getComponent<TransformComponent>()->setPos(glm::vec3(31,1,20));
     sword->getComponent<TransformComponent>()->setScale(.1f);
     sword->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("sword", "sword_mat"));
+    sword->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(true, true, glm::vec3(3,3,3)));
     sword->addComponent<SwordComponent>(std::make_shared<SwordComponent>());
     m_gameworld->addGameObject(sword);
 
@@ -122,20 +123,10 @@ void DungeonGameplayScreen::initializeGameWorld() {
     g->addTexture("enemy_texture", ":/images/creeper.jpg", Texture::FILTER_METHOD::NEAREST);
 
     Material damaged_mat;
-    damaged_mat.textureName = "damaged_mat";
     damaged_mat.color = glm::vec3(1,0,0);
     g->addMaterial("damaged_mat", damaged_mat);
 
-    /*
-    // create cube enemy
-    std::shared_ptr<GameObject> cube = std::make_shared<GameObject>("cube_npc");
-    cube->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(false, true, glm::vec3(1,1,1)));
-    cube->addComponent<DungeonEnemyAIComponent>(std::make_shared<DungeonEnemyAIComponent>(map_seg0));
-    cube->getComponent<TransformComponent>()->setPos(glm::vec3(35,1,22));
-    cube->getComponent<TransformComponent>()->setScale(2.0f);
-    Material cube_mat;
-    cube_mat.color = glm::vec3(.8,.4,.3);
-    cube->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("cube", "cube_mat", cube_mat));
-    m_gameworld->addGameObject(cube);
-    */
+    Material health_bar_mat;
+    health_bar_mat.color = glm::vec3(0,1,0);
+    g->addMaterial("health_bar_mat", health_bar_mat);
 }

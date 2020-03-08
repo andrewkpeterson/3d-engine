@@ -19,7 +19,7 @@ ChunkDrawableComponent::~ChunkDrawableComponent()
 
 }
 
-void ChunkDrawableComponent::drawSelf() {
+void ChunkDrawableComponent::drawSelf(std::shared_ptr<Camera> camera) {
     // a chunk should get the current camera from the gameworld and check itself against the view planes
     if (shouldDraw && m_gameobject->getComponent<ChunkComponent>()->isBuilt()) {
         const std::vector<glm::vec4> vectors = m_gameobject->getGameWorld()->getSystem<CameraSystem>()->

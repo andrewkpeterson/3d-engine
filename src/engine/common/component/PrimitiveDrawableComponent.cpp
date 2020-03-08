@@ -25,7 +25,7 @@ PrimitiveDrawableComponent::~PrimitiveDrawableComponent()
 
 }
 
-void PrimitiveDrawableComponent::drawSelf() {
+void PrimitiveDrawableComponent::drawSelf(std::shared_ptr<Camera> camera) {
     if (shouldDraw) {
         g->clearTransform();
         m_gameobject->getComponent<TransformComponent>()->setObjectToWorldTransform();

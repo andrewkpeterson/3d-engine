@@ -6,6 +6,7 @@
 #include "component/DrawableComponent.h"
 #include "component/TransformComponent.h"
 #include "system/ChunkStreamingSystem.h"
+#include "system/OrthographicUISystem.h"
 #include "src/engine/common/ui/UI.h"
 
 GameWorld::GameWorld(Screen *screen) :
@@ -18,6 +19,7 @@ GameWorld::GameWorld(Screen *screen) :
     addSystem<CollisionSystem>(std::make_shared<CollisionSystem>(this));
     addSystem<CameraSystem>(std::make_shared<CameraSystem>(this));
     addSystem<ChunkStreamingSystem>(std::make_shared<ChunkStreamingSystem>(this));
+    addSystem<OrthographicUISystem>(std::make_shared<OrthographicUISystem>(this));
 }
 
 GameWorld::~GameWorld()
@@ -36,8 +38,9 @@ void GameWorld::tick(float seconds) {
 void GameWorld::draw(Graphics *g) {
     getSystem<DrawSystem>()->draw(g);
     if (m_activeui != nullptr) {
-        m_activeui->drawUI();
+        //m_activeui->drawUI();
     }
+    getSystem<OrthographicUISystem>()->draw(g);
 }
 
 void GameWorld::resize(int width, int height) {
@@ -47,6 +50,7 @@ void GameWorld::resize(int width, int height) {
         it->second->resize(width, height);
         it++;
     }
+    getSystem<OrthographicUISystem>()->resizeCamera(width, height);
 }
 
 void GameWorld::addGameObject(std::shared_ptr<GameObject> object) {

@@ -40,13 +40,9 @@ Status DungeonApproachAction::update(float seconds) {
         std::shared_ptr<AStarState> goal = std::make_shared<AStarState>();
         goal->x = goal_x;
         goal->z = goal_z;
-        if (start_x < 0 || start_z < 0) {
-            std::cout << "stop" << std::endl;
-        }
 
         curr_path = m_astar->aStarAlgorithm(start, goal);
         curr_step = 0;
-        std::cout << "mapped path" << std::endl;
     }
 
     if (curr_step + 1 < curr_path.size()) {
@@ -59,11 +55,9 @@ Status DungeonApproachAction::update(float seconds) {
         m_component->getGameObject()->getComponent<TransformComponent>()->
                 setYaw(std::atan2(current_direction.x, current_direction.z) - M_PI / 2.0f);
         if (glm::any(glm::isnan(m_component->getGameObject()->getComponent<TransformComponent>()->getPos()))) {
-            std::cout << "stop" << std::endl;
         }
         if (glm::length(glm::vec3(x_next - enemy_pos.x, 0, z_next - enemy_pos.z)) < EPSILON) {
             curr_step++;
-            std::cout << "moved step" << std::endl;
         }
     }
 

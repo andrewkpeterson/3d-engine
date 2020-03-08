@@ -12,7 +12,7 @@ public:
     virtual ~DrawableComponent() override;
     virtual void addComponentToSystemsAndConnectComponents() override;
     virtual void removeComponentFromSystems() override;
-    virtual void drawSelf() = 0;
+    virtual void drawSelf(std::shared_ptr<Camera> camera) = 0;
     void setDraw(bool draw);
 
 protected:

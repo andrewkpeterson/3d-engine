@@ -14,7 +14,7 @@ class ChunkDrawableComponent : public DrawableComponent
 public:
     ChunkDrawableComponent(std::string texture_atlas_name);
     ~ChunkDrawableComponent();
-    void drawSelf();
+    void drawSelf(std::shared_ptr<Camera> camera);
 
 
 protected:
