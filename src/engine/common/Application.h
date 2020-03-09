@@ -22,9 +22,11 @@ public:
     virtual void tick(float seconds);
     virtual void draw(Graphics *g);
     void resize(int w, int h);
+    glm::vec2 getScreenSize();
     void changeScreen(std::string screen_name);
     void addScreen(std::shared_ptr<Screen> screen, std::string name);
     void removeScreen(std::string name);
+    std::string getCurrentScreenName();
     virtual void restart();
 
     void onKeyPressed(QKeyEvent *event);
@@ -44,6 +46,7 @@ protected:
     int app_width;
     int app_height;
     bool m_ready_to_restart;
+    std::string curr_screen_name;
 
 };
 

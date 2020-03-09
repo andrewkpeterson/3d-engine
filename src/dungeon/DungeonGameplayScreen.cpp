@@ -10,6 +10,7 @@
 #include "src/engine/common/system/CameraSystem.h"
 #include "src/engine/common/ui/UI.h"
 #include "src/engine/common/ui/UILabel.h"
+#include "src/engine/common/ui/UIShape.h"
 #include "src/dungeon/DungeonPlayerControlComponent.h"
 #include "src/engine/common/component/DynamicAABCollisionComponent.h"
 #include "src/engine/common/system/ChunkStreamingSystem.h"
@@ -49,10 +50,18 @@ void DungeonGameplayScreen::initializeGameWorld() {
     m_gameworld->setActiveUI("HUD");
     */
 
+    Material health_bar_mat;
+    health_bar_mat.color = glm::vec3(0,1,0);
+    g->addMaterial("health_bar_mat", health_bar_mat);
+
     std::shared_ptr<GameObject> hud = std::make_shared<GameObject>("HUD");
     hud->addComponent<UIComponent>(std::make_shared<UIComponent>());
-    std::shared_ptr<UILabel> x_label = std::make_shared<UILabel>("x", 20.0f, glm::vec3(1,1,1), glm::vec2(20.0f,40.0f), "white", "press_start_2p");
-    hud->getComponent<UIComponent>()->addElement("x_label",x_label);
+    std::shared_ptr<UILabel> x_label = std::make_shared<UILabel>("HEALTH", 20.0f, glm::vec3(1,1,1),
+                                                                 glm::vec2(20.0f,40.0f), "white", "press_start_2p");
+    hud->getComponent<UIComponent>()->addElement("HEALTH",x_label);
+    std::shared_ptr<UIShape> health_bar = std::make_shared<UIShape>("uiquad",
+                                                                    glm::vec2(20.0f,10.0f),glm::vec2(100,10),"health_bar_mat");
+    hud->getComponent<UIComponent>()->addElement("health_bar", health_bar);
     m_gameworld->addGameObject(hud);
 
 
@@ -144,7 +153,4 @@ void DungeonGameplayScreen::initializeGameWorld() {
     damaged_mat.color = glm::vec3(1,0,0);
     g->addMaterial("damaged_mat", damaged_mat);
 
-    Material health_bar_mat;
-    health_bar_mat.color = glm::vec3(0,1,0);
-    g->addMaterial("health_bar_mat", health_bar_mat);
 }

@@ -2,7 +2,8 @@
 
 UISystem::UISystem(GameWorld *gameworld) :
     System(gameworld),
-    orthographic_camera(std::make_shared<Camera>())
+    orthographic_camera(std::make_shared<Camera>()),
+    controller(nullptr)
 {
     g = Graphics::getGlobalInstance();
     orthographic_camera->setUI(true);
@@ -41,4 +42,11 @@ void UISystem::draw(Graphics *g) {
         comp->drawSelf();
         it++;
     }
+    if (controller != nullptr) {
+        controller->drawCursor();
+    }
+}
+
+void UISystem::setController(std::shared_ptr<UIControllerComponent> c) {
+    controller = c;
 }

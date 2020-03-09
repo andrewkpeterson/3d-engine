@@ -51,6 +51,7 @@ void Application::restart() {
 }
 
 void Application::changeScreen(std::string screen_name) {
+    curr_screen_name = screen_name;
     m_current_screen = m_screenmap[screen_name];
 }
 
@@ -96,4 +97,12 @@ void Application::onWheelEvent(QWheelEvent *event) {
 
 void Application::setReadyToRestart() {
     m_ready_to_restart = true;
+}
+
+std::string Application::getCurrentScreenName() {
+    return curr_screen_name;
+}
+
+glm::vec2 Application::getScreenSize() {
+    return glm::vec2(app_width, app_height);
 }

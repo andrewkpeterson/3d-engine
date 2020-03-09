@@ -19,22 +19,11 @@ UIComponent::~UIComponent()
 
 }
 
-void UIComponent::drawUI() {
-    if (should_display) {
-        g->setCamera(m_camera);
-        auto it = m_elements.begin();
-        while (it != m_elements.end()) {
-            it->second->drawSelf();
-            it++;
-        }
-    }
-}
-
-std::shared_ptr<UILabel> UIComponent::getLabel(std::string name) {
+std::shared_ptr<UIElement> UIComponent::getElement(std::string name) {
     return m_elements[name];
 }
 
-void UIComponent::addElement(std::string name, std::shared_ptr<UILabel> elt) {
+void UIComponent::addElement(std::string name, std::shared_ptr<UIElement> elt) {
     m_elements[name] = elt;
 }
 

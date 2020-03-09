@@ -10,6 +10,7 @@
 #include "src/engine/common/ui/UILabel.h"
 #include "src/dungeon/SwordComponent.h"
 #include "src/engine/util/Input.h"
+#include "src/engine/common/Application.h"
 #include <sstream>
 
 DungeonPlayerControlComponent::DungeonPlayerControlComponent() :
@@ -157,6 +158,7 @@ void DungeonPlayerControlComponent::onKeyPressed(QKeyEvent *event) {
         use_third_person = !use_third_person;
         m_gameobject->getComponent<PrimitiveDrawableComponent>()->setDraw(use_third_person);
     }
+    if (event->key() == Qt::Key_P) m_gameobject->getGameWorld()->getScreen()->getApp()->changeScreen("pause");
 }
 
 void DungeonPlayerControlComponent::onKeyReleased(QKeyEvent *event) {

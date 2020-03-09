@@ -1,6 +1,7 @@
 #ifndef UIBUTTON_H
 #define UIBUTTON_H
 
+#include <functional>
 #include "UI.h"
 #include "UIElement.h"
 
@@ -11,6 +12,7 @@ public:
     ~UIButton();
     void tick(float seconds);
     void checkClicked();
+    void checkReleased();
 
 private:
     std::string m_text;
@@ -21,6 +23,7 @@ private:
     std::string m_matname;
     Graphics *g;
     std::string m_font;
+    std::function<void()> callback;
 };
 
 #endif // UIBUTTON_H

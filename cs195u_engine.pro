@@ -110,7 +110,10 @@ SOURCES += \
     src/dungeon/DungeonStartScreen.cpp \
     src/engine/common/component/UIComponent.cpp \
     src/engine/common/ui/UIButton.cpp \
-    src/engine/common/system/UISystem.cpp
+    src/engine/common/system/UISystem.cpp \
+    src/dungeon/DungeonPauseControlComponent.cpp \
+    src/engine/common/ui/UIShape.cpp \
+    src/engine/common/component/UIControllerComponent.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -210,7 +213,10 @@ HEADERS += \
     src/dungeon/DungeonStartScreen.h \
     src/engine/common/component/UIComponent.h \
     src/engine/common/ui/UIButton.h \
-    src/engine/common/system/UISystem.h
+    src/engine/common/system/UISystem.h \
+    src/dungeon/DungeonPauseControlComponent.h \
+    src/engine/common/ui/UIShape.h \
+    src/engine/common/component/UIControllerComponent.h
 
 FORMS += src/mainwindow.ui
 
