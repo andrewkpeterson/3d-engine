@@ -17,6 +17,7 @@
 #include "src/dungeon/SwordComponent.h"
 #include "src/engine/graphics/ResourceLoader.h"
 #include "src/engine/common/component/OrthographicUITextComponent.h"
+#include "src/engine/common/component/UIComponent.h"
 
 DungeonGameplayScreen::DungeonGameplayScreen(Application *parent) :
     Screen(parent)
@@ -32,6 +33,11 @@ DungeonGameplayScreen::~DungeonGameplayScreen()
 void DungeonGameplayScreen::initializeGameWorld() {
     Graphics *g = Graphics::getGlobalInstance();
 
+    // set up font
+    g->addFont("press_start_2p", ":/fonts/PressStart2P-Regular.ttf");
+
+    // set up UI
+    /*
     std::shared_ptr<UI> ui = std::make_shared<UI>();
     std::shared_ptr<UILabel> x_label = std::make_shared<UILabel>("x", 20.0f, glm::vec3(1,1,1), glm::vec2(20.0f,40.0f), "white");
     ui->addElement("xlabel", x_label);
@@ -41,6 +47,14 @@ void DungeonGameplayScreen::initializeGameWorld() {
     ui->setShouldDisplay(true);
     m_gameworld->addUI(ui, "HUD");
     m_gameworld->setActiveUI("HUD");
+    */
+
+    std::shared_ptr<GameObject> hud = std::make_shared<GameObject>("HUD");
+    hud->addComponent<UIComponent>(std::make_shared<UIComponent>());
+    std::shared_ptr<UILabel> x_label = std::make_shared<UILabel>("x", 20.0f, glm::vec3(1,1,1), glm::vec2(20.0f,40.0f), "white", "press_start_2p");
+    hud->getComponent<UIComponent>()->addElement("x_label",x_label);
+    m_gameworld->addGameObject(hud);
+
 
     // load in visual data for sword character
     std::shared_ptr<Shape> sword_shape = std::make_shared<Shape>("sword");
@@ -78,7 +92,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
     sphere->addComponent<SphereCollisionComponent>(std::make_shared<SphereCollisionComponent>(false, true, 1.5));
     sphere->addComponent<OrthographicUITextComponent>(
                 std::make_shared<OrthographicUITextComponent>("You must go into the dungeon and defeat the creepers",
-                                                              "white",glm::vec3(-3,1.5,0),20.0f));
+                                                              "white", glm::vec3(-3,1.5,0),20.0f, "press_start_2p"));
     sphere->getComponent<TransformComponent>()->setPos(glm::vec3(28,1,20));
     sphere->getComponent<TransformComponent>()->setScale(2.0f);
     Material sphere_mat;

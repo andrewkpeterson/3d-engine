@@ -1,7 +1,6 @@
 #ifndef ORTHOGRAPHICUISYSTEM_H
 #define ORTHOGRAPHICUISYSTEM_H
 
-
 #include "System.h"
 #include "src/engine/common/GameObject.h"
 #include "src/engine/common/component/DrawableComponent.h"

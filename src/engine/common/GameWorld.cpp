@@ -7,6 +7,7 @@
 #include "component/TransformComponent.h"
 #include "system/ChunkStreamingSystem.h"
 #include "system/OrthographicUISystem.h"
+#include "system/UISystem.h"
 #include "src/engine/common/ui/UI.h"
 
 GameWorld::GameWorld(Screen *screen) :
@@ -20,6 +21,7 @@ GameWorld::GameWorld(Screen *screen) :
     addSystem<CameraSystem>(std::make_shared<CameraSystem>(this));
     addSystem<ChunkStreamingSystem>(std::make_shared<ChunkStreamingSystem>(this));
     addSystem<OrthographicUISystem>(std::make_shared<OrthographicUISystem>(this));
+    addSystem<UISystem>(std::make_shared<UISystem>(this));
 }
 
 GameWorld::~GameWorld()
@@ -41,6 +43,7 @@ void GameWorld::draw(Graphics *g) {
         //m_activeui->drawUI();
     }
     getSystem<OrthographicUISystem>()->draw(g);
+    getSystem<UISystem>()->draw(g);
 }
 
 void GameWorld::resize(int width, int height) {
@@ -51,6 +54,7 @@ void GameWorld::resize(int width, int height) {
         it++;
     }
     getSystem<OrthographicUISystem>()->resizeCamera(width, height);
+    getSystem<UISystem>()->resizeCamera(width, height);
 }
 
 void GameWorld::addGameObject(std::shared_ptr<GameObject> object) {

@@ -17,12 +17,14 @@ WarmupStartScreen::~WarmupStartScreen()
 }
 
 void WarmupStartScreen::initializeGameWorld() {
+    /*
     std::shared_ptr<UI> ui = std::make_shared<UI>();
     std::shared_ptr<UILabel> label = std::make_shared<UILabel>("Press mouse to play", 80.0f, glm::vec3(1,1,1),
                                                                glm::vec2(20.0f,20.0f), "white");
     ui->addElement("label", label);
     m_gameworld->addUI(ui, "HUD");
     m_gameworld->setActiveUI("HUD");
+    */
 
     std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
     obj->addComponent(std::make_shared<StartControlComponent>());

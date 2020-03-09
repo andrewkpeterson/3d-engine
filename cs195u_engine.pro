@@ -105,7 +105,12 @@ SOURCES += \
     src/engine/common/component/OrthographicUIComponent.cpp \
     src/engine/common/system/OrthographicUISystem.cpp \
     src/engine/common/component/OrthographicUIShapeComponent.cpp \
-    src/engine/common/component/OrthographicUITextComponent.cpp
+    src/engine/common/component/OrthographicUITextComponent.cpp \
+    src/dungeon/DungeonPauseScreen.cpp \
+    src/dungeon/DungeonStartScreen.cpp \
+    src/engine/common/component/UIComponent.cpp \
+    src/engine/common/ui/UIButton.cpp \
+    src/engine/common/system/UISystem.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -200,7 +205,12 @@ HEADERS += \
     src/engine/common/component/OrthographicUIComponent.h \
     src/engine/common/system/OrthographicUISystem.h \
     src/engine/common/component/OrthographicUIShapeComponent.h \
-    src/engine/common/component/OrthographicUITextComponent.h
+    src/engine/common/component/OrthographicUITextComponent.h \
+    src/dungeon/DungeonPauseScreen.h \
+    src/dungeon/DungeonStartScreen.h \
+    src/engine/common/component/UIComponent.h \
+    src/engine/common/ui/UIButton.h \
+    src/engine/common/system/UISystem.h
 
 FORMS += src/mainwindow.ui
 

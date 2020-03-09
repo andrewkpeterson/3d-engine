@@ -10,9 +10,7 @@ public:
     ~UIElement();
 
     virtual void drawSelf() = 0;
-
-private:
-
+    virtual void tick(float seconds) = 0;
 
 };
 

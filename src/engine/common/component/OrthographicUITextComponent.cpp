@@ -3,18 +3,22 @@
 #include "TransformComponent.h"
 #include "src/engine/common/system/OrthographicUISystem.h"
 
-OrthographicUITextComponent::OrthographicUITextComponent(std::string text, std::string matname, Material material, glm::vec3 offset, float size) :
+OrthographicUITextComponent::OrthographicUITextComponent(std::string text, std::string matname, Material material,
+                                                         glm::vec3 offset, float size, std::string font) :
     OrthographicUIComponent(matname, material, offset),
     m_text(text),
-    m_size(size)
+    m_size(size),
+    m_font(font)
 {
 
 }
 
-OrthographicUITextComponent::OrthographicUITextComponent(std::string text, std::string matname, glm::vec3 offset, float size) :
+OrthographicUITextComponent::OrthographicUITextComponent(std::string text, std::string matname, glm::vec3 offset,
+                                                         float size, std::string font) :
     OrthographicUIComponent (matname, offset),
     m_text(text),
-    m_size(size)
+    m_size(size),
+    m_font(font)
 {
 
 }
@@ -31,7 +35,7 @@ void OrthographicUITextComponent::drawSelf(std::shared_ptr<Camera> camera) {
             g->clearTransform();
             g->setMaterial(m_matname);
             g->translate(glm::vec3(screen_pos.x, screen_pos.y, screen_pos.z));
-            g->drawText(m_text, m_size);
+            g->drawText(m_font, m_text, m_size);
         }
     }
 }

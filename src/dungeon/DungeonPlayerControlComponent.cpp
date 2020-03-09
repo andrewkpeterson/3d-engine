@@ -137,8 +137,8 @@ void DungeonPlayerControlComponent::update(float seconds) {
     std::ostringstream z_string;
     z_string << "z: " << std::to_string(t->getPos().z);
 
-    m_gameobject->getGameWorld()->getActiveUI()->getLabel("xlabel")->setText(x_string.str());
-    m_gameobject->getGameWorld()->getActiveUI()->getLabel("zlabel")->setText(z_string.str());
+    //m_gameobject->getGameWorld()->getActiveUI()->getLabel("xlabel")->setText(x_string.str());
+    //m_gameobject->getGameWorld()->getActiveUI()->getLabel("zlabel")->setText(z_string.str());
 }
 
 
