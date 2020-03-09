@@ -11,6 +11,7 @@ public:
     ~DungeonStartScreen();
 
     void initializeGameWorld() override;
+    void goToGameplay();
 };
 
 #endif // DUNGEONSTARTSCREEN_H

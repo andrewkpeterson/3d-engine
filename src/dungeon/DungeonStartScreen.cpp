@@ -1,5 +1,6 @@
 #include "DungeonStartScreen.h"
 #include "src/engine/common/ui/UILabel.h"
+#include "src/engine/common/ui/UIButton.h"
 #include "src/engine/common/component/UIComponent.h"
 #include "src/engine/common/component/TransformComponent.h"
 #include "src/engine/common/system/CameraSystem.h"
@@ -25,24 +26,31 @@ DungeonStartScreen::~DungeonStartScreen()
 void DungeonStartScreen::initializeGameWorld() {
     Graphics *g = Graphics::getGlobalInstance();
 
-    std::shared_ptr<Shape> sword_shape = std::make_shared<Shape>("sword");
-    ResourceLoader::readObj(":/meshes/sword.obj", sword_shape);
+    glm::vec2 screen_size = m_app->getScreenSize();
+
+    g->addFont("press_start_2p", ":/fonts/PressStart2P-Regular.ttf");
+
+
+    // make the cursor material
     Material cursor_mat;
     cursor_mat.textureName = "cursor_texture";
     g->addMaterial("cursor_mat", cursor_mat);
     g->addTexture("cursor_texture", ":/images/sword_cursor.png", Texture::FILTER_METHOD::NEAREST);
 
-    Material health_bar_mat;
-    health_bar_mat.color = glm::vec3(0,1,0);
-    g->addMaterial("health_bar_mat", health_bar_mat);
+    // make the button background material
+    Material button_mat;
+    button_mat.color = glm::vec3(0,0,0);
+    g->addMaterial("button_mat", button_mat);
 
-    glm::vec2 screen_size = m_app->getScreenSize();
-    g->addFont("press_start_2p", ":/fonts/PressStart2P-Regular.ttf");
+    // make the ui
     std::shared_ptr<GameObject> hud = std::make_shared<GameObject>("HUD");
     hud->addComponent<UIComponent>(std::make_shared<UIComponent>());
-    std::shared_ptr<UILabel> x_label = std::make_shared<UILabel>("CREEPER DUNGEON", 20.0f, glm::vec3(1,1,1),
+    std::shared_ptr<UILabel> title = std::make_shared<UILabel>("CREEPER DUNGEON", 20.0f, glm::vec3(1,1,1),
                                                                  glm::vec2(1,1), "white", "press_start_2p");
-    hud->getComponent<UIComponent>()->addElement("title",x_label);
+    hud->getComponent<UIComponent>()->addElement("title",title);
+    std::shared_ptr<UIButton> start_button = std::make_shared<UIButton>(glm::vec2(50,1),"Click Here to Start!","press_start_2p",
+                                                                        glm::vec3(50,10,0), 50.0f,"white","button_mat",
+                                                                        std::bind(&DungeonStartScreen::goToGameplay, this));
     m_gameworld->addGameObject(hud);
 
     std::shared_ptr<GameObject> ui_controller_object = std::make_shared<GameObject>("controller");
@@ -58,4 +66,8 @@ void DungeonStartScreen::initializeGameWorld() {
     m_gameworld->getSystem<CameraSystem>()->setCurrentMainCameraComponent(player->getComponent<CameraComponent>().get());
 
 
+}
+
+void DungeonStartScreen::goToGameplay() {
+    m_app->changeScreen("gameplay");
 }
