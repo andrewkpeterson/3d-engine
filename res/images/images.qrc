@@ -4,5 +4,7 @@
         <file>terrain.png</file>
         <file>creeper.jpg</file>
         <file>sword.png</file>
+        <file>sword_cursor.jpg</file>
+        <file>sword_cursor.png</file>
     </qresource>
 </RCC>
