@@ -8,7 +8,7 @@
 class UIButton : public UIElement
 {
 public:
-    UIButton(glm::vec2 pos, std::string text, std::string font, glm::vec3 m_size, float font_size,
+    UIButton(UIComponent *component, glm::vec2 pos, std::string text, std::string font, glm::vec3 m_size, float font_size,
              std::string m_font_matname, std::string m_background_matname, std::function<void()> callback);
     ~UIButton();
     void tick(float seconds) override;
@@ -17,6 +17,7 @@ public:
     bool checkReleased();
 
 private:
+
     std::string m_text;
     std::string m_font;
     glm::vec3 m_size;

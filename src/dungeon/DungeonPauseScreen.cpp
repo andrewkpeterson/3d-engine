@@ -23,7 +23,9 @@ void DungeonPauseScreen::initializeGameWorld() {
     g->addFont("press_start_2p", ":/fonts/PressStart2P-Regular.ttf");
     std::shared_ptr<GameObject> hud = std::make_shared<GameObject>("HUD");
     hud->addComponent<UIComponent>(std::make_shared<UIComponent>());
-    std::shared_ptr<UILabel> x_label = std::make_shared<UILabel>("PAUSED", 20.0f, glm::vec3(1,1,1), glm::vec2(20.0f,40.0f), "white", "press_start_2p");
+    std::shared_ptr<UILabel> x_label = std::make_shared<UILabel>(hud->getComponent<UIComponent>().get(),
+                                                                 "PAUSED", 20.0f, glm::vec3(1,1,1),
+                                                                 glm::vec2(20.0f,40.0f), "white", "press_start_2p");
     hud->getComponent<UIComponent>()->addElement("pause_label",x_label);
     m_gameworld->addGameObject(hud);
 

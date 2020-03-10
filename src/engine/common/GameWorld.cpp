@@ -35,6 +35,7 @@ void GameWorld::tick(float seconds) {
     getSystem<ChunkStreamingSystem>()->buildEnqueuedChunk();
     //getSystem<ChunkStreamingSystem>()->destroyOldChunks();
     removeGameObjectsMarkedForDeletion();
+    getSystem<UISystem>()->tick(seconds);
 }
 
 void GameWorld::draw(Graphics *g) {
@@ -67,15 +68,19 @@ void GameWorld::addGameObject(std::shared_ptr<GameObject> object) {
 }
 
 void GameWorld::removeGameObject(std::shared_ptr<GameObject> object) {
-    assert(m_gameobjects.find(object->getID()) != m_gameobjects.end());
-    object->removeSelfFromSystems();
-    m_gameobjects.erase(object->getID());
+    //assert(m_gameobjects.find(object->getID()) != m_gameobjects.end());
+    if (m_gameobjects.find(object->getID()) != m_gameobjects.end()) {
+        object->removeSelfFromSystems();
+        m_gameobjects.erase(object->getID());
+    }
 }
 
 void GameWorld::removeGameObject(std::string id) {
-    assert(m_gameobjects.find(id) != m_gameobjects.end());
-    m_gameobjects[id]->removeSelfFromSystems();
-    m_gameobjects.erase(m_gameobjects[id]->getID());
+    //assert(m_gameobjects.find(id) != m_gameobjects.end());
+    if (m_gameobjects.find(id) != m_gameobjects.end()) {
+        m_gameobjects[id]->removeSelfFromSystems();
+        m_gameobjects.erase(m_gameobjects[id]->getID());
+    }
 }
 
 void GameWorld::onKeyPressed(QKeyEvent *event) {

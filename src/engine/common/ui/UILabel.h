@@ -7,7 +7,8 @@
 class UILabel : public UIElement
 {
 public:
-    UILabel(std::string text, float size, glm::vec3 color, glm::vec2 pos, std::string matname, std::string font);
+    UILabel(UIComponent *component, std::string text, float size, glm::vec3 color,
+            glm::vec2 pos, std::string matname, std::string font);
     virtual ~UILabel();
 
     void setText(std::string);

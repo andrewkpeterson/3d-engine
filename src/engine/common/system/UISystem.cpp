@@ -27,7 +27,7 @@ void UISystem::removeComponent(UIComponent *component) {
 }
 
 void UISystem::tick(float seconds) {
-    for (auto it = m_components.begin(); it != m_components.begin(); it++) {
+    for (auto it = m_components.begin(); it != m_components.end(); it++) {
         UIComponent *comp = *it;
         comp->tick(seconds);
     }
@@ -48,4 +48,8 @@ void UISystem::draw(Graphics *g) {
 
 void UISystem::setController(std::shared_ptr<UIControllerComponent> c) {
     controller = c;
+}
+
+std::shared_ptr<UIControllerComponent> UISystem::getController() {
+    return controller;
 }

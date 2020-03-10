@@ -19,6 +19,15 @@ UIComponent::~UIComponent()
 
 }
 
+void UIComponent::addComponentToSystemsAndConnectComponents()
+{
+    m_gameobject->getGameWorld()->getSystem<UISystem>()->addComponent(this);
+}
+
+void UIComponent::removeComponentFromSystems() {
+    m_gameobject->getGameWorld()->getSystem<UISystem>()->removeComponent(this);
+}
+
 std::shared_ptr<UIElement> UIComponent::getElement(std::string name) {
     return m_elements[name];
 }
@@ -53,13 +62,4 @@ void UIComponent::tick(float seconds) {
         std::shared_ptr<UIElement> elt = it->second;
         elt->tick(seconds);
     }
-}
-
-void UIComponent::addComponentToSystemsAndConnectComponents()
-{
-    m_gameobject->getGameWorld()->getSystem<UISystem>()->addComponent(this);
-}
-
-void UIComponent::removeComponentFromSystems() {
-    m_gameobject->getGameWorld()->getSystem<UISystem>()->removeComponent(this);
 }

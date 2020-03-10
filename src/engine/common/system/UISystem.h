@@ -20,6 +20,7 @@ public:
     void draw(Graphics *g);
     void tick(float seconds);
     void setController(std::shared_ptr<UIControllerComponent> c);
+    std::shared_ptr<UIControllerComponent> getController();
 
 private:
     Graphics *g;

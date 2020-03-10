@@ -1,6 +1,7 @@
 #include "UIShape.h"
 
-UIShape::UIShape(std::string geometry, glm::vec2 pos, glm::vec2 size, std::string matname) :
+UIShape::UIShape(UIComponent *component, std::string geometry, glm::vec2 pos, glm::vec2 size, std::string matname) :
+    UIElement(component),
     m_geometry(geometry),
     m_pos(pos),
     m_size(size),

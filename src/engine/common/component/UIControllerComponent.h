@@ -9,7 +9,8 @@
 class UIControllerComponent : public ControlCallbackComponent
 {
 public:
-    UIControllerComponent(std::string cursor_geometry, std::string cursor_matname, glm::vec3 cursor_size);
+    UIControllerComponent(std::string cursor_geometry, std::string cursor_matname, glm::vec3 cursor_size,
+                          glm::vec3 cursor_picture_offset);
     ~UIControllerComponent();
     void addComponentToSystemsAndConnectComponents() override;
     void removeComponentFromSystems() override;
@@ -24,12 +25,15 @@ public:
     void tick(float seconds) override;
     void drawCursor();
 
+    bool getMousePressed();
+
 private:
     std::string m_cursor_geometry;
     std::string m_cursor_matname;
     glm::vec3 m_cursor_size;
     bool m_mouse_pressed;
     Graphics *g;
+    glm::vec2 m_cursor_picture_offset;
 };
 
 #endif // UICONTROLLERCOMPONENT_H

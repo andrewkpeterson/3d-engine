@@ -38,29 +38,19 @@ void DungeonGameplayScreen::initializeGameWorld() {
     g->addFont("press_start_2p", ":/fonts/PressStart2P-Regular.ttf");
 
     // set up UI
-    /*
-    std::shared_ptr<UI> ui = std::make_shared<UI>();
-    std::shared_ptr<UILabel> x_label = std::make_shared<UILabel>("x", 20.0f, glm::vec3(1,1,1), glm::vec2(20.0f,40.0f), "white");
-    ui->addElement("xlabel", x_label);
-    ui->setShouldDisplay(true);
-    std::shared_ptr<UILabel> z_label = std::make_shared<UILabel>("z", 20.0f, glm::vec3(1,1,1), glm::vec2(20.0f,20.0f), "white");
-    ui->addElement("zlabel", z_label);
-    ui->setShouldDisplay(true);
-    m_gameworld->addUI(ui, "HUD");
-    m_gameworld->setActiveUI("HUD");
-    */
-
     Material health_bar_mat;
     health_bar_mat.color = glm::vec3(0,1,0);
     g->addMaterial("health_bar_mat", health_bar_mat);
 
     std::shared_ptr<GameObject> hud = std::make_shared<GameObject>("HUD");
     hud->addComponent<UIComponent>(std::make_shared<UIComponent>());
-    std::shared_ptr<UILabel> x_label = std::make_shared<UILabel>("HEALTH", 20.0f, glm::vec3(1,1,1),
-                                                                 glm::vec2(20.0f,40.0f), "white", "press_start_2p");
-    hud->getComponent<UIComponent>()->addElement("HEALTH",x_label);
-    std::shared_ptr<UIShape> health_bar = std::make_shared<UIShape>("uiquad",
-                                                                    glm::vec2(20.0f,10.0f),glm::vec2(100,10),"health_bar_mat");
+    std::shared_ptr<UILabel> health_label = std::make_shared<UILabel>(hud->getComponent<UIComponent>().get(),
+                                                                      "HEALTH", 20.0f, glm::vec3(1,1,1),
+                                                                      glm::vec2(20.0f,40.0f), "white", "press_start_2p");
+    hud->getComponent<UIComponent>()->addElement("HEALTH", health_label);
+    std::shared_ptr<UIShape> health_bar = std::make_shared<UIShape>(hud->getComponent<UIComponent>().get(), "uiquad",
+                                                                    glm::vec2(20.0f,10.0f),
+                                                                    glm::vec2(100,10),"health_bar_mat");
     hud->getComponent<UIComponent>()->addElement("health_bar", health_bar);
     m_gameworld->addGameObject(hud);
 

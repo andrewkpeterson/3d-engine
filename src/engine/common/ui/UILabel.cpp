@@ -1,6 +1,8 @@
 #include "UILabel.h"
 
-UILabel::UILabel(std::string text, float size, glm::vec3 color, glm::vec2 pos, std::string matname, std::string font) :
+UILabel::UILabel(UIComponent *component, std::string text, float size,
+                 glm::vec3 color, glm::vec2 pos, std::string matname, std::string font) :
+    UIElement(component),
     m_text(text),
     m_size(size),
     m_color(color),

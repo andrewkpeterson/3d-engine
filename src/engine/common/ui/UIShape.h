@@ -6,7 +6,7 @@
 class UIShape : public UIElement
 {
 public:
-    UIShape(std::string geometry, glm::vec2 pos, glm::vec2 size, std::string matname);
+    UIShape(UIComponent *component, std::string geometry, glm::vec2 pos, glm::vec2 size, std::string matname);
     ~UIShape();
 
     void drawSelf() override;
