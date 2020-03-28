@@ -6,5 +6,11 @@
         <file>sword.png</file>
         <file>sword_cursor.jpg</file>
         <file>sword_cursor.png</file>
+        <file>level_easy_channels.png</file>
+        <file>level_easy.png</file>
+        <file>level_hard_channels.png</file>
+        <file>level_hard.png</file>
+        <file>level_island_channels.png</file>
+        <file>level_island.png</file>
     </qresource>
 </RCC>

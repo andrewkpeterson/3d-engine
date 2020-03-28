@@ -113,7 +113,14 @@ SOURCES += \
     src/engine/common/system/UISystem.cpp \
     src/dungeon/DungeonPauseControlComponent.cpp \
     src/engine/common/ui/UIShape.cpp \
-    src/engine/common/component/UIControllerComponent.cpp
+    src/engine/common/component/UIControllerComponent.cpp \
+    src/engine/common/component/EnvironmentComponent.cpp \
+    src/engine/common/system/EnvironmentSystem.cpp \
+    src/platformer/PlatformerApplication.cpp \
+    src/engine/util/obj.cpp \
+    src/platformer/PlatformerGameplayScreen.cpp \
+    src/platformer/PlatformerPlayerControlComponent.cpp \
+    src/engine/common/component/EllipsoidComponent.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
@@ -216,7 +223,14 @@ HEADERS += \
     src/engine/common/system/UISystem.h \
     src/dungeon/DungeonPauseControlComponent.h \
     src/engine/common/ui/UIShape.h \
-    src/engine/common/component/UIControllerComponent.h
+    src/engine/common/component/UIControllerComponent.h \
+    src/engine/common/component/EnvironmentComponent.h \
+    src/engine/common/system/EnvironmentSystem.h \
+    src/platformer/PlatformerApplication.h \
+    src/engine/util/obj.h \
+    src/platformer/PlatformerGameplayScreen.h \
+    src/platformer/PlatformerPlayerControlComponent.h \
+    src/engine/common/component/EllipsoidComponent.h
 
 FORMS += src/mainwindow.ui
 

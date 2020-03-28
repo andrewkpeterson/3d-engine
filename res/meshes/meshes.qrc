@@ -2,5 +2,11 @@
     <qresource prefix="/meshes">
         <file>creeper.obj</file>
         <file>sword.obj</file>
+        <file>level_easy_navmesh.obj</file>
+        <file>level_easy.obj</file>
+        <file>level_hard.obj</file>
+        <file>level_island_navmesh_eroded.obj</file>
+        <file>level_island_navmesh.obj</file>
+        <file>level_island.obj</file>
     </qresource>
 </RCC>

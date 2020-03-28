@@ -8,6 +8,7 @@
 #include "system/ChunkStreamingSystem.h"
 #include "system/OrthographicUISystem.h"
 #include "system/UISystem.h"
+#include "system/EnvironmentSystem.h"
 #include "src/engine/common/ui/UI.h"
 
 GameWorld::GameWorld(Screen *screen) :
@@ -22,6 +23,7 @@ GameWorld::GameWorld(Screen *screen) :
     addSystem<ChunkStreamingSystem>(std::make_shared<ChunkStreamingSystem>(this));
     addSystem<OrthographicUISystem>(std::make_shared<OrthographicUISystem>(this));
     addSystem<UISystem>(std::make_shared<UISystem>(this));
+    addSystem<EnvironmentSystem>(std::make_shared<EnvironmentSystem>(this));
 }
 
 GameWorld::~GameWorld()
@@ -45,6 +47,7 @@ void GameWorld::draw(Graphics *g) {
     }
     getSystem<OrthographicUISystem>()->draw(g);
     getSystem<UISystem>()->draw(g);
+    getSystem<EnvironmentSystem>()->drawEnvironment();
 }
 
 void GameWorld::resize(int width, int height) {
@@ -59,7 +62,7 @@ void GameWorld::resize(int width, int height) {
 }
 
 void GameWorld::addGameObject(std::shared_ptr<GameObject> object) {
-    //assert(m_gameobjects.find(object->getID()) == m_gameobjects.end());
+    assert(m_gameobjects.find(object->getID()) == m_gameobjects.end());
     if (m_gameobjects.find(object->getID()) == m_gameobjects.end()) {
         m_gameobjects.insert({object->getID(), object});
         object->setGameWorld(this);
@@ -68,7 +71,7 @@ void GameWorld::addGameObject(std::shared_ptr<GameObject> object) {
 }
 
 void GameWorld::removeGameObject(std::shared_ptr<GameObject> object) {
-    //assert(m_gameobjects.find(object->getID()) != m_gameobjects.end());
+    assert(m_gameobjects.find(object->getID()) != m_gameobjects.end());
     if (m_gameobjects.find(object->getID()) != m_gameobjects.end()) {
         object->removeSelfFromSystems();
         m_gameobjects.erase(object->getID());
@@ -76,7 +79,7 @@ void GameWorld::removeGameObject(std::shared_ptr<GameObject> object) {
 }
 
 void GameWorld::removeGameObject(std::string id) {
-    //assert(m_gameobjects.find(id) != m_gameobjects.end());
+    assert(m_gameobjects.find(id) != m_gameobjects.end());
     if (m_gameobjects.find(id) != m_gameobjects.end()) {
         m_gameobjects[id]->removeSelfFromSystems();
         m_gameobjects.erase(m_gameobjects[id]->getID());
