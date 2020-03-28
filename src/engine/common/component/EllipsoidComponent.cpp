@@ -46,25 +46,44 @@ std::pair<std::vector<EllipsoidTriangleCollision>, glm::vec3> EllipsoidComponent
             }
         }
         if (closest_collision.t == INFINITY) {
+            m_gameobject->getComponent<TransformComponent>()->setPos(next_pos);
             return std::make_pair(collisions, next_pos); // we can go to next pos because there was no collision
         } else {
             // calculate new curr_pos
             // the new curr_pos is the curr_pos moved in the direction of the next_pos position,
             // except the direction has its component in the direction of closest_collision.n subtracted
             glm::vec3 nudge;
-            if (closest_collision.normal.y < .001) {
+            if (closest_collision.normal.y < 0) {
                 nudge = glm::vec3(closest_collision.normal.x, 0, closest_collision.normal.z);
             } else {
                 nudge = closest_collision.normal;
             }
+
+            float b = glm::dot(closest_collision.normal, closest_collision.tri_vert);
+            glm::vec2 xz_normal = glm::normalize(glm::vec2(closest_collision.normal.x, closest_collision.normal.z));
+            glm::vec2 g = glm::vec2(final_pos.x, final_pos.z) - xz_normal*glm::vec2(m_radius.x, m_radius.z);
+            if (closest_collision.normal.y <= .01 && glm::dot(g, xz_normal) - b < .01) {
+                // if we are hitting a wall, move the final_pos (goal) to a (x, z) position in front of the wall
+                // this prevents us from sticking to walls
+                float b = glm::dot(closest_collision.normal, closest_collision.tri_vert);
+
+                glm::vec2 xz_normal = glm::normalize(glm::vec2(closest_collision.normal.x, closest_collision.normal.z));
+                glm::vec2 g = glm::vec2(final_pos.x, final_pos.z) - xz_normal*glm::vec2(m_radius.x, m_radius.z);
+                float t = .01 + b - glm::dot(g, xz_normal);
+                glm::vec3 xz_normal3 = glm::normalize(glm::vec3(closest_collision.normal.x, 0, closest_collision.normal.z));
+                final_pos += t * xz_normal3;
+
+            }
+
             curr_pos = closest_collision.center + nudge * .01f;
-            m_gameobject->getComponent<TransformComponent>()->setPos(closest_collision.center + nudge * .01f);
+            m_gameobject->getComponent<TransformComponent>()->setPos(curr_pos);
             glm::vec3 d = final_pos - curr_pos;
             glm::vec3 d_corrected = d - glm::dot(d, closest_collision.normal) * closest_collision.normal;
-            if (d_corrected.y < .001 && closest_collision.normal.y < .001) {
+            if (d_corrected.y < 0 && closest_collision.normal.y < 0) {
                 d_corrected.y = 0; // ******************* helps with downward-facing walls ***********************************
             }
-            next_pos = curr_pos + d_corrected;
+            //next_pos = curr_pos + d_corrected;
+            next_pos = curr_pos + d;
             closest_collision.center = curr_pos;
             collisions.push_back(closest_collision);
             translations++;
@@ -129,6 +148,7 @@ bool EllipsoidComponent::checkInteriorCollision(glm::vec3 curr_pos, OBJ::Triangl
             c.normal = tri->normal;
             c.center = (s_pos + t * d) * m_radius;
             c.t = t;
+            c.tri_vert = tri->vertices[0];
             //std::cout << "interior" << std::endl;
             return true;
         }
@@ -210,6 +230,7 @@ void EllipsoidComponent::checkEdgeCollision(glm::vec3 curr_pos, OBJ::Triangle *t
             col.normal = tri->normal;
             col.center = contact_p * m_radius;
             col.t = t;
+            col.tri_vert = tri->vertices[0];
             //std::cout << "edge" << std::endl;
         }
     }
@@ -282,6 +303,7 @@ void EllipsoidComponent::checkVertexCollision(glm::vec3 curr_pos, OBJ::Triangle 
         c.normal = tri->normal;
         c.center = contact_p;
         c.t = t;
+        c.tri_vert = tri->vertices[0];
         //std::cout << "vertex" << std::endl;
         //std::cout << c.t << std::endl;
     }

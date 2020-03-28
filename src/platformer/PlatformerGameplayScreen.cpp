@@ -36,9 +36,9 @@ void PlatformerGameplayScreen::initializeGameWorld() {
 
     // create environment
     std::shared_ptr<GameObject> environment = std::make_shared<GameObject>("environment");
-    environment->addComponent<EnvironmentComponent>(std::make_shared<EnvironmentComponent>(":/meshes/level_easy.obj", "env_mat",
-                                                                                           ":images/level_easy.png",
-                                                                                           ":/meshes/level_easy.obj"));
+    environment->addComponent<EnvironmentComponent>(std::make_shared<EnvironmentComponent>(":/meshes/level_island.obj", "env_mat",
+                                                                                           ":images/level_island.png",
+                                                                                           ":/meshes/level_island.obj"));
     m_gameworld->getSystem<EnvironmentSystem>()->setEnvironment(environment->getComponent<EnvironmentComponent>());
     m_gameworld->addGameObject(environment);
 

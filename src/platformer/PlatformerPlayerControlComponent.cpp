@@ -113,19 +113,18 @@ void PlatformerPlayerControlComponent::update(float seconds) {
     }
 
     //set the camera eye to the appropriate place given the position of the transformation component
-    glm::vec3 pos_due_to_gravity;
-    if (!on_ground) {
-        y_vel += GRAVITY * seconds;
-        t->setPos(glm::vec3(t->getPos().x, t->getPos().y + y_vel * seconds, t->getPos().z));
-        //std::cout << "yes" << std::endl;
-    } else {
-        y_vel = 0;
-        //std::cout << "no" << std::endl;
+    y_vel += GRAVITY * seconds;
+    t->setPos(glm::vec3(t->getPos().x, t->getPos().y + y_vel * seconds, t->getPos().z));
+    if (on_ground) {
+        if (y_vel < 0) {
+            y_vel = 0;
+        }
     }
     if (Input::getPressed("SPACE") && on_ground) {
         on_ground = false;
         y_vel = JUMP_SPEED;
     }
+    std::cout << y_vel << std::endl;
 
     std::pair<std::vector<EllipsoidTriangleCollision>, glm::vec3> p =
             m_gameobject->getComponent<EllipsoidComponent>()->checkCollisionAndTranslate(old_pos, t->getPos());
@@ -135,54 +134,32 @@ void PlatformerPlayerControlComponent::update(float seconds) {
         frames_since_last_collision = 0;
         norm = p.first[0].normal;
         last_normal = norm;
-        //std::cout << "collision" << std::endl;
     } else {
-        //std::cout << "no collision" << std::endl;
         frames_since_last_collision++;
 
     }
 
-
     if (!moving_laterally && glm::dot(glm::vec3(0,1,0), norm) > 0) {
-        // if we don't move laterally, then if the translation is small, we don't need to move at all
+        // if we don't move laterally, then if we are on ground, we don't need to move at all
         t->setPos(old_pos);
-    } else if (moving_laterally && glm::dot(glm::vec3(0,1,0), last_normal) > .99 && frames_since_last_collision < 5) {
-        // if we move laterally and we are on flat ground, then the the height is kept constant
-        //t->setPos(glm::vec3(t->getPos().x, old_pos.y, t->getPos().z));
-        //std::cout << "hello" << std::endl;
-    }
-    on_ground = glm::dot(glm::vec3(0,1,0), norm) > 0;
-
-    heights.push_back(t->getPos().y);
-    if (heights.size() > 5) {
-        heights.erase(heights.begin());
     }
 
-    if (moving_laterally && norm.y < .001) {
-        //t->setPos(glm::vec3(t->getPos().x, old_pos.y + y_vel * seconds, t->getPos().z));
-    }
+    on_ground = false;
+    for (int i = 0; i < p.first.size(); i++) if (glm::dot(glm::vec3(0,1,0), p.first[i].normal) > 0) on_ground = true;
 
-    // when we are on a ramp, we can manually increase the speed
+    // when we are moving on a ramp, we can push the character slightly above the ramp so that we don't keep colliding with
+    // the ramp every tick
     if (0 < norm.y && norm.y < 1 && frames_since_last_collision < 5 && moving_laterally) {
         t->translate(glm::vec3(0,.1,0));
     }
-
-    // if we are jumping and running towards a wall, make sure we don't stick to the wall
-    if (false) {
-        //t->translate(.05f*norm);
-    }
-
-    // if we are moving laterally and against a wall, make sure we don't stick to the wall
-    if (false) {
-        //t->translate(.05f*norm);
-    }
-
 
     if (use_third_person) {
         camera->setEye(t->getPos() + glm::vec3(0,3,0) - third_person_cam_pos*look);
     } else {
         camera->setEye(t->getPos() + glm::vec3(0,3,0));
     }
+
+    // TODO: don't get stuck hitting head on ceiling
 }
 
 
