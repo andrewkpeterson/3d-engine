@@ -2,7 +2,8 @@
 #include <iostream>
 
 std::map<std::string, bool> Input::m_controlstates = {{"W",false}, {"A",false}, {"S",false}, {"D",false},
-                                                      {"R",false}, {"T", false}, {"SPACE",false},{"MOUSE",false}};
+                                                      {"R",false}, {"T", false}, {"SPACE",false},{"MOUSELEFT",false},
+                                                      {"MOUSERIGHT",false}};
 
 Input::Input()
 {
@@ -13,7 +14,8 @@ Input::Input()
     m_controlstates["R"] = false;
     m_controlstates["T"] = false;
     m_controlstates["SPACE"] = false;
-    m_controlstates["MOUSE"] = false;
+    m_controlstates["MOUSELEFT"] = false;
+    m_controlstates["MOUSERIGHT"] = false;
 }
 
 Input::~Input()
@@ -53,13 +55,22 @@ void Input::restart() {
     m_controlstates["R"] = false;
     m_controlstates["T"] = false;
     m_controlstates["SPACE"] = false;
-    m_controlstates["MOUSE"] = false;
+    m_controlstates["MOUSELEFT"] = false;
+    m_controlstates["MOUSERIGHT"] = false;
 }
 
 void Input::onMousePressed(QMouseEvent *event) {
-    m_controlstates["MOUSE"] = true;
+    if (event->button() == Qt::LeftButton) {
+        m_controlstates["MOUSELEFT"] = true;
+    } else if (event->button() == Qt::RightButton) {
+        m_controlstates["MOUSERIGHT"] = true;
+    }
 }
 
 void Input::onMouseReleased(QMouseEvent *event) {
-    m_controlstates["MOUSE"] = false;
+    if (event->button() == Qt::LeftButton) {
+        m_controlstates["MOUSELEFT"] = false;
+    } else if (event->button() == Qt::RightButton) {
+        m_controlstates["MOUSERIGHT"] = false;
+    }
 }

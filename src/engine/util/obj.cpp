@@ -49,8 +49,13 @@ bool OBJ::read(const QString &path)
                 Index c = getIndex(parts[i]);
 
                 Triangle* curr;
-                if (normals.size() > 0)
-                    curr = new Triangle(a, b, c, vertices.at(a.vertexIndex), vertices.at(b.vertexIndex), vertices.at(c.vertexIndex), normals.at(a.normalIndex));
+                if (normals.size() > 2)
+                    curr = new Triangle(a, b, c, vertices.at(a.vertexIndex), vertices.at(b.vertexIndex), vertices.at(c.vertexIndex),
+                                        normals.at(a.normalIndex), normals.at(a.normalIndex), normals.at(b.normalIndex),
+                                        normals.at(c.normalIndex));
+                else if (normals.size() > 0)
+                    curr = new Triangle(a, b, c, vertices.at(a.vertexIndex), vertices.at(b.vertexIndex), vertices.at(c.vertexIndex),
+                                        normals.at(a.normalIndex), normals.at(b.normalIndex), normals.at(c.normalIndex));
                 else
                     curr = new Triangle(a, b, c, vertices.at(a.vertexIndex), vertices.at(b.vertexIndex), vertices.at(c.vertexIndex));
 

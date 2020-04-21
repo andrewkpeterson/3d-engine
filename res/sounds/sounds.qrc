@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/sounds">
+        <file>test.m4a</file>
+        <file>menu-theme.wav</file>
+    </qresource>
+</RCC>

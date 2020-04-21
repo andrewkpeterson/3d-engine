@@ -41,14 +41,21 @@ public:
     {
         Index a, b, c;
         glm::vec3 vertices[3];
+        glm::vec3 vert_normals[3];
         glm::vec3 normal;
+        bool has_vert_normals;
 
         Triangle(const Index &inda, const Index &indb, const Index &indc,
-                 const glm::vec3 &v1, const glm::vec3 &v2, const glm::vec3 &v3) {
+                 const glm::vec3 &v1, const glm::vec3 &v2, const glm::vec3 &v3,
+                 const glm::vec3 &n1, const glm::vec3 &n2, const glm::vec3 &n3) {
             vertices[0] = v1;
             vertices[1] = v2;
             vertices[2] = v3;
             normal = glm::normalize(glm::cross(vertices[1] - vertices[0], vertices[2] - vertices[0]));
+            vert_normals[0] = n1;
+            vert_normals[1] = n2;
+            vert_normals[2] = n3;
+            has_vert_normals = true;
 
             a = inda;
             b = indb;
@@ -56,12 +63,30 @@ public:
         }
 
         Triangle(const Index &inda, const Index &indb, const Index &indc,
-                 const glm::vec3 &v1, const glm::vec3 &v2, const glm::vec3 &v3, const glm::vec3 &currNormal) {
+                 const glm::vec3 &v1, const glm::vec3 &v2, const glm::vec3 &v3,
+                 const glm::vec3 &currNormal, const glm::vec3 &n1, const glm::vec3 &n2, const glm::vec3 &n3) {
             vertices[0] = v1;
             vertices[1] = v2;
             vertices[2] = v3;
 
+            vert_normals[0] = n1;
+            vert_normals[1] = n2;
+            vert_normals[2] = n3;
+
             normal = glm::normalize(currNormal);
+
+            a = inda;
+            b = indb;
+            c = indc;
+        }
+
+        Triangle(const Index &inda, const Index &indb, const Index &indc,
+                 const glm::vec3 &v1, const glm::vec3 &v2, const glm::vec3 &v3) {
+            vertices[0] = v1;
+            vertices[1] = v2;
+            vertices[2] = v3;
+
+            normal = glm::normalize(glm::cross(vertices[1] - vertices[0], vertices[2] - vertices[0]));
 
             a = inda;
             b = indb;

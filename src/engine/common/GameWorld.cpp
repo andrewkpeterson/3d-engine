@@ -9,7 +9,12 @@
 #include "system/OrthographicUISystem.h"
 #include "system/UISystem.h"
 #include "system/EnvironmentSystem.h"
+#include "system/AnimationSystem.h"
 #include "src/engine/common/ui/UI.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include <iostream>
 
 GameWorld::GameWorld(Screen *screen) :
     m_screen(screen),
@@ -24,6 +29,7 @@ GameWorld::GameWorld(Screen *screen) :
     addSystem<OrthographicUISystem>(std::make_shared<OrthographicUISystem>(this));
     addSystem<UISystem>(std::make_shared<UISystem>(this));
     addSystem<EnvironmentSystem>(std::make_shared<EnvironmentSystem>(this));
+    addSystem<AnimationSystem>(std::make_shared<AnimationSystem>(this));
 }
 
 GameWorld::~GameWorld()
@@ -38,6 +44,7 @@ void GameWorld::tick(float seconds) {
     //getSystem<ChunkStreamingSystem>()->destroyOldChunks();
     removeGameObjectsMarkedForDeletion();
     getSystem<UISystem>()->tick(seconds);
+    getSystem<AnimationSystem>()->tick(seconds);
 }
 
 void GameWorld::draw(Graphics *g) {
@@ -48,6 +55,7 @@ void GameWorld::draw(Graphics *g) {
     getSystem<OrthographicUISystem>()->draw(g);
     getSystem<UISystem>()->draw(g);
     getSystem<EnvironmentSystem>()->drawEnvironment();
+    getSystem<AnimationSystem>()->draw(g);
 }
 
 void GameWorld::resize(int width, int height) {

@@ -13,20 +13,14 @@
 #include "src/engine/common/Application.h"
 #include "src/engine/common/Screen.h"
 #include "src/engine/common/component/EllipsoidComponent.h"
+#include "src/platformer/PlatformerPlayerBulletControllerClass.h"
 #include <sstream>
 #include <iostream>
 
-PlatformerPlayerControlComponent::PlatformerPlayerControlComponent() :
-    ControlCallbackComponent(),
-    on_ground(false),
-    can_jump(false),
-    last_normal(0,1,0),
-    y_vel(0.0),
-    distance_last_fallen(0),
-    use_third_person(false),
-    third_person_cam_pos(5.0),
-    m_deltaX(0),
-    m_deltaY(0)
+PlatformerPlayerControlComponent::PlatformerPlayerControlComponent()
+    : ControlCallbackComponent(), on_ground(false), can_jump(false), last_normal(0, 1, 0),
+      y_vel(0.0), distance_last_fallen(0), use_third_person(false), third_person_cam_pos(5.0),
+      m_deltaX(0), m_deltaY(0)
 {
 
 }
@@ -41,11 +35,9 @@ void PlatformerPlayerControlComponent::addComponentToSystemsAndConnectComponents
     m_gameobject->getGameWorld()->getSystem<TickSystem>()->addComponent(this);
     m_gameobject->getGameWorld()->getSystem<ControlCallbackSystem>()->addComponent(this);
 
-    /*
-    m_gameobject->getComponent<DynamicAABCollisionComponent>()->
-            setCollisionCallback(std::bind(&DungeonPlayerControlComponent::handleCollisionResolutionAndResponse,
+    m_gameobject->getComponent<SphereCollisionComponent>()->
+            setCollisionCallback(std::bind(&PlatformerPlayerControlComponent::handleCollisionResolutionAndResponse,
                                            this, std::placeholders::_1));
-    */
     m_gameobject->getComponent<PrimitiveDrawableComponent>()->setDraw(use_third_person);
 }
 
@@ -56,37 +48,22 @@ void PlatformerPlayerControlComponent::removeComponentFromSystems() {
 
 
 void PlatformerPlayerControlComponent::tick(float seconds) {
-    update(seconds);
+    updateMovement(seconds);
+    shoot(seconds);
 }
 
-/*
+
 void PlatformerPlayerControlComponent::handleCollisionResolutionAndResponse(Collision collision) {
     std::shared_ptr<Camera> camera = m_gameobject->getComponent<CameraComponent>()->getCamera();
-    std::shared_ptr<DynamicAABCollisionComponent> comp = m_gameobject->getComponent<DynamicAABCollisionComponent>();
+    std::shared_ptr<SphereCollisionComponent> comp = m_gameobject->getComponent<SphereCollisionComponent>();
     std::shared_ptr<TransformComponent> t = m_gameobject->getComponent<TransformComponent>();
     glm::vec3 look = camera->getLook();
     std::string id = collision.collider->getGameObject()->getID();
-    //if (collision.half_mtv.x == 0 && collision.half_mtv.z == 0 && collision.half_mtv.y > 0 && y_vel < 0) {
-        //can_jump = true;
-        //t->translate(glm::vec3(0,distance_last_fallen,0));
-    //} else {
-    if (id.find("sword") == std::string::npos) {
-        if (collision.collider->canMove()) {
-            t->translate(collision.half_mtv);
-        } else {
-            t->translate(2.0f*collision.half_mtv);
-        }
-        if (use_third_person) {
-            camera->setEye(t->getPos() + glm::vec3(0,3,0) - third_person_cam_pos*look);
-        } else {
-            camera->setEye(t->getPos() + glm::vec3(0,3,0));
-        }
-    }
-    //}
+    std::cout << "hit" << std::endl;
 }
-*/
 
-void PlatformerPlayerControlComponent::update(float seconds) {
+
+void PlatformerPlayerControlComponent::updateMovement(float seconds) {
     glm::vec3 old_pos = m_gameobject->getComponent<TransformComponent>()->getPos();
     std::shared_ptr<Camera> camera = m_gameobject->getComponent<CameraComponent>()->getCamera();
     glm::vec3 look = camera->getLook();
@@ -124,7 +101,6 @@ void PlatformerPlayerControlComponent::update(float seconds) {
         on_ground = false;
         y_vel = JUMP_SPEED;
     }
-    std::cout << y_vel << std::endl;
 
     std::pair<std::vector<EllipsoidTriangleCollision>, glm::vec3> p =
             m_gameobject->getComponent<EllipsoidComponent>()->checkCollisionAndTranslate(old_pos, t->getPos());
@@ -147,21 +123,29 @@ void PlatformerPlayerControlComponent::update(float seconds) {
     on_ground = false;
     for (int i = 0; i < p.first.size(); i++) if (glm::dot(glm::vec3(0,1,0), p.first[i].normal) > 0) on_ground = true;
 
-    // when we are moving on a ramp, we can push the character slightly above the ramp so that we don't keep colliding with
-    // the ramp every tick
-    if (0 < norm.y && norm.y < 1 && frames_since_last_collision < 5 && moving_laterally) {
-        t->translate(glm::vec3(0,.1,0));
-    }
-
     if (use_third_person) {
         camera->setEye(t->getPos() + glm::vec3(0,3,0) - third_person_cam_pos*look);
     } else {
         camera->setEye(t->getPos() + glm::vec3(0,3,0));
     }
 
-    // TODO: don't get stuck hitting head on ceiling
+    // TODO: don't get stuck hitting head on ceiling, stop jump early if hit head on ceiling
 }
 
+void PlatformerPlayerControlComponent::shoot(float seconds) {
+    if (Input::getPressed("MOUSELEFT")) {
+        glm::vec3 look = m_gameobject->getComponent<CameraComponent>()->getCamera()->getLook();
+        std::shared_ptr<GameObject> bullet = std::make_shared<GameObject>();
+        Material mat;
+        mat.color = glm::vec3(1.0,0,0);
+        bullet->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("sphere", "bulletmat", mat));
+        bullet->addComponent<PlatformerPlayerBulletControllerClass>(std::make_shared<PlatformerPlayerBulletControllerClass>(look, 100));
+        bullet->getComponent<TransformComponent>()->setPos(m_gameobject->getComponent<TransformComponent>()->getPos());
+        bullet->getComponent<TransformComponent>()->setScale(0.1f);
+        bullet->getComponent<TransformComponent>()->setPos(m_gameobject->getComponent<TransformComponent>()->getPos());
+        m_gameobject->getGameWorld()->addGameObject(bullet);
+    }
+}
 
 void PlatformerPlayerControlComponent::onMouseDragged(int deltaX, int deltaY) {
     m_deltaX = deltaX;

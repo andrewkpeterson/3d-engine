@@ -30,6 +30,23 @@ VBO::VBO(const float *data, int sizeInFloats, std::vector<VBOAttribMarker> marke
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+VBO::VBO(const int *data, int sizeInInts, std::vector<VBOAttribMarker> markers, GEOMETRY_LAYOUT layout) :
+    m_handle(-1),
+    m_markers(markers),
+    m_bufferSizeInFloats(sizeInInts),
+    m_numberOfFloatsPerVertex(calculateFloatsPerVertex(markers)),
+    m_stride(m_numberOfFloatsPerVertex * sizeof(GLfloat)),
+    m_triangleLayout(layout)
+{
+    // Generate vbo
+    glGenBuffers(1, &m_handle);
+
+    // Bind and send data to vbo
+    glBindBuffer(GL_ARRAY_BUFFER, m_handle);
+    glBufferData(GL_ARRAY_BUFFER, sizeInInts * sizeof(GLfloat), &data[0], GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
 // This is called a copy constructor, you don't have to worry about it
 VBO::VBO(VBO &&that) :
     m_handle(that.m_handle),
@@ -74,7 +91,11 @@ void VBO::bindAndEnable() const {
         VBOAttribMarker am = m_markers[i];
 
         glEnableVertexAttribArray(am.index);
-        glVertexAttribPointer(am.index, am.numElements, am.dataType, am.dataNormalize, m_stride, reinterpret_cast<GLvoid*>(am.offset));
+        if (am.dataType == VBOAttribMarker::INT) {
+            glVertexAttribIPointer(am.index, am.numElements, am.dataType, m_stride, reinterpret_cast<GLvoid*>(am.offset));
+        } else {
+            glVertexAttribPointer(am.index, am.numElements, am.dataType, am.dataNormalize, m_stride, reinterpret_cast<GLvoid*>(am.offset));
+        }
     }
 }
 

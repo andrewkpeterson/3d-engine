@@ -1,4 +1,4 @@
-QT += core gui opengl
+QT += core gui opengl multimedia
 
 TARGET = cs195u_engine
 TEMPLATE = app
@@ -21,8 +21,18 @@ win32 {
 
 SOURCES += \
     libs/glew-1.10.0/src/glew.c \
+    src/engine/common/animation/AnimatedModel.cpp \
+    src/engine/common/animation/AnimatedModelComponent.cpp \
+    src/engine/common/animation/AnimationLoader.cpp \
+    src/engine/common/animation/JointAnimation.cpp \
+    src/engine/common/component/SoundComponent.cpp \
+    src/engine/common/system/AnimationSystem.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
+    src/platformer/PlatformerEnemyBulletControllerComponent.cpp \
+    src/platformer/PlatformerEnemyControllerComponent.cpp \
+    src/platformer/PlatformerEnemySpawnerComponent.cpp \
+    src/platformer/PlatformerPlayerBulletControllerClass.cpp \
     src/view.cpp \
     src/viewformat.cpp \
     src/engine/graphics/ResourceLoader.cpp \
@@ -120,13 +130,27 @@ SOURCES += \
     src/engine/util/obj.cpp \
     src/platformer/PlatformerGameplayScreen.cpp \
     src/platformer/PlatformerPlayerControlComponent.cpp \
-    src/engine/common/component/EllipsoidComponent.cpp
+    src/engine/common/component/EllipsoidComponent.cpp \
+    src/engine/common/animation/Joint.cpp \
+    src/engine/common/animation/Animation.cpp \
+    src/engine/common/animation/KeyFrame.cpp \
+    src/engine/common/animation/JointTransform.cpp
 
 HEADERS += \
     libs/glew-1.10.0/include/GL/glew.h \
     libs/stb/stb_rect_pack.h \
     libs/stb/stb_truetype.h \
+    src/engine/common/animation/AnimatedModel.h \
+    src/engine/common/animation/AnimatedModelComponent.h \
+    src/engine/common/animation/AnimationLoader.h \
+    src/engine/common/animation/JointAnimation.h \
+    src/engine/common/component/SoundComponent.h \
+    src/engine/common/system/AnimationSystem.h \
     src/mainwindow.h \
+    src/platformer/PlatformerEnemyBulletControllerComponent.h \
+    src/platformer/PlatformerEnemyControllerComponent.h \
+    src/platformer/PlatformerEnemySpawnerComponent.h \
+    src/platformer/PlatformerPlayerBulletControllerClass.h \
     src/view.h \
     src/viewformat.h \
     src/engine/util/CommonIncludes.h \
@@ -230,7 +254,11 @@ HEADERS += \
     src/engine/util/obj.h \
     src/platformer/PlatformerGameplayScreen.h \
     src/platformer/PlatformerPlayerControlComponent.h \
-    src/engine/common/component/EllipsoidComponent.h
+    src/engine/common/component/EllipsoidComponent.h \
+    src/engine/common/animation/Joint.h \
+    src/engine/common/animation/Animation.h \
+    src/engine/common/animation/KeyFrame.h \
+    src/engine/common/animation/JointTransform.h
 
 FORMS += src/mainwindow.ui
 
@@ -238,12 +266,15 @@ RESOURCES += \
     res/shaders/shaders.qrc \
     res/fonts/fonts.qrc \
     res/images/images.qrc \
-    res/meshes/meshes.qrc
+    res/meshes/meshes.qrc \
+    res/sounds/sounds.qrc
 
 OTHER_FILES += \
     res/images/grass.png \
 
 DISTFILES += \
+    res/shaders/animation_shader.frag \
+    res/shaders/animation_shader.vert \
     res/shaders/shader.vert \
     res/shaders/shader.frag
 
@@ -261,3 +292,12 @@ QMAKE_CXXFLAGS_WARN_ON += -Waddress -Warray-bounds -Wc++0x-compat -Wchar-subscri
                           -Wvolatile-register-var -Wno-extra
 
 QMAKE_CXXFLAGS += -g
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/libs/assimp/lib/release/ -lassimp.5.0.0
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/libs/assimp/lib/debug/ -lassimp.5.0.0
+else:unix: LIBS += -L$$PWD/libs/assimp/lib/ -lassimp.5.0.0
+
+INCLUDEPATH += $$PWD/libs/assimp/include
+DEPENDPATH += $$PWD/libs/assimp/include
+DEFINES += PROJECT_PATH=\"\\\"$${_PRO_FILE_PWD_}/\\\"\"

@@ -48,9 +48,11 @@ Graphics::Graphics() :
 
     // Default shader
     addShader("default", ":/shaders/shader.vert", ":/shaders/shader.frag");
+    addShader("animation", ":/shaders/animation_shader.vert", ":/shaders/animation_shader.frag");
 
     // Default material
     addMaterial("default", m_activeMaterial);
+    addMaterial("animation", m_activeMaterial);
 
     // Default shapes
     addQuad();

@@ -22,6 +22,7 @@ public:
      * @param layout Layout of the vertex data.
      */
     VBO(const float *data, int sizeInFloats, std::vector<VBOAttribMarker> markers, GEOMETRY_LAYOUT layout = LAYOUT_TRIANGLES);
+    VBO(const int *data, int sizeInInts, std::vector<VBOAttribMarker> markers, GEOMETRY_LAYOUT layout = LAYOUT_TRIANGLES);
     VBO(const VBO&) = delete;
     VBO& operator=(const VBO&) = delete;
     VBO(VBO &&that);

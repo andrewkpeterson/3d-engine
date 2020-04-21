@@ -8,5 +8,9 @@
         <file>level_island_navmesh_eroded.obj</file>
         <file>level_island_navmesh.obj</file>
         <file>level_island.obj</file>
+        <file>level_island_modified.obj</file>
+        <file>level_easy_modified.obj</file>
+        <file>test.dae</file>
+        <file>test.fbx</file>
     </qresource>
 </RCC>

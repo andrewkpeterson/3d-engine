@@ -14,7 +14,8 @@ public:
     void removeComponentFromSystems() override;
 
     void tick(float seconds) override;
-    void update(float seconds);
+    void updateMovement(float seconds);
+    void shoot(float seconds);
     void handleCollisionResolutionAndResponse(Collision collision);
 
     void onKeyPressed(QKeyEvent *event) override;
@@ -31,6 +32,16 @@ private:
     const float GRAVITY = -50.0f;
     const float JUMP_SPEED = 20.0f;
     const float Y_MOVE_EPSILON = .02;
+
+    const float PLAYER_BULLET_SPEED = 100;
+
+    const float TOTAL_DODGE_TIME = .3;
+    const float TOTAL_DODGE_RECHARGE_TIME = 2.0;
+    bool dodging;
+    float saved_dodge_time;
+    float saved_dodge_recharge_time;
+
+
     int frames_since_last_collision;
     glm::vec3 last_normal;
     std::vector<float> heights;
