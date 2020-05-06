@@ -15,7 +15,7 @@ public:
     virtual ~Component();
     /**
      * This method is called when a component is added to the gameworld. This method also
-     * allows components to interact with eachother before the object is active in the gameworld.
+     * allows components to interact with each other before the object is active in the gameworld.
      */
     virtual void addComponentToSystemsAndConnectComponents() = 0;
     virtual void removeComponentFromSystems() = 0;

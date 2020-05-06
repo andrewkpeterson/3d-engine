@@ -22,3 +22,7 @@ std::pair<std::shared_ptr<KeyFrame>, std::shared_ptr<KeyFrame>> JointAnimation::
         }
     }
 }
+
+std::shared_ptr<KeyFrame> JointAnimation::getFirstFrame() {
+    return m_keyframes[0];
+}

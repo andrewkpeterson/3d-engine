@@ -2,8 +2,8 @@
 #include "DynamicAABCollisionComponent.h"
 #include "TransformComponent.h"
 
-StaticAABCollisionComponent::StaticAABCollisionComponent(bool can_move, bool active, std::vector<AAB> bounds) :
-    CollisionComponent (can_move, active),
+StaticAABCollisionComponent::StaticAABCollisionComponent(bool can_move, bool active, std::vector<AAB> bounds, int layer) :
+    CollisionComponent (can_move, active, layer),
     m_bounds(bounds)
 {
 

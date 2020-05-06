@@ -19,6 +19,7 @@ public:
     void translate(glm::vec3 translation);
     void setPos(glm::vec3 position);
     glm::vec3 getPos();
+    float getScale();
     void setHeading(glm::vec2 h);
     void changeYaw(float theta);
     void changePitch(float theta);

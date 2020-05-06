@@ -2,8 +2,8 @@
 #include "TransformComponent.h"
 #include "StaticAABCollisionComponent.h"
 
-DynamicAABCollisionComponent::DynamicAABCollisionComponent(bool can_move, bool active, glm::vec3 sides) :
-    CollisionComponent(can_move, active),
+DynamicAABCollisionComponent::DynamicAABCollisionComponent(bool can_move, bool active, glm::vec3 sides, int layer) :
+    CollisionComponent(can_move, active, layer),
     m_sides(sides)
 {
 

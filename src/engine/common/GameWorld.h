@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <unordered_set>
+#include <shared_mutex>
 
 #include <QKeyEvent>
 #include <QMouseEvent>
@@ -71,6 +72,7 @@ public:
 
     Screen *getScreen();
     std::shared_ptr<GameObject> getGameObjectByID(std::string id);
+    bool checkIfGameObjectExists(std::string id);
     void markGameObjectForDeletion(std::string id);
     void removeGameObjectsMarkedForDeletion();
 
@@ -80,7 +82,8 @@ private:
     TypeMap<std::shared_ptr<System>> m_systems;
     std::map<std::string, std::shared_ptr<UI>> m_uis;
     std::shared_ptr<UI> m_activeui;
-    std::vector<std::string> ids_to_delete;
+    std::unordered_set<std::string> ids_to_delete;
+    std::shared_mutex m_mutex;
 };
 
 #endif // GAMEWORLD_H

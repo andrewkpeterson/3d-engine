@@ -1,5 +1,6 @@
 #include "PlatformerEnemyBulletControllerComponent.h"
 #include "src/engine/common/component/TransformComponent.h"
+#include "src/engine/common/component/EllipsoidComponent.h"
 #include "src/engine/common/GameObject.h"
 #include "src/engine/common/GameWorld.h"
 
@@ -17,14 +18,15 @@ PlatformerEnemyBulletControllerComponent::~PlatformerEnemyBulletControllerCompon
 }
 
 void PlatformerEnemyBulletControllerComponent::tick(float seconds) {
-    if (!m_radial) {
-        m_dir += m_acceleration;
-        m_dir = glm::normalize(m_dir);
-    } else {
+    glm::vec3 pos = m_gameobject->getComponent<TransformComponent>()->getPos();
 
+    std::pair<std::vector<EllipsoidTriangleCollision>, glm::vec3> collisions =  m_gameobject->
+        getComponent<EllipsoidComponent>()->checkCollisionAndTranslate(pos, pos + m_dir * seconds * m_speed, false);
+
+    if (collisions.first.size() > 0) {
+        m_gameobject->getGameWorld()->markGameObjectForDeletion(m_gameobject->getID());
     }
 
-    m_gameobject->getComponent<TransformComponent>()->translate(m_dir * seconds * m_speed);
     if (glm::length(m_gameobject->getComponent<TransformComponent>()->getPos()) > DESTROY_BULLET_DISTANCE) {
         m_gameobject->getGameWorld()->markGameObjectForDeletion(m_gameobject->getID());
     }

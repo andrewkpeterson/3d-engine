@@ -19,7 +19,7 @@ std::vector<size_t> sort_indexes(const std::vector<T> &v) {
 }
 
 AnimatedModel::AnimatedModel(const aiScene *scene) :
-      joints_root(nullptr), current_animation(nullptr), current_time(0)
+      joints_root(nullptr), current_animation(nullptr), current_time(0), next_animation(nullptr), enqueued_animation(nullptr)
 {
     build(scene);
     g = Graphics::getGlobalInstance();
@@ -30,17 +30,62 @@ AnimatedModel::~AnimatedModel()
 
 }
 
-void AnimatedModel::switchAnimation(std::string animation_name) {
+void AnimatedModel::queueAnimation(std::string animation_name) {
+    assert(animations.find(animation_name) != animations.end());
+    enqueued_animation = animations[animation_name];
+    next_animation = nullptr;
+}
+
+void AnimatedModel::switchAnimation(std::string animation_name, float transition_time) {
     // interpolate between current frame of old animation and first frame of new animation, then play the new animation
-    current_animation = animations[animation_name];
+    assert(animations.find(animation_name) != animations.end());
+    if (current_animation != nullptr) {
+        std::shared_ptr<Animation> transition_animation = createTransitionAnimation(animation_name, transition_time);
+        current_animation = transition_animation;
+        next_animation = animations[animation_name];
+    } else {
+        current_animation = animations[animation_name];
+    }
     current_time = 0;
+}
+
+std::shared_ptr<Animation> AnimatedModel::createTransitionAnimation(std::string next_animation_name, float transition_time) {
+    std::shared_ptr<Animation> next = animations[next_animation_name];
+    std::map<std::string, std::shared_ptr<JointAnimation>> transition_animations;
+    for (auto it = joints.begin(); it != joints.end(); it++) {
+        std::string joint_name = it->first;
+        std::vector<std::shared_ptr<KeyFrame>> keys;
+        // only create a transition for a joint if that joint has keyframes for both the current animation and the next animation
+        if (current_animation->getJointAnimation(joint_name) != nullptr && next->getJointAnimation(joint_name) != nullptr) {
+            std::shared_ptr<KeyFrame> key1 = std::make_shared<KeyFrame>(
+                current_animation->getJointAnimation(joint_name)->getPrevAndNextFrames(current_time).first->getTransform(), 0);
+            std::shared_ptr<KeyFrame> key2 = std::make_shared<KeyFrame>(
+                next->getJointAnimation(joint_name)->getFirstFrame()->getTransform(), transition_time);
+            keys.push_back(key1);
+            keys.push_back(key2);
+            std::shared_ptr<JointAnimation> joint_animation = std::make_shared<JointAnimation>(keys, transition_time);
+            transition_animations[joint_name] = joint_animation;
+        }
+    }
+    std::shared_ptr<Animation> transition = std::make_shared<Animation>(transition_animations, transition_time, "transition", true);
+    return transition;
 }
 
 void AnimatedModel::tick(float seconds) {
     current_time += seconds;
-    if (current_time > current_animation->getTimeLength()) {
+    if (current_time > current_animation->getTimeLength() && next_animation != nullptr && current_animation->isTransition()) {
+        current_time = 0;
+        current_animation = next_animation;
+        next_animation = nullptr;
+    } else if (current_time > current_animation->getTimeLength() && enqueued_animation != nullptr && next_animation == nullptr) {
+        current_animation = enqueued_animation;
+        enqueued_animation = nullptr;
+        next_animation = nullptr;
+        current_time = 0;
+    } else if (current_time > current_animation->getTimeLength()) {
         current_time -= current_animation->getTimeLength();
     }
+
     setLocalPoseTransforms();
     joints_root->calcModelPoseTransform(glm::mat4x4());
 }
@@ -71,14 +116,12 @@ std::pair<glm::vec3, glm::vec4> AnimatedModel::createFrameInfoForJoint(std::stri
 }
 
 void AnimatedModel::setLocalPoseTransforms() {
-    int count = 0;
     for (auto it = joints.begin(); it != joints.end(); it++) {
         std::shared_ptr<Joint> j = it->second;
         std::string joint_name = it->first;
         glm::mat4x4 new_local_pose_transform;
         if (current_animation->getJointAnimation(joint_name) != nullptr) {
             std::pair<glm::vec3, glm::vec4> p = createFrameInfoForJoint(joint_name);
-            count++;
             new_local_pose_transform = JointTransform::position2TranslationMatrix(p.first) * JointTransform::quaternion2RotationMatrix(p.second);
         } else {
             new_local_pose_transform = j->getLocalBindTransform();
@@ -98,33 +141,35 @@ void AnimatedModel::build(const aiScene *scene) {
         createAnimation(scene->mAnimations[i]);
     }
 
-    current_animation = animations.begin()->second;
+    current_animation = animations["rest"];
 }
 
 void AnimatedModel::createJoints(const aiScene *scene) {
     // the root joint in the joint hierarchy MUST be a direct child of the root node of the scene,
     // and it must have the word "joint" in its name, otherwise this won't work
-    int idx = 0;
-    aiNode *currNode = scene->mRootNode->mChildren[idx];
-    while (idx < scene->mRootNode->mNumChildren) {
-        currNode = scene->mRootNode->mChildren[idx];
-        if (std::string(currNode->mName.C_Str()).find("joint") != std::string::npos) {
-            joints_root = std::make_shared<Joint>(std::string(currNode->mName.C_Str()),
-                                                  assimpToGLM(currNode->mTransformation), createJointsHelper(currNode));
-            joints[std::string(currNode->mName.C_Str())] = joints_root;
-        }
-        idx++;
+    int armature_index = 0;
+    aiNode *nodes_root = scene->mRootNode;
+    while (std::string(nodes_root->mChildren[armature_index]->mName.C_Str()).find("Armature") == std::string::npos) {
+        armature_index++;
     }
+    aiNode *armature_root = scene->mRootNode->mChildren[armature_index];
+    aiNode *hierarchy_root = armature_root->mChildren[0];
 
+    //aiNode *hierarchy_root = scene->mRootNode->mChildren[1];
+    glm::mat4x4 mat = assimpToGLM(hierarchy_root->mTransformation);
+    glm::vec4 pos = mat * glm::vec4(0,0,0,1);
+    joints_root = std::make_shared<Joint>(std::string(hierarchy_root->mName.C_Str()), mat, createJointsHelper(hierarchy_root, pos), glm::vec3(pos));
+    joints[std::string(hierarchy_root->mName.C_Str())] = joints_root;
     joints_root->calcInverseBindTransform(glm::mat4x4());
 }
 
-std::vector<std::shared_ptr<Joint>> AnimatedModel::createJointsHelper(const aiNode *node) {
+std::vector<std::shared_ptr<Joint>> AnimatedModel::createJointsHelper(const aiNode *node, glm::vec4 parent_pos) {
     std::vector<std::shared_ptr<Joint>> ret;
     for (int i = 0; i < node->mNumChildren; i++) {
         aiNode *currNode = node->mChildren[i];
-        std::shared_ptr<Joint> new_joint = std::make_shared<Joint>(std::string(currNode->mName.C_Str()),
-                                                                   assimpToGLM(currNode->mTransformation), createJointsHelper(currNode));
+        glm::mat4x4 mat = assimpToGLM(currNode->mTransformation);
+        glm::vec4 pos = mat * parent_pos;
+        std::shared_ptr<Joint> new_joint = std::make_shared<Joint>(std::string(currNode->mName.C_Str()), mat, createJointsHelper(currNode, pos), glm::vec3(pos));
         joints[std::string(currNode->mName.C_Str())] = new_joint;
         ret.push_back(new_joint);
     }
@@ -149,28 +194,32 @@ void AnimatedModel::createMesh(const aiMesh *mesh) {
 
         //uvs.push_back(mesh->mTextureCoords[i]->x);
         //uvs.push_back(mesh->mTextureCoords[i]->y);
-        uvs.push_back(.5);
-        uvs.push_back(.5);
+        uvs.push_back(0);
+        uvs.push_back(0);
     }
 
     std::vector<int> faces;
     for (int i = 0; i < mesh->mNumFaces; i++) {
-        faces.push_back(mesh->mFaces[i].mIndices[0]);
-        faces.push_back(mesh->mFaces[i].mIndices[1]);
-        faces.push_back(mesh->mFaces[i].mIndices[2]);
+        for (int j = 0; j < mesh->mFaces[i].mNumIndices; j++) {
+            faces.push_back(mesh->mFaces[i].mIndices[j]);
+        }
     }
 
     std::map<std::string, int> jointname2id;
-    std::map<int, std::vector<float>> joint_weights;
     std::map<int, std::vector<int>> vertex2joints;
     std::map<int, std::vector<float>> vertex2weights;
     std::map<int, glm::mat4x4> offset_matrices;
 
+    for (int i = 0; i < mesh->mNumVertices; i++) {
+        vertex2weights[i] = std::vector<float>();
+        vertex2joints[i] = std::vector<int>();
+    }
+
     for (int i = 0; i < mesh->mNumBones; i++) {
         jointname2id[mesh->mBones[i]->mName.C_Str()] = i;
+        assert(joints.find(std::string(mesh->mBones[i]->mName.C_Str())) != joints.end());
         joints[std::string(mesh->mBones[i]->mName.C_Str())]->setID(i);
-        joint_weights[i] = std::vector<float>();
-        offset_matrices[i] = assimpToGLM(mesh->mBones[i]->mOffsetMatrix);
+        joints[std::string(mesh->mBones[i]->mName.C_Str())]->setOffsetMatrix(assimpToGLM(mesh->mBones[i]->mOffsetMatrix));
         for (int weight_idx = 0; weight_idx < mesh->mBones[i]->mNumWeights; weight_idx++) {
             aiVertexWeight v = mesh->mBones[i]->mWeights[weight_idx];
             vertex2joints[v.mVertexId].push_back(i);
@@ -180,41 +229,32 @@ void AnimatedModel::createMesh(const aiMesh *mesh) {
 
     std::vector<int> final_joints;
     std::vector<float> final_weights;
+
     for (int vert_i = 0; vert_i < mesh->mNumVertices; vert_i++) {
-        if (vertex2joints.find(vert_i) != vertex2joints.end()) {
-            std::vector<size_t> temp = sort_indexes(vertex2weights[vert_i]);
-            for (int k = 0; k < temp.size(); k++) {
-                vertex2joints[vert_i][k] = temp[k];
+        assert(vertex2joints.find(vert_i) != vertex2joints.end());
+        std::vector<size_t> temp = sort_indexes(vertex2weights[vert_i]);
+        std::vector<int> new_joints;
+        for (int k = 0; k < temp.size(); k++) {
+            new_joints.push_back(0);
+        }
+        for (int k = 0; k < temp.size(); k++) {
+            new_joints[k] = vertex2joints[vert_i][temp[k]];
+        }
+        std::reverse(new_joints.begin(), new_joints.end());
+        std::stable_sort(vertex2weights[vert_i].begin(), vertex2weights[vert_i].end());
+        std::reverse(vertex2weights[vert_i].begin(), vertex2weights[vert_i].end());
+        float sum = 0;
+        for (int i = 0; i < MAX_JOINTS_PER_VERTEX; i++) {
+            if (i < new_joints.size()) {
+                sum += vertex2weights[vert_i][i];
             }
-            std::reverse(vertex2joints[vert_i].begin(), vertex2joints[vert_i].end());
-            std::stable_sort(vertex2weights[vert_i].begin(), vertex2weights[vert_i].end());
-            std::reverse(vertex2weights[vert_i].begin(), vertex2weights[vert_i].end());
-            float sum = 0;
-            for (int i = 0; i < MAX_JOINTS_PER_VERTEX; i++) {
-                if (i < vertex2joints[vert_i].size()) {
-                    sum += vertex2weights[vert_i][i];
-                } else {
-                    sum += 0;
-                }
-            }
-            if (sum > 0) {
-                for (int i = 0; i < MAX_JOINTS_PER_VERTEX; i++) {
-                    if (i < vertex2joints[vert_i].size()) {
-                        final_joints.push_back(vertex2joints[vert_i][i]);
-                        final_weights.push_back(vertex2weights[vert_i][i] / sum);
-                    } else {
-                        final_joints.push_back(0);
-                        final_weights.push_back(0);
-                    }
-                }
+        }
+        assert(sum > 0);
+        for (int i = 0; i < MAX_JOINTS_PER_VERTEX; i++) {
+            if (i < new_joints.size()) {
+                final_joints.push_back(new_joints[i]);
+                final_weights.push_back(float(vertex2weights[vert_i][i]) / float(sum));
             } else {
-                for (int i = 0; i < MAX_JOINTS_PER_VERTEX; i++) {
-                    final_joints.push_back(0);
-                    final_weights.push_back(0);
-                }
-            }
-        } else {
-            for (int i = 0; i < MAX_JOINTS_PER_VERTEX; i++) {
                 final_joints.push_back(0);
                 final_weights.push_back(0);
             }
@@ -236,11 +276,11 @@ void AnimatedModel::createMesh(const aiMesh *mesh) {
     VBO texVBO(uvs.data(), uvs.size(), texMarkers, VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLES);
 
     std::vector<VBOAttribMarker> jointMarkers;
-    jointMarkers.push_back(VBOAttribMarker(JOINT_ID_LOCATION, 4, 0, VBOAttribMarker::DATA_TYPE::INT));
+    jointMarkers.push_back(VBOAttribMarker(JOINT_ID_LOCATION, MAX_JOINTS_PER_VERTEX, 0, VBOAttribMarker::DATA_TYPE::INT));
     VBO jointVBO(final_joints.data(), final_joints.size(), jointMarkers, VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLES);
 
     std::vector<VBOAttribMarker> weightMarkers;
-    weightMarkers.push_back(VBOAttribMarker(JOINT_WEIGHT_LOCATION, 4, 0));
+    weightMarkers.push_back(VBOAttribMarker(JOINT_WEIGHT_LOCATION, MAX_JOINTS_PER_VERTEX, 0));
     VBO weightsVBO(final_weights.data(), final_weights.size(), weightMarkers, VBO::GEOMETRY_LAYOUT::LAYOUT_TRIANGLES);
 
     // IBO
@@ -302,7 +342,7 @@ void AnimatedModel::createAnimation(const aiAnimation *anim) {
         joint_animations[std::string(channel->mNodeName.C_Str())] = std::make_shared<JointAnimation>(keyframes, anim->mDuration);
     }
 
-    animations[std::string(anim->mName.C_Str())] = std::make_shared<Animation>(joint_animations, anim->mDuration, std::string(anim->mName.C_Str()));
+    animations[std::string(anim->mName.C_Str())] = std::make_shared<Animation>(joint_animations, anim->mDuration, std::string(anim->mName.C_Str()), false);
 }
 
 glm::mat4x4 AnimatedModel::assimpToGLM(aiMatrix4x4 &m) {
@@ -320,12 +360,57 @@ glm::vec4 AnimatedModel::assimpToGLM(aiQuaternion &v) {
     return glm::vec4(v.x, v.y, v.z, v.w);
 }
 
+std::vector<glm::vec3> AnimatedModel::getJointBindPositions() {
+    std::vector<glm::vec3> ret;
+    for (auto it = joints.begin(); it != joints.end(); it++) {
+        ret.push_back(it->second->getBindPosePosition());
+    }
+    return ret;
+}
+
+std::vector<glm::vec3> AnimatedModel::getJointCurrentPosePositions() {
+    std::vector<glm::vec3> ret;
+    for (auto it = joints.begin(); it != joints.end(); it++) {
+        ret.push_back(it->second->getCurrentPosePosition());
+    }
+    return ret;
+}
+
+std::vector<glm::mat4x4> AnimatedModel::getOffsetMatrices() {
+    std::vector<glm::mat4x4> ret;
+    for (auto it = joints.begin(); it != joints.end(); it++) {
+        ret.push_back(it->second->getOffsetMatrix());
+    }
+    return ret;
+}
+
+std::vector<glm::mat4x4> AnimatedModel::getInverseBindTransforms() {
+    std::vector<glm::mat4x4> ret;
+    for (auto it = joints.begin(); it != joints.end(); it++) {
+        ret.push_back(it->second->getInverseBindTransform());
+    }
+    return ret;
+}
+
+std::vector<glm::mat4x4> AnimatedModel::getCurrentTotalPoseTransformations() {
+    std::vector<glm::mat4x4> ret;
+    for (auto it = joints.begin(); it != joints.end(); it++) {
+        ret.push_back(it->second->getCurrentTotalPoseTransform());
+    }
+    return ret;
+}
+
 void AnimatedModel::draw() {
     g->setShader("animation");
     glBindVertexArray(m_handle);
     glDrawElements(GL_TRIANGLES, num_vertices, GL_UNSIGNED_INT, (const GLvoid*)0);
+    //glDrawArrays(GL_TRIANGLES, )
     glBindVertexArray(0);
     g->setShader("default");
+}
+
+std::shared_ptr<Joint> AnimatedModel::getRoot() {
+    return joints_root;
 }
 
 

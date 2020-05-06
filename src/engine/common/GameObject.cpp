@@ -2,9 +2,11 @@
 #include "src/engine/common/component/TransformComponent.h"
 
 int GameObject::nextID = 0;
+std::shared_mutex GameObject::m_mutex;
 
 GameObject::GameObject(std::string id)
 {
+    m_mutex.lock();
     if (std::strcmp("", id.c_str()) == 0) {
         m_id = std::to_string(nextID);
         nextID++;
@@ -12,6 +14,7 @@ GameObject::GameObject(std::string id)
         m_id = id;
     }
     addComponent<TransformComponent>(std::make_shared<TransformComponent>(glm::vec3(0,0,0), 1.0));
+    m_mutex.unlock();
 }
 
 GameObject::~GameObject()

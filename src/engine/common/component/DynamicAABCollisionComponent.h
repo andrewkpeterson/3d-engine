@@ -9,7 +9,7 @@ class StaticAABCollisionComponent;
 class DynamicAABCollisionComponent : public CollisionComponent
 {
 public:
-    DynamicAABCollisionComponent(bool can_move, bool active, glm::vec3 sides);
+    DynamicAABCollisionComponent(bool can_move, bool active, glm::vec3 sides, int layer);
     ~DynamicAABCollisionComponent();
 
     void checkCollision(CollisionComponent *comp) override;

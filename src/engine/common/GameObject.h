@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include <shared_mutex>
 
 #include "src/engine/common/component/Component.h"
 #include "src/engine/util/TypeMap.h"
@@ -58,6 +59,7 @@ private:
     GameWorld *m_gw;
     std::string m_id;
     static int nextID;
+    static std::shared_mutex m_mutex;
 
 };
 

@@ -100,6 +100,10 @@ float TransformComponent::getPitch() {
     return pitch;
 }
 
+float TransformComponent::getScale() {
+    return m_scale;
+}
+
 void TransformComponent::setObjectPos(glm::vec3 pos) {
     object_pos = pos;
 }

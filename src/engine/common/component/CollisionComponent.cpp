@@ -1,10 +1,11 @@
 #include "CollisionComponent.h"
 #include "src/engine/common/system/CollisionSystem.h"
 
-CollisionComponent::CollisionComponent(bool can_move, bool active) :
+CollisionComponent::CollisionComponent(bool can_move, bool active, int layer) :
     m_callback(nullptr),
     m_can_move(can_move),
-    m_active(active)
+    m_active(active),
+    m_layer(layer)
 {
 
 }
@@ -44,4 +45,8 @@ bool CollisionComponent::isActive() {
 
 void CollisionComponent::setActive(bool b) {
     m_active = b;
+}
+
+int CollisionComponent::getLayer() {
+    return m_layer;
 }

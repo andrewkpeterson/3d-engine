@@ -3,7 +3,7 @@
 
 std::map<std::string, bool> Input::m_controlstates = {{"W",false}, {"A",false}, {"S",false}, {"D",false},
                                                       {"R",false}, {"T", false}, {"SPACE",false},{"MOUSELEFT",false},
-                                                      {"MOUSERIGHT",false}};
+                                                      {"MOUSERIGHT",false}, {"ENTER", false}};
 
 Input::Input()
 {
@@ -16,6 +16,7 @@ Input::Input()
     m_controlstates["SPACE"] = false;
     m_controlstates["MOUSELEFT"] = false;
     m_controlstates["MOUSERIGHT"] = false;
+    m_controlstates["ENTER"] = false;
 }
 
 Input::~Input()
@@ -35,6 +36,8 @@ void Input::onKeyPressed(QKeyEvent *event) {
     if (event->key() == Qt::Key_R) m_controlstates["R"] = true;
     if (event->key() == Qt::Key_T) m_controlstates["T"] = true;
     if (event->key() == Qt::Key_Space) m_controlstates["SPACE"] = true;
+    if (event->key() == Qt::Key_Enter) m_controlstates["ENTER"] = true;
+
 }
 
 void Input::onKeyReleased(QKeyEvent *event) {
@@ -45,6 +48,7 @@ void Input::onKeyReleased(QKeyEvent *event) {
     if (event->key() == Qt::Key_R) m_controlstates["R"] = false;
     if (event->key() == Qt::Key_T) m_controlstates["T"] = false;
     if (event->key() == Qt::Key_Space) m_controlstates["SPACE"] = false;
+    if (event->key() == Qt::Key_Enter) m_controlstates["ENTER"] = false;
 }
 
 void Input::restart() {
@@ -57,6 +61,7 @@ void Input::restart() {
     m_controlstates["SPACE"] = false;
     m_controlstates["MOUSELEFT"] = false;
     m_controlstates["MOUSERIGHT"] = false;
+    m_controlstates["ENTER"] = false;
 }
 
 void Input::onMousePressed(QMouseEvent *event) {

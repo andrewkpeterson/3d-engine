@@ -24,6 +24,10 @@
 #include "src/engine/common/animation/AnimatedModel.h"
 #include "src/engine/common/animation/AnimationLoader.h"
 #include "src/platformer/PlatformerEnemyControllerComponent.h"
+#include "src/platformer/prefabs/Enemy.h"
+#include "src/platformer/prefabs/Player.h"
+#include "src/platformer/PlatformerEnemySpawnerComponent.h"
+
 
 PlatformerGameplayScreen::PlatformerGameplayScreen(Application *parent) :
     Screen(parent)
@@ -38,18 +42,73 @@ PlatformerGameplayScreen::~PlatformerGameplayScreen()
 
 void PlatformerGameplayScreen::initializeGameWorld() {
 
+    // seed random number generator
+    srand(time(nullptr));
+
     Graphics *g = Graphics::getGlobalInstance();
 
+    // set up font
+    g->addFont("press_start_2p", ":/fonts/PressStart2P-Regular.ttf");
+
+    // set up UI
+    Material health_bar_mat;
+    health_bar_mat.color = glm::vec3(0,1,0);
+    g->addMaterial("health_bar_mat", health_bar_mat);
+
+    std::shared_ptr<GameObject> hud = std::make_shared<GameObject>("HUD");
+    hud->addComponent<UIComponent>(std::make_shared<UIComponent>());
+    std::shared_ptr<UILabel> health_label = std::make_shared<UILabel>(hud->getComponent<UIComponent>().get(),
+                                                                      "HEALTH", 20.0f, glm::vec3(1,1,1),
+                                                                      glm::vec2(20.0f,60.0f), "white", "press_start_2p");
+    hud->getComponent<UIComponent>()->addElement("HEALTH", health_label);
+    std::shared_ptr<UIShape> health_bar1 = std::make_shared<UIShape>(hud->getComponent<UIComponent>().get(), "uiquad",
+                                                                    glm::vec2(10.0f,10.0f),
+                                                                    glm::vec2(40,40),"health_bar_mat");
+    hud->getComponent<UIComponent>()->addElement("health_bar1", health_bar1);
+    std::shared_ptr<UIShape> health_bar2 = std::make_shared<UIShape>(hud->getComponent<UIComponent>().get(), "uiquad",
+                                                                    glm::vec2(60.0f,10.0f),
+                                                                    glm::vec2(40,40),"health_bar_mat");
+    hud->getComponent<UIComponent>()->addElement("health_bar2", health_bar2);
+    std::shared_ptr<UIShape> health_bar3 = std::make_shared<UIShape>(hud->getComponent<UIComponent>().get(), "uiquad",
+                                                                    glm::vec2(110.0f,10.0f),
+                                                                    glm::vec2(40,40),"health_bar_mat");
+    hud->getComponent<UIComponent>()->addElement("health_bar3", health_bar3);
+    std::shared_ptr<UILabel> score_label = std::make_shared<UILabel>(hud->getComponent<UIComponent>().get(),
+                                                                      "SCORE:", 20.0f, glm::vec3(1,1,1),
+                                                                      glm::vec2(20.0f,120.0f), "white", "press_start_2p");
+    hud->getComponent<UIComponent>()->addElement("score_label", score_label);
+    std::shared_ptr<UILabel> score = std::make_shared<UILabel>(hud->getComponent<UIComponent>().get(),
+                                                                      "0", 20.0f, glm::vec3(1,1,1),
+                                                                      glm::vec2(150.0f,120.0f), "white", "press_start_2p");
+    hud->getComponent<UIComponent>()->addElement("score", score);
+
+    m_gameworld->addGameObject(hud);
+
+    // make the ui
+    std::shared_ptr<GameObject> game_over = std::make_shared<GameObject>("game_over");
+    game_over->addComponent<UIComponent>(std::make_shared<UIComponent>());
+    std::shared_ptr<UILabel> title = std::make_shared<UILabel>(hud->getComponent<UIComponent>().get(),
+                                                               "GAME OVER", 100.0f, glm::vec3(1,1,1),
+                                                               glm::vec2(1300,1000), "white", "press_start_2p");
+    game_over->getComponent<UIComponent>()->addElement("title",title);
+    game_over->getComponent<UIComponent>()->getElement("title")->setDraw(false);
+    std::shared_ptr<UILabel> directions = std::make_shared<UILabel>(hud->getComponent<UIComponent>().get(),
+                                                                    "PRESS SPACEBAR TO RESTART", 50.0f, glm::vec3(1,1,1),
+                                                                    glm::vec2(1200,500), "white", "press_start_2p");
+    game_over->getComponent<UIComponent>()->addElement("directions",directions);
+    game_over->getComponent<UIComponent>()->getElement("directions")->setDraw(false);
+    m_gameworld->addGameObject(game_over);
+
+    // load in skybox
+    g->setUpSkybox(":/images/bkg1_right.png", ":/images/bkg1_left.png", ":/images/bkg1_top.png",
+                   ":/images/bkg1_bot.png", ":/images/bkg1_front.png", ":/images/bkg1_back.png");
+
     // load in animated model
-    std::shared_ptr<AnimatedModel> m = AnimationLoader::loadAnimatedModel("res/meshes/test2.dae");
+    std::shared_ptr<AnimatedModel> m = AnimationLoader::loadAnimatedModel("res/meshes/character.dae");
     std::shared_ptr<GameObject> animation = std::make_shared<GameObject>("animation");
-    animation->addComponent<AnimatedModelComponent>(std::make_shared<AnimatedModelComponent>(m));
     animation->addComponent<SoundComponent>(std::make_shared<SoundComponent>());
-    //animation->getComponent<SoundComponent>()->addSound(":/sounds/menu-theme.wav");
-    //animation->getComponent<SoundComponent>()->playSound(":/sounds/menu-theme.wav");
-    animation->getComponent<TransformComponent>()->setPos(glm::vec3(0,10,0));
-    animation->getComponent<TransformComponent>()->setScale(1);
-    m_gameworld->addGameObject(animation);
+    animation->getComponent<SoundComponent>()->addMusic(":/sounds/gameplay.wav");
+    animation->getComponent<SoundComponent>()->playMusic(":/sounds/gameplay.wav");
 
     // create environment
     std::shared_ptr<GameObject> environment = std::make_shared<GameObject>("environment");
@@ -60,28 +119,12 @@ void PlatformerGameplayScreen::initializeGameWorld() {
     m_gameworld->addGameObject(environment);
 
     // create player
-    std::shared_ptr<GameObject> player = std::make_shared<GameObject>("player");
-    player->addComponent<CameraComponent>(std::make_shared<CameraComponent>(glm::vec3(0,0,0), glm::vec3(0,0,1)));
-    player->addComponent<PlatformerPlayerControlComponent>(std::make_shared<PlatformerPlayerControlComponent>());
-    player->addComponent<SphereCollisionComponent>(std::make_shared<SphereCollisionComponent>(false, true, .5));
-    player->addComponent<EllipsoidComponent>(std::make_shared<EllipsoidComponent>(glm::vec3(.5,.5,.5)));
-    player->getComponent<TransformComponent>()->setPos(glm::vec3(0,5,0));
-    Material player_mat;
-    player_mat.color = glm::vec3(.4,.3,.8);
-    player->addComponent<PrimitiveDrawableComponent>
-            (std::make_shared<PrimitiveDrawableComponent>("cube", "player_mat", player_mat));
+    std::shared_ptr<Player> player = std::make_shared<Player>();
     m_gameworld->addGameObject(player);
     m_gameworld->getSystem<CameraSystem>()->setCurrentMainCameraComponent(player->getComponent<CameraComponent>().get());
 
-    // create test enemy
-    std::shared_ptr<GameObject> enemy = std::make_shared<GameObject>("enemy");
-    enemy->addComponent<PlatformerEnemyControllerComponent>(std::make_shared<PlatformerEnemyControllerComponent>());
-    enemy->addComponent<SphereCollisionComponent>(std::make_shared<SphereCollisionComponent>(false, true, 10.0));
-    Material enemy_mat;
-    player_mat.color = glm::vec3(.4,.3,.8);
-    enemy->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("sphere", "enemymat", enemy_mat));
-    enemy->getComponent<TransformComponent>()->setPos(glm::vec3(10,20,10));
-    enemy->getComponent<TransformComponent>()->setScale(10.0);
-    m_gameworld->addGameObject(enemy);
 
+    std::shared_ptr<GameObject> enemy_spawner = std::make_shared<GameObject>("enemy_spawner");
+    enemy_spawner->addComponent<PlatformerEnemySpawnerComponent>(std::make_shared<PlatformerEnemySpawnerComponent>());
+    m_gameworld->addGameObject(enemy_spawner);
 }

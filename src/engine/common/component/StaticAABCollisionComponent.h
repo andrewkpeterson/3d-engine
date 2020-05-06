@@ -13,7 +13,7 @@ struct AAB {
 class StaticAABCollisionComponent : public CollisionComponent
 {
 public:
-    StaticAABCollisionComponent(bool can_move, bool active, std::vector<AAB> bounds);
+    StaticAABCollisionComponent(bool can_move, bool active, std::vector<AAB> bounds, int layer);
     ~StaticAABCollisionComponent() override;
 
     void checkCollision(CollisionComponent *comp) override;

@@ -1,10 +1,3 @@
 README
 
-Frustum culling is implemented in the ChunkDrawableComponent class. A chunk
-checks itself against the active camera to see if it should be drawn.
-
-Collisions are implemented in their component classes.
-
-Chunk streaming is implemented in the Chunk Streaming System class.
-
-Infinite dungeon is implemented in DungeonEnvironmentComponent.
+I implemented skeletal animation and added music to the game.

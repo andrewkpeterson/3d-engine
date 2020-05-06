@@ -2,8 +2,7 @@
 
 UILabel::UILabel(UIComponent *component, std::string text, float size,
                  glm::vec3 color, glm::vec2 pos, std::string matname, std::string font) :
-    UIElement(component),
-    m_text(text),
+    UIElement(component, text),
     m_size(size),
     m_color(color),
     m_pos(pos),
@@ -20,10 +19,12 @@ UILabel::~UILabel()
 }
 
 void UILabel::drawSelf() {
-    g->clearTransform();
-    g->setMaterial(m_matname);
-    g->translate(glm::vec3(m_pos.x, m_pos.y, 0.0f));
-    g->drawText(m_font, m_text, m_size);
+    if (should_draw) {
+        g->clearTransform();
+        g->setMaterial(m_matname);
+        g->translate(glm::vec3(m_pos.x, m_pos.y, 0.0f));
+        g->drawText(m_font, m_text, m_size);
+    }
 }
 
 void UILabel::setText(std::string str) {

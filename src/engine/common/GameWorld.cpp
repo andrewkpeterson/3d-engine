@@ -16,6 +16,7 @@
 #include <assimp/postprocess.h>
 #include <iostream>
 
+
 GameWorld::GameWorld(Screen *screen) :
     m_screen(screen),
     m_activeui(nullptr)
@@ -48,14 +49,16 @@ void GameWorld::tick(float seconds) {
 }
 
 void GameWorld::draw(Graphics *g) {
+    g->setCamera(getSystem<CameraSystem>()->getCurrentMainCameraComponent()->getCamera());
+    g->drawSkybox();
     getSystem<DrawSystem>()->draw(g);
+    getSystem<AnimationSystem>()->draw(g);
+    getSystem<EnvironmentSystem>()->drawEnvironment();
     if (m_activeui != nullptr) {
         //m_activeui->drawUI();
     }
     getSystem<OrthographicUISystem>()->draw(g);
     getSystem<UISystem>()->draw(g);
-    getSystem<EnvironmentSystem>()->drawEnvironment();
-    getSystem<AnimationSystem>()->draw(g);
 }
 
 void GameWorld::resize(int width, int height) {
@@ -70,23 +73,28 @@ void GameWorld::resize(int width, int height) {
 }
 
 void GameWorld::addGameObject(std::shared_ptr<GameObject> object) {
+    m_mutex.lock();
     assert(m_gameobjects.find(object->getID()) == m_gameobjects.end());
     if (m_gameobjects.find(object->getID()) == m_gameobjects.end()) {
         m_gameobjects.insert({object->getID(), object});
         object->setGameWorld(this);
         object->addSelfToSystems();
     }
+    m_mutex.unlock();
 }
 
 void GameWorld::removeGameObject(std::shared_ptr<GameObject> object) {
+    m_mutex.lock();
     assert(m_gameobjects.find(object->getID()) != m_gameobjects.end());
     if (m_gameobjects.find(object->getID()) != m_gameobjects.end()) {
         object->removeSelfFromSystems();
         m_gameobjects.erase(object->getID());
     }
+    m_mutex.unlock();
 }
 
 void GameWorld::removeGameObject(std::string id) {
+    // there shouldn't be a mutex here
     assert(m_gameobjects.find(id) != m_gameobjects.end());
     if (m_gameobjects.find(id) != m_gameobjects.end()) {
         m_gameobjects[id]->removeSelfFromSystems();
@@ -95,18 +103,24 @@ void GameWorld::removeGameObject(std::string id) {
 }
 
 void GameWorld::onKeyPressed(QKeyEvent *event) {
+    m_mutex.lock();
     getSystem<ControlCallbackSystem>()->onKeyPressed(event);
+    m_mutex.unlock();
 }
 
 void GameWorld::markGameObjectForDeletion(std::string id) {
-    ids_to_delete.push_back(id);
+    m_mutex.lock();
+    ids_to_delete.insert(id);
+    m_mutex.unlock();
 }
 
 void GameWorld::removeGameObjectsMarkedForDeletion() {
-    for (int i = 0; i < ids_to_delete.size(); i++) {
-        removeGameObject(ids_to_delete[i]);
+    m_mutex.lock();
+    for (auto it = ids_to_delete.begin(); it != ids_to_delete.end(); it++) {
+        removeGameObject(*it);
     }
     ids_to_delete.clear();
+    m_mutex.unlock();
 }
 
 void GameWorld::onKeyReleased(QKeyEvent *event) {
@@ -134,8 +148,10 @@ void GameWorld::onWheelEvent(QWheelEvent *event) {
 }
 
 void GameWorld::addUI(std::shared_ptr<UI> ui, std::string name) {
+    m_mutex.lock();
     m_uis[name] = ui;
     ui->setGameWorld(this);
+    m_mutex.unlock();
 }
 
 std::shared_ptr<UI> GameWorld::getActiveUI() {
@@ -151,6 +167,13 @@ Screen *GameWorld::getScreen() {
 }
 
 std::shared_ptr<GameObject> GameWorld::getGameObjectByID(std::string id) {
+    m_mutex.lock();
     assert(m_gameobjects.find(id) != m_gameobjects.end());
-    return m_gameobjects[id];
+    std::shared_ptr<GameObject> ret = m_gameobjects[id];
+    m_mutex.unlock();
+    return ret;
+}
+
+bool GameWorld::checkIfGameObjectExists(std::string id) {
+    return m_gameobjects.find(id) != m_gameobjects.end();
 }

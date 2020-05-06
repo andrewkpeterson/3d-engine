@@ -18,8 +18,8 @@ public:
     void checkForCollisions(float seconds);
 
 private:
-    std::unordered_set<CollisionComponent*> m_components;
-
+    std::vector<std::unordered_set<CollisionComponent*>> m_layers;
+    const int NUM_LAYERS = 3;
 };
 
 #endif // COLLISIONSYSTEM_H

@@ -30,7 +30,11 @@ Graphics::Graphics() :
     m_activeFBO(nullptr),
     m_activeFBOName(""),
     m_activeCamera(nullptr),
-    m_numLights(0)
+    m_numLights(0),
+    m_skyboxVAO(0),
+    m_skyboxVBO(0),
+    m_skybox_tex(0),
+    skybox_ready(false)
 {
 #if GRAPHICS_DEBUG_LEVEL > 0
     // Tracked variables for debugging
@@ -49,6 +53,7 @@ Graphics::Graphics() :
     // Default shader
     addShader("default", ":/shaders/shader.vert", ":/shaders/shader.frag");
     addShader("animation", ":/shaders/animation_shader.vert", ":/shaders/animation_shader.frag");
+    addShader("skybox", ":/shaders/skybox.vert", ":/shaders/skybox.frag");
 
     // Default material
     addMaterial("default", m_activeMaterial);
@@ -80,6 +85,101 @@ void Graphics::initializeGLEW() {
     }
     std::cout << "Using GLEW " <<  glewGetString( GLEW_VERSION ) << std::endl;
     checkError("glew");
+}
+
+void Graphics::setUpSkybox(std::string posx, std::string negx, std::string posy,
+                           std::string negy, std::string posz, std::string negz) {
+    float skyboxData[] = {
+        // positions
+        -1.0f,  1.0f, -1.0f,
+        -1.0f, -1.0f, -1.0f,
+        1.0f, -1.0f, -1.0f,
+        1.0f, -1.0f, -1.0f,
+        1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+
+        -1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,
+
+        1.0f, -1.0f, -1.0f,
+        1.0f, -1.0f,  1.0f,
+        1.0f,  1.0f,  1.0f,
+        1.0f,  1.0f,  1.0f,
+        1.0f,  1.0f, -1.0f,
+        1.0f, -1.0f, -1.0f,
+
+        -1.0f, -1.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,
+        1.0f,  1.0f,  1.0f,
+        1.0f,  1.0f,  1.0f,
+        1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,
+
+        -1.0f,  1.0f, -1.0f,
+        1.0f,  1.0f, -1.0f,
+        1.0f,  1.0f,  1.0f,
+        1.0f,  1.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,
+        -1.0f,  1.0f, -1.0f,
+
+        -1.0f, -1.0f, -1.0f,
+        -1.0f, -1.0f,  1.0f,
+        1.0f, -1.0f, -1.0f,
+        1.0f, -1.0f, -1.0f,
+        -1.0f, -1.0f,  1.0f,
+        1.0f, -1.0f,  1.0f
+    };
+
+    glGenVertexArrays(1, &m_skyboxVAO);
+    glGenBuffers(1, &m_skyboxVBO);
+    glBindVertexArray(m_skyboxVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_skyboxVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxData), &skyboxData, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glGenTextures(1, &m_skybox_tex);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, m_skybox_tex);
+    std::vector<std::string> images = {posx, negx, posy,
+                                       negy, posz, negz};
+
+    for (int i = 0; i < images.size(); i++) {
+        QString name = QString(images[i].c_str());
+        QImage image = QImage(name);
+        uchar* bits = image.bits();
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, image.width(), image.height(), 0, GL_BGRA,
+                     GL_UNSIGNED_BYTE, bits);
+    }
+
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    skybox_ready = true;
+}
+
+void Graphics::drawSkybox() {
+    if (skybox_ready) {
+        setShader("skybox");
+        glm::mat4x4 mat(100.0, 0, 0, 0,
+                        0, 100.0, 0, 0,
+                        0, 0, 100.0, 0,
+                        0, 0, 0, 1.0);
+        setUniform("m", mat);
+        setUniform("v", m_activeCamera->getView());
+        setUniform("p", m_activeCamera->getProjection());
+        glBindVertexArray(m_skyboxVAO);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, m_skybox_tex);
+        setUniform("skybox", 0);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glBindVertexArray(0);
+    }
 }
 
 void Graphics::addQuad() {

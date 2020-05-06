@@ -3,8 +3,24 @@ QT += core gui opengl multimedia
 TARGET = cs195u_engine
 TEMPLATE = app
 
-QMAKE_CXXFLAGS += -std=c++14
-CONFIG += c++14
+QMAKE_CXXFLAGS += -std=c++17
+CONFIG += c++17
+
+#QMAKE_CXXFLAGS += -msse2
+#QMAKE_CXXFLAGS += -fopenmp=libomp
+#LIBS += -fopenmp=libomp
+
+macx: {
+QMAKE_CXXFLAGS += -Xpreprocessor -fopenmp -lomp -I/usr/local/include
+}
+
+macx: {
+QMAKE_LFLAGS += -lomp
+}
+
+macx: {
+LIBS += -L /usr/local/lib /usr/local/lib/libomp.dylib
+}
 
 unix:!macx {
     LIBS += -lGLU
@@ -12,7 +28,7 @@ unix:!macx {
 macx {
     QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
     QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
-    CONFIG += c++11
+    CONFIG += c++17
 }
 win32 {
     DEFINES += GLEW_STATIC
@@ -32,7 +48,10 @@ SOURCES += \
     src/platformer/PlatformerEnemyBulletControllerComponent.cpp \
     src/platformer/PlatformerEnemyControllerComponent.cpp \
     src/platformer/PlatformerEnemySpawnerComponent.cpp \
-    src/platformer/PlatformerPlayerBulletControllerClass.cpp \
+    src/platformer/PlatformerExplosionComponent.cpp \
+    src/platformer/PlatformerPlayerBulletControllerComponent.cpp \
+    src/platformer/PlatformerStartScreen.cpp \
+    src/platformer/PlatformerStartScreenController.cpp \
     src/view.cpp \
     src/viewformat.cpp \
     src/engine/graphics/ResourceLoader.cpp \
@@ -150,7 +169,15 @@ HEADERS += \
     src/platformer/PlatformerEnemyBulletControllerComponent.h \
     src/platformer/PlatformerEnemyControllerComponent.h \
     src/platformer/PlatformerEnemySpawnerComponent.h \
-    src/platformer/PlatformerPlayerBulletControllerClass.h \
+    src/platformer/PlatformerExplosionComponent.h \
+    src/platformer/PlatformerPlayerBulletControllerComponent.h \
+    src/platformer/PlatformerStartScreen.h \
+    src/platformer/PlatformerStartScreenController.h \
+    src/platformer/prefabs/Enemy.h \
+    src/platformer/prefabs/EnemyBullet.h \
+    src/platformer/prefabs/Explosion.h \
+    src/platformer/prefabs/Player.h \
+    src/platformer/prefabs/PlayerBullet.h \
     src/view.h \
     src/viewformat.h \
     src/engine/util/CommonIncludes.h \
@@ -276,7 +303,9 @@ DISTFILES += \
     res/shaders/animation_shader.frag \
     res/shaders/animation_shader.vert \
     res/shaders/shader.vert \
-    res/shaders/shader.frag
+    res/shaders/shader.frag \
+    res/shaders/skybox.frag \
+    res/shaders/skybox.vert
 
 INCLUDEPATH += src libs glm libs/glew-1.10.0/include
 DEPENDPATH += src libs glm libs/glew-1.10.0/include

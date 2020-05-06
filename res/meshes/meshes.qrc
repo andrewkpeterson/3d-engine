@@ -12,5 +12,7 @@
         <file>level_easy_modified.obj</file>
         <file>test.dae</file>
         <file>test.fbx</file>
+        <file>bullet.obj</file>
+        <file>clip.fbx</file>
     </qresource>
 </RCC>

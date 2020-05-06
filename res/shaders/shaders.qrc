@@ -4,5 +4,7 @@
         <file>shader.vert</file>
         <file>animation_shader.frag</file>
         <file>animation_shader.vert</file>
+        <file>skybox.frag</file>
+        <file>skybox.vert</file>
     </qresource>
 </RCC>

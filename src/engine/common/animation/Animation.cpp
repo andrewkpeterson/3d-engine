@@ -1,7 +1,7 @@
 #include "Animation.h"
 
-Animation::Animation(std::map<std::string, std::shared_ptr<JointAnimation>> animations, float length, std::string name) :
-      joint_animations(animations), time_length(length), m_name(name)
+Animation::Animation(std::map<std::string, std::shared_ptr<JointAnimation>> animations, float length, std::string name, bool transition) :
+      joint_animations(animations), time_length(length), m_name(name), m_transition(transition)
 {
 
 }
@@ -21,4 +21,12 @@ std::shared_ptr<JointAnimation> Animation::getJointAnimation(std::string joint_n
 
 float Animation::getTimeLength() {
     return time_length;
+}
+
+std::string Animation::getName() {
+    return m_name;
+}
+
+bool Animation::isTransition() {
+    return m_transition;
 }

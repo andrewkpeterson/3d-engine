@@ -39,7 +39,7 @@ void DungeonEnvironmentComponent::enqueueDungeonChunksFromMapSegment(int seg_idx
                                                                    seg_idx, row, col, std::placeholders::_1)));
             new_chunk_object->addComponent<ChunkDrawableComponent>(std::make_shared<ChunkDrawableComponent>(atlas_name));
             new_chunk_object->addComponent<StaticAABCollisionComponent>(
-                        std::make_shared<StaticAABCollisionComponent>(false, false, std::vector<AAB>({})));
+                        std::make_shared<StaticAABCollisionComponent>(false, false, std::vector<AAB>({}), false));
             m_gameobject->getGameWorld()->addGameObject(new_chunk_object);
             if (chunk_map.find(seg_idx) == chunk_map.end()) {
                 chunk_map[seg_idx] = std::unordered_set<std::shared_ptr<ChunkComponent>>();
@@ -124,7 +124,7 @@ void DungeonEnvironmentComponent::addEnemies(int segnum) {
         std::shared_ptr<GameObject> cube = std::make_shared<GameObject>(name);
         enemy_map[segnum].insert(cube);
         cube->addComponent<DynamicAABCollisionComponent>(
-                    std::make_shared<DynamicAABCollisionComponent>(true, true, glm::vec3(1,1,1)));
+                    std::make_shared<DynamicAABCollisionComponent>(true, true, glm::vec3(1,1,1), false));
         cube->addComponent<DungeonEnemyAIComponent>(std::make_shared<DungeonEnemyAIComponent>(map_segments[segnum]));
 
         bool found = false;

@@ -48,7 +48,7 @@ in vec4 normal_worldSpace;
 in vec4 position_worldSpace;
 in vec4 eye_worldSpace;
 in vec2 texc;
-in float outfloat;
+in vec3 test;
 
 vec3 get_contribution_ambient(Light light, vec3 material_color) {
     return light.color * material_color;
@@ -150,9 +150,8 @@ void main(){
         fragColor.rgb += material_color;
         fragColor.a = a;
     }
-    if (outfloat < 0.1) {
-        fragColor = vec4(1.0,0,0,1.0);
-    } else {
-        fragColor = vec4((normal_worldSpace.xyz+1)/2.0,1.0);
-    }
+
+    fragColor = vec4((normal_worldSpace.xyz+1)/2.0,1.0);
+    //fragColor = vec4(test.xyz,1.0);
+
 }

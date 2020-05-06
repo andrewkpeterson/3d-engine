@@ -483,6 +483,15 @@ public:
      */
     void clearLights();
 
+
+    /******************************************************/
+
+    void setUpSkybox(std::string posx, std::string negx, std::string posy,
+                     std::string negy, std::string posz, std::string negz);
+    void drawSkybox();
+
+    /******************************************************/
+
     /**
      * Various graphics helper functions
      */
@@ -577,6 +586,12 @@ private:
     std::map<std::string, bool> m_trackedProperties;
     std::map<std::string, bool> m_trackedFBOProperties;
     bool m_screenCleared = false;
+
+    // skybox variables
+    GLuint m_skyboxVAO;
+    GLuint m_skyboxVBO;
+    GLuint m_skybox_tex;
+    bool skybox_ready;
 };
 
 #endif // GRAPHICS_H

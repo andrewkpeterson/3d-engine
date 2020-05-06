@@ -44,7 +44,7 @@ void WarmupGameplayScreen::initializeGameWorld() {
     std::shared_ptr<GameObject> player = std::make_shared<GameObject>("player");
     player->addComponent<CameraComponent>(std::make_shared<CameraComponent>(glm::vec3(0,0,0), glm::vec3(0,0,1)));
     player->addComponent<PlayerControlComponent>(std::make_shared<PlayerControlComponent>());
-    player->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(true, true, 1.0f, 2.0f));
+    player->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(true, true, 1.0f, 2.0f, false));
     player->addComponent<TransformComponent>(std::make_shared<TransformComponent>(glm::vec3(0,0,0), 2.0));
     Material player_mat;
     player_mat.color = glm::vec3(.4,.3,.8);
@@ -55,7 +55,7 @@ void WarmupGameplayScreen::initializeGameWorld() {
     //make NPC
     std::shared_ptr<GameObject> npc = std::make_shared<GameObject>("npc");
     npc->addComponent<TransformComponent>(std::make_shared<TransformComponent>(glm::vec3(10,0,10), 2.0));
-    npc->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(true, true, 1.0f, 2.0f));
+    npc->addComponent<CylinderCollisionComponent>(std::make_shared<CylinderCollisionComponent>(true, true, 1.0f, 2.0f, false));
     npc->addComponent<NPCChaseComponent>(std::make_shared<NPCChaseComponent>());
     Material npc_mat;
     npc_mat.color = glm::vec3(.8,0,.3);

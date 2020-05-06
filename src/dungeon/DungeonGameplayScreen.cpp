@@ -69,7 +69,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
     sword->getComponent<TransformComponent>()->setPos(glm::vec3(31,1,20));
     sword->getComponent<TransformComponent>()->setScale(.1f);
     sword->addComponent<PrimitiveDrawableComponent>(std::make_shared<PrimitiveDrawableComponent>("sword", "sword_mat"));
-    sword->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(true, true, glm::vec3(3,3,3)));
+    sword->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(true, true, glm::vec3(3,3,3), false));
     sword->addComponent<SwordComponent>(std::make_shared<SwordComponent>());
     m_gameworld->addGameObject(sword);
 
@@ -77,7 +77,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
     std::shared_ptr<GameObject> player = std::make_shared<GameObject>("player");
     player->addComponent<CameraComponent>(std::make_shared<CameraComponent>(glm::vec3(0,0,0), glm::vec3(0,0,1)));
     player->addComponent<DungeonPlayerControlComponent>(std::make_shared<DungeonPlayerControlComponent>());
-    player->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(true, true, glm::vec3(1,1,1)));
+    player->addComponent<DynamicAABCollisionComponent>(std::make_shared<DynamicAABCollisionComponent>(true, true, glm::vec3(1,1,1), false));
     player->getComponent<TransformComponent>()->setPos(glm::vec3(31,1,20));
     player->getComponent<TransformComponent>()->setScale(2.0f);
     Material player_mat;
@@ -88,7 +88,7 @@ void DungeonGameplayScreen::initializeGameWorld() {
 
     // create sphere npc
     std::shared_ptr<GameObject> sphere = std::make_shared<GameObject>("sphere_npc");
-    sphere->addComponent<SphereCollisionComponent>(std::make_shared<SphereCollisionComponent>(false, true, 1.5));
+    sphere->addComponent<SphereCollisionComponent>(std::make_shared<SphereCollisionComponent>(false, true, 1.5, false));
     sphere->addComponent<OrthographicUITextComponent>(
                 std::make_shared<OrthographicUITextComponent>("You must go into the dungeon and defeat the creepers",
                                                               "white", glm::vec3(-3,1.5,0),20.0f, "press_start_2p"));

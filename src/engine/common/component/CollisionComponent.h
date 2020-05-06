@@ -15,7 +15,7 @@ struct Collision;
 class CollisionComponent : public Component
 {
 public:
-    CollisionComponent(bool can_move, bool active);
+    CollisionComponent(bool can_move, bool active, int layer);
     virtual ~CollisionComponent() override;
     void addComponentToSystemsAndConnectComponents() override;
     void removeComponentFromSystems() override;
@@ -31,11 +31,13 @@ public:
     bool canMove();
     bool isActive();
     void setActive(bool b);
+    int getLayer();
 
 protected:
     std::function<void(Collision)> m_callback;
     bool m_can_move;
     bool m_active;
+    int m_layer;
 };
 
 struct Collision {

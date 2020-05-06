@@ -14,12 +14,18 @@
 class Joint
 {
 public:
-    Joint(std::string name, glm::mat4x4 local_bind_transform, std::vector<std::shared_ptr<Joint>> children);
+    Joint(std::string name, glm::mat4x4 local_bind_transform, std::vector<std::shared_ptr<Joint>> children, glm::vec3 bind_pose_position);
     ~Joint();
     void calcInverseBindTransform(glm::mat4x4 parent_bind_transform);
     void calcModelPoseTransform(glm::mat4x4 parentModelPoseTransform);
     void setCurrentLocalPoseTransform(glm::mat4x4 mat);
+    void setOffsetMatrix(glm::mat4x4 mat);
+    glm::mat4x4 getInverseBindTransform();
+    glm::mat4x4 getCurrentTotalPoseTransform();
+    glm::mat4x4 getOffsetMatrix();
     glm::mat4x4 getLocalBindTransform();
+    glm::vec3 getBindPosePosition();
+    glm::vec3 getCurrentPosePosition();
     void setID(int id);
     int getId();
 
@@ -33,6 +39,11 @@ private:
     glm::mat4x4 m_local_bind_transform; // transform of joint in relation to its parent in bind pose, taken from animation file
     glm::mat4x4 m_inverse_bind_transform; // inverse of product of m_local_bind_transform with the m_local_bind_tranform matrices of its ancestors,
                                           // takes a point in model space coordinates and outputs the same point in the local space of joint J
+    glm::mat4x4 m_offset_mat; // this is the inverse_bind_transform provided by assimp. It is useful to try sing this if there is something different with the
+                              // collada file and the m_local_bind_transforms are not working
+    glm::mat4x4 m_total_pose_transform; // takes a point in joint space and outputs the same point in model space, in a specific pose
+    glm::vec3 m_bind_pose_position; // position of the joint in model space in the bind pose
+    glm::vec3 m_current_pos_position; // position of the joint in model space in the current pose
     Graphics *g;
 };
 

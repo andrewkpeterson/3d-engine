@@ -3,8 +3,8 @@
 #include "StaticAABCollisionComponent.h"
 #include "DynamicAABCollisionComponent.h"
 
-CylinderCollisionComponent::CylinderCollisionComponent(bool can_move, bool active, float radius, float height) :
-    CollisionComponent(can_move, active),
+CylinderCollisionComponent::CylinderCollisionComponent(bool can_move, bool active, float radius, float height, int layer) :
+    CollisionComponent(can_move, active, layer),
     m_radius(radius),
     m_height(height)
 {

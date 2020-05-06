@@ -3,8 +3,8 @@
 #include "DynamicAABCollisionComponent.h"
 #include "StaticAABCollisionComponent.h"
 
-SphereCollisionComponent::SphereCollisionComponent(bool can_move, bool active, float radius) :
-    CollisionComponent (can_move, active),
+SphereCollisionComponent::SphereCollisionComponent(bool can_move, bool active, float radius, int layer) :
+    CollisionComponent (can_move, active, layer),
     m_radius(radius)
 {
 

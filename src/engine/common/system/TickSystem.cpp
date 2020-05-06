@@ -1,4 +1,6 @@
 #include "TickSystem.h"
+#include "src/engine/common/GameWorld.h"
+#include <omp.h>
 
 TickSystem::TickSystem(GameWorld *gameworld) :
     System(gameworld)
@@ -20,10 +22,14 @@ void TickSystem::removeComponent(TickComponent *component) {
 }
 
 void TickSystem::tick(float seconds) {
-    auto it = m_components.begin();
-    while(it != m_components.end()) {
-        TickComponent *comp = *it;
-        comp->tick(seconds);
-        it++;
+
+//#pragma omp parallel num_threads(8)
+    {
+        for (auto it = m_components.begin(); it != m_components.end(); it++) {
+            //#pragma omp single nowait
+            {
+                (*it)->tick(seconds);
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@ class DynamicAABCollisionComponent;
 class SphereCollisionComponent : public CollisionComponent
 {
 public:
-    SphereCollisionComponent(bool can_move, bool active, float radius);
+    SphereCollisionComponent(bool can_move, bool active, float radius, int layer);
     ~SphereCollisionComponent() override;
 
     void checkCollision(CollisionComponent *comp) override;

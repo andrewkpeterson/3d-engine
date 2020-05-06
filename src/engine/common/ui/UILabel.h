@@ -17,7 +17,6 @@ public:
 
 
 private:
-    std::string m_text;
     float m_size;
     glm::vec3 m_color;
     glm::vec2 m_pos;

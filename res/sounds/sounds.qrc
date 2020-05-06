@@ -2,5 +2,8 @@
     <qresource prefix="/sounds">
         <file>test.m4a</file>
         <file>menu-theme.wav</file>
+        <file>gameplay.wav</file>
+        <file>laser.wav</file>
+        <file>intro.wav</file>
     </qresource>
 </RCC>
